@@ -71,9 +71,9 @@ public class Pickoplenty extends Pick{
 
                 Priority p = Priority.getPriority(mat);
                 ItemStack drop = p.drop;
-                if (enchants.get("silk_touch")) {
+                if (enchants.get(Pick.SILK_TOUCH)) {
                     drop = new ItemStack(p.mat);
-                } else if (enchants.get("fortune")) {
+                } else if (enchants.get(Pick.FORTUNE)) {
                     drop.setAmount(Util.randInt(p.amtFMin, p.amtFMax));
                 } else{
                     drop.setAmount(Util.randInt(p.amtMin, p.amtMax));
