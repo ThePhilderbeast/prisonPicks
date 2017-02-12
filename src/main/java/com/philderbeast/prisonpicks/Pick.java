@@ -63,7 +63,6 @@ public class Pick{
                 if(all_final < 0) {
                     all_final = 0;
                 }
-
                 return nmsBlock.a(rand) * (all_final + 1);
             } else {
                 return nmsBlock.a(rand);
@@ -71,6 +70,20 @@ public class Pick{
         } else {
             return 1;
         }
+    }
+
+    public ItemStack doDamage(boolean unbreaking, ItemStack item)
+    {   
+        if (!unbreaking) {
+            item.setDurability((short)(item.getDurability() + 1));
+        } else if (Util.randInt(1, 3) == 1) {
+            item.setDurability((short)(item.getDurability() + 1));
+        }
+        if (item.getDurability() > item.getType().getMaxDurability()) {
+            //break the pick
+            item = null;
+        }
+        return item;
     }
 
 }

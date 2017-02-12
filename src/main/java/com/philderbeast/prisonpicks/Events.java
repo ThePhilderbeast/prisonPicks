@@ -39,11 +39,11 @@ public class Events implements Listener {
             aoepick = true;
             //this is an inXpick
             Xpick x = new Xpick();
-            x.breakBlock( event);
+            x.breakBlock(event);
         }else if( Pickoplenty.isPick(item))
         {
             Pickoplenty pop = new Pickoplenty();
-            pop.breakBlock( event);
+            pop.breakBlock(event);
         }
 
         aoepick = false;
