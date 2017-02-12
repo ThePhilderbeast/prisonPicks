@@ -154,7 +154,6 @@ public class Pick{
             //break the pick
             item = null;
         }
-        System.out.println(item.getDurability());
         return item;
     }
 

@@ -79,7 +79,6 @@ public class Xpick extends Pick {
                 item = doDamage(enchants.get(Pick.UNBREAKING), item);
                 doBreak(block, enchants, player);
             }
-
             player.getInventory().getItemInMainHand().setDurability(item.getDurability());          System.out.println(player.getInventory().getItemInMainHand().getDurability());
         }
     }
