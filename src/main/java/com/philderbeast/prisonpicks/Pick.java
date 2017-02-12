@@ -84,7 +84,7 @@ public class Pick{
         if (block.getType() != Material.BEDROCK) {
                 if (enchants.get(SILK_TOUCH)) {
                     ItemStack blockStack;
-                    if (material != null)
+                    if (material == null)
                     {
                         blockStack = new ItemStack(block.getTypeId(), 1);
                     } else {
