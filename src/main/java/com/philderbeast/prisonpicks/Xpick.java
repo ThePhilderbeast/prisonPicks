@@ -2,18 +2,14 @@ package com.philderbeast.prisonpicks;
 
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.Collection;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.Location;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.Material;
 import com.philderbeast.prisonpicks.PrisonPicks;
 
 public class Xpick extends Pick {
