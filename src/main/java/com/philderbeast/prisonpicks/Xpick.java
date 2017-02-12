@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
@@ -56,7 +57,9 @@ public class Xpick extends Pick {
                         Location block = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                         if (distance < (double)(radius * radius) 
                                 && PrisonPicks.canBuild(block) 
-                                && (!block.equals(centerloc))) {
+                                && (!block.equals(centerloc))
+                                && (block.getBlock().getType() != Material.BEDROCK)
+                                && (block.getBlock().getType() != Material.AIR)) {
                             locations.add(block);
                         }
                         ++z;
@@ -68,16 +71,16 @@ public class Xpick extends Pick {
 
             Map<String, Boolean> enchants = getEnchantments(item);
 
-            item = doDamage(enchants.get("unbreaking"), item);
+            item = doDamage(enchants.get(Pick.UNBREAKING), item);
             doBreak(event.getBlock(), enchants, player);
 
             for (Location l : locations) {
                 Block block = player.getWorld().getBlockAt(l);
-                item = doDamage(enchants.get("unbreaking"), item);
+                item = doDamage(enchants.get(Pick.UNBREAKING), item);
                 doBreak(block, enchants, player);
             }
 
-            player.getInventory().setItemInMainHand(item);
+            player.getInventory().getItemInMainHand().setDurability(item.getDurability());          System.out.println(player.getInventory().getItemInMainHand().getDurability());
         }
     }
 

@@ -18,6 +18,10 @@ import org.bukkit.craftbukkit.v1_11_R1.util.CraftMagicNumbers;
 
 public class Pick{
 
+    public static final String FORTUNE = "fortune";
+    public static final String UNBREAKING = "unbreaking";
+    public static final String SILK_TOUCH = "silktouch";
+
     public Pick()
     {
 
@@ -45,24 +49,23 @@ public class Pick{
 
         Map<String, Boolean> enchants = new HashMap<String, Boolean>();
 
-            //TODO: remove these magic strings
             if (item.containsEnchantment(Enchantment.DURABILITY))
             {
-                enchants.put("unbreaking", true);
+                enchants.put(UNBREAKING, true);
             }else{
-                enchants.put("unbreaking", false);
+                enchants.put(UNBREAKING, false);
             }
 
             if (item.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
-                enchants.put("fortune", true);
+                enchants.put(FORTUNE, true);
             }else{
-                enchants.put("fortune", false);
+                enchants.put(FORTUNE, false);
             }
 
             if (item.containsEnchantment(Enchantment.SILK_TOUCH)) {
-                enchants.put("silk_touch", true);
+                enchants.put(SILK_TOUCH, true);
             }else{
-                enchants.put("silk_touch", false);
+                enchants.put(SILK_TOUCH, false);
             }
         return enchants;
     }
@@ -72,7 +75,7 @@ public class Pick{
         boolean noInventorySpace = false;
         ItemStack item = player.getInventory().getItemInMainHand();
         if (block.getType() != Material.BEDROCK) {
-                if (enchants.get("silk_touch")) {
+                if (enchants.get(SILK_TOUCH)) {
                     ItemStack blockStack = new ItemStack(block.getTypeId(), 1);
                     //they have silk touch so give them the block
                     if (Util.isSpaceAvailable(player, blockStack)) {
@@ -83,7 +86,7 @@ public class Pick{
                 } else {
                     Collection<ItemStack> stacks = block.getDrops(player.getInventory().getItemInMainHand());
                     for (ItemStack newItem : stacks) {
-                        if (enchants.get("fortune")) {
+                        if (enchants.get(FORTUNE)) {
                             int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                             newItem.setAmount(Pick.getDropAmount(fortune, block));
                         }
@@ -93,7 +96,9 @@ public class Pick{
                         } else {
                             noInventorySpace = true;
                         }
-                        player.giveExp(Util.calculateExperienceForBlock(block)); //Give Player Experience
+                        int exp = Util.calculateExperienceForBlock(block);
+                        //System.out.println("giving " + player.getName() + " " + exp + " experance")
+                        player.giveExp(exp); //Give Player Experience
                     }
                     stacks.clear();
                 }
@@ -149,6 +154,7 @@ public class Pick{
             //break the pick
             item = null;
         }
+        System.out.println(item.getDurability());
         return item;
     }
 
