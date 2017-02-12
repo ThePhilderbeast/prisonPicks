@@ -142,18 +142,18 @@ public class Pick{
         return 1;
     }
 
-    public ItemStack doDamage(boolean unbreaking, ItemStack item)
+    public void doDamage(boolean unbreaking, Player player)
     {   
-        if (!unbreaking) {
-            item.setDurability((short)(item.getDurability() + 1));
-        } else if (Util.randInt(1, 3) == 1) {
-            item.setDurability((short)(item.getDurability() + 1));
-        }
-        if (item.getDurability() > item.getType().getMaxDurability()) {
-            //break the pick
-            item = null;
-        }
-        return item;
-    }
 
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        if (!unbreaking) {
+            tool.setDurability((short)(tool.getDurability() + 1));
+        } else if (Util.randInt(1, 3) == 1) {
+            tool.setDurability((short)(tool.getDurability() + 1));
+        }
+        if (tool.getDurability() >tool.getType().getMaxDurability()) {
+            //break the pick
+           player.getInventory().remove(tool);
+        }
+    }
 }

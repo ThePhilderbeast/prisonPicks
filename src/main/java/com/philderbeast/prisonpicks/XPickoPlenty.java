@@ -80,7 +80,7 @@ public class XPickoPlenty extends Pick{
                 unbreaking = true;
             }
 
-            item = doDamage(unbreaking, item);
+            doDamage(unbreaking, player);
 
             boolean bfortune = false;
             boolean bsilk = false;
@@ -167,7 +167,7 @@ public class XPickoPlenty extends Pick{
                         stacks.clear();
                     }
 
-                    item = doDamage(unbreaking, item);
+                    doDamage(unbreaking, player);
 
                     player.giveExp(Util.calculateExperienceForBlock(block));
                     block.setType(Material.AIR);

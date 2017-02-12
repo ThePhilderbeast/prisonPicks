@@ -71,15 +71,18 @@ public class Xpick extends Pick {
 
             Map<String, Boolean> enchants = getEnchantments(item);
 
-            item = doDamage(enchants.get(Pick.UNBREAKING), item);
+            doDamage(enchants.get(Pick.UNBREAKING), player);
             doBreak(event.getBlock(), enchants, player);
 
             for (Location l : locations) {
-                Block block = player.getWorld().getBlockAt(l);
-                item = doDamage(enchants.get(Pick.UNBREAKING), item);
-                doBreak(block, enchants, player);
+                //check to see if the pick broke
+                if(player.getInventory().getItemInMainHand() != null)
+                {   
+                    Block block = player.getWorld().getBlockAt(l);
+                    doDamage(enchants.get(Pick.UNBREAKING), player);
+                    doBreak(block, enchants, player);
+                }
             }
-            player.getInventory().getItemInMainHand().setDurability(item.getDurability());
         }
     }
 
