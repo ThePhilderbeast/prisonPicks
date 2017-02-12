@@ -74,7 +74,7 @@ public class Pickoplenty extends Pick{
                 doDamage(enchants.get("unbreaking"), player);
                 doBreak(event.getBlock(), enchants, player, p.mat);
 
-                player.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.0, 0.5), drop);
+                //player.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.0, 0.5), drop);
                 block.setType(Material.AIR);
             }
         }

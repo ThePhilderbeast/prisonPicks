@@ -83,21 +83,17 @@ public class XPickoPlenty extends Pick{
                 }
 
                 Map<String, Boolean> enchants = getEnchantments(item);
-
                 int fortune = 0;
                 if (enchants.get(Pick.FORTUNE))
                 {
                     fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 }
                 p = Priority.getPriority(mat);
-                //doDamage(enchants.get(Pick.UNBREAKING), player);
-                //doBreak(event.getBlock(), enchants, player, p.mat);
                 for (Location l : locations) {
-
+                    doDamage(enchants.get(Pick.UNBREAKING), player);
                     if(player.getInventory().getItemInMainHand() != null)
                     {   
                         Block block = player.getWorld().getBlockAt(l);
-                        doDamage(enchants.get(Pick.UNBREAKING), player);
                         doBreak(block, enchants, player, p.mat);
                     }
                 }

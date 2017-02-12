@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Collection;
+import java.util.ArrayList;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -76,7 +77,7 @@ public class Pick{
         return enchants;
     }
 
-    public void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
+    public synchronized void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
         boolean noInventorySpace = false;
         ItemStack item = player.getInventory().getItemInMainHand();
@@ -98,11 +99,14 @@ public class Pick{
                 } else {
                     Collection<ItemStack> stacks = block.getDrops(player.getInventory().getItemInMainHand());
                     if (material != null)
-                        {
-                            //System.out.println("using xpick o plenty logic");
-                            block.setType(material);
-                            stacks = block.getDrops(player.getInventory().getItemInMainHand());
-                        }
+                    {
+                        //System.out.println("using xpick o plenty logic");
+                        block.setType(material);
+                        stacks = block.getDrops(player.getInventory().getItemInMainHand());
+                    }
+
+                    Collection<ItemStack> blocks = new ArrayList<>();
+
                     for (ItemStack newItem : stacks) {
 
                         if (enchants.get(FORTUNE)) {
@@ -112,19 +116,24 @@ public class Pick{
                         if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
                             newItem = AutoSmelt.smelt(newItem).getNewItem();
                         }
+                        
                         if (AutoPickupPlugin.autoBlock.contains(player.getName()))
                         {
-                            stacks.addAll(AutoBlock.addItem(player, newItem).values());
-                        }
-
-                        if (Util.isSpaceAvailable(player, newItem)) {
-                            player.getInventory().addItem(newItem);
-
-                        } else {
-                            noInventorySpace = true;
-                        }
-
+                            blocks.addAll(AutoBlock.addItem(player, newItem).values());
+                            for (ItemStack is : blocks) {
+                                if (Util.isSpaceAvailable(player, newItem)) {
+                                    player.getInventory().addItem(is);
+                                }
+                            }
                         
+                        }else {
+
+                            if (Util.isSpaceAvailable(player, newItem)) {
+                                player.getInventory().addItem(newItem);
+                            } else {
+                                noInventorySpace = true;
+                            }
+                        }
 
                         int exp = Util.calculateExperienceForBlock(block);
                         player.giveExp(exp); //Give Player Experience

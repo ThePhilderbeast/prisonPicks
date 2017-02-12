@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.Effect;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -81,6 +82,8 @@ public class Xpick extends Pick {
                     Block block = player.getWorld().getBlockAt(l);
                     doDamage(enchants.get(Pick.UNBREAKING), player);
                     doBreak(block, enchants, player, null);
+                    BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
+                    Bukkit.getPluginManager().callEvent(newEvent);
                 }
             }
         }
