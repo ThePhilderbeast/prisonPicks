@@ -97,7 +97,6 @@ public class Pick{
                             noInventorySpace = true;
                         }
                         int exp = Util.calculateExperienceForBlock(block);
-                        //System.out.println("giving " + player.getName() + " " + exp + " experance")
                         player.giveExp(exp); //Give Player Experience
                     }
                     stacks.clear();
