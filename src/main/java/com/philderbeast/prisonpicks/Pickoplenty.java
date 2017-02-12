@@ -67,26 +67,19 @@ public class Pickoplenty extends Pick{
             }
             if (mat != block.getType() && level > 0) {
                 event.setCancelled(true);
-                boolean fortune = false;
-                boolean silk = false;
-                for (Map.Entry entry : item.getEnchantments().entrySet()) {
-                    if (((Enchantment)entry.getKey()).getName().equalsIgnoreCase(Enchantment.LOOT_BONUS_BLOCKS.getName())) {
-                        fortune = true;
-                        continue;
-                    }
-                    if (!((Enchantment)entry.getKey()).getName().equalsIgnoreCase(Enchantment.SILK_TOUCH.getName())) continue;
-                    silk = true;
-                }
+                Map<String, Boolean> enchants = getEnchantments(item);
+
                 Priority p = Priority.getPriority(mat);
                 ItemStack drop = p.drop;
-                if (silk) {
+                if (enchants.get("silk_touch")) {
                     drop = new ItemStack(p.mat);
-                } else {
+                } else if (enchants.get("fortune")) {
+                    drop.setAmount(Util.randInt(p.amtFMin, p.amtFMax));
+                } else{
                     drop.setAmount(Util.randInt(p.amtMin, p.amtMax));
                 }
-                if (!silk && fortune) {
-                    drop.setAmount(Util.randInt(p.amtFMin, p.amtFMax));
-                }
+
+                doDamage(enchants.get("unbreaking"), item);
                 player.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.0, 0.5), drop);
                 block.setType(Material.AIR);
             }

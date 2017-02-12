@@ -26,7 +26,6 @@ public class Xpick extends Pick {
         }else {
             return false;
         }
-
     }
 
     public void breakBlock(BlockBreakEvent event)
@@ -71,14 +70,9 @@ public class Xpick extends Pick {
                 ++x;
             }
 
-            boolean unbreaking = false;
+            Map<String, Boolean> enchants = getEnchantments(item);
 
-            for (Map.Entry entry : item.getEnchantments().entrySet()) {
-                if (!((Enchantment)entry.getKey()).getName().equalsIgnoreCase(Enchantment.DURABILITY.getName())) continue;
-                unbreaking = true;
-            }
-
-            if (!unbreaking) {
+            if (!enchants.get("unbreaking")) {
                 player.getInventory().getItemInMainHand().setDurability((short)(player.getInventory().getItemInMainHand().getDurability() + 1));
             } else if (Util.randInt(1, 3) == 1) {
                 player.getInventory().getItemInMainHand().setDurability((short)(player.getInventory().getItemInMainHand().getDurability() + 1));
@@ -88,94 +82,11 @@ public class Xpick extends Pick {
                 player.getInventory().setItemInMainHand(null);
             }
 
-            boolean bfortune = false;
-            boolean bsilk = false;
-            //Get Fortune Level
-             for (Map.Entry entry : item.getEnchantments().entrySet()) {
-                 if (((Enchantment)entry.getKey()).getName().equalsIgnoreCase(Enchantment.LOOT_BONUS_BLOCKS.getName())) {
-                     bfortune = true;
-                 }
-                 if (((Enchantment)entry.getKey()).getName().equalsIgnoreCase(Enchantment.SILK_TOUCH.getName())) {
-                     bsilk = true;
-                 }
-             }
-            int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-
-            //Protect against Silk Touch and Fortune conflicting
-            if (item.getEnchantmentLevel(Enchantment.SILK_TOUCH) > 0)
-                fortune = 0;
-
-            boolean noInventorySpace = false;
-
-            if (event.getBlock().getType() != Material.BEDROCK) {
-                if (bsilk) {
-                    ItemStack blockStack = new ItemStack(event.getBlock().getTypeId(), 1);
-                    //they have silk touch so give them the block
-                    if (Util.isSpaceAvailable(player, blockStack)) {
-                        player.getInventory().addItem(blockStack);
-                    } else {
-                        noInventorySpace = true;
-                        //player.getWorld().dropItemNaturally(event.getBlock().getLocation(), newItem);
-                    }
-                } else {
-                    Collection<ItemStack> stacks = event.getBlock().getDrops(item);
-                    for (ItemStack newItem : stacks) {
-                        if (bfortune) {
-                            newItem.setAmount(Pick.getDropAmount(fortune, event.getBlock()));
-                        }
-
-                        if (Util.isSpaceAvailable(player, newItem)) {
-                            player.getInventory().addItem(newItem);
-                        } else {
-                            noInventorySpace = true;
-                            //player.getWorld().dropItemNaturally(event.getBlock().getLocation(), newItem);
-                        }
-
-                        player.giveExp(event.getExpToDrop()); //Give Player Experience
-                    }
-                    stacks.clear();
-                }
-                event.getBlock().setType(Material.AIR);
-            }
+            doBreak(event.getBlock(), enchants, player);
 
             for (Location l : locations) {
                 Block block = player.getWorld().getBlockAt(l);
-                if (block.getType() != Material.BEDROCK) {
-                    BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
-                    Bukkit.getPluginManager().callEvent(newEvent);
-
-                    //make sure the player has spare space in there inventory
-                    if (bsilk) {
-                        ItemStack blockStack = new ItemStack(block.getTypeId(), 1);
-                        //they have silk touch so give them the block
-                        if (Util.isSpaceAvailable(player, blockStack)) {
-                            player.getInventory().addItem(blockStack);
-                        } else {
-                            noInventorySpace = true;
-                            //player.getWorld().dropItemNaturally(event.getBlock().getLocation(), newItem);
-                        }
-                    } else {
-                        Collection<ItemStack> stacks = block.getDrops(item);
-
-                        for (ItemStack newItem : stacks) {
-                            if (bfortune) {
-                                newItem.setAmount(Pick.getDropAmount(fortune, block));
-                            }
-
-                            if (Util.isSpaceAvailable(player, newItem)) {
-                                player.getInventory().addItem(newItem);
-                            } else {
-                                noInventorySpace = true;
-                                //player.getWorld().dropItemNaturally(l, newItem);
-                            }
-
-                        }
-                        stacks.clear();
-                    }
-
-                    player.giveExp(Util.calculateExperienceForBlock(block));
-                    block.setType(Material.AIR);
-                }
+                doBreak(block, enchants, player);
             }
         }
     }
