@@ -21,6 +21,8 @@ dependencies {
     compile group: "com.sk89q.worldguard",
             name: "worldguard-legacy",
             version: "6.2"
+            
+    compile files("libs/AutoPickup.jar")
 
     compile group: "com.sk89q.worldedit",
             name: "worldedit-core",
