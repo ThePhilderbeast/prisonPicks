@@ -63,7 +63,10 @@ public class XPickoPlenty extends Pick{
                         double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
                         Location block = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                         if (distance < (double)(radius * radius) 
-                                && PrisonPicks.canBuild(block)) {
+                                && PrisonPicks.canBuild(block)
+                                && (block.getBlock().getType() != Material.BEDROCK)
+                                && (block.getBlock().getType() != Material.AIR)
+                                && !block.getBlock().hasMetadata("blockBreaker")) {
                                 locations.add(block);
                                 if (level < Priority.getPriority(block.getWorld().getBlockAt(block).getType()).level)
                                 {
@@ -81,15 +84,14 @@ public class XPickoPlenty extends Pick{
 
                 Map<String, Boolean> enchants = getEnchantments(item);
 
-                doDamage(enchants.get(Pick.UNBREAKING), player);
-
                 int fortune = 0;
                 if (enchants.get(Pick.FORTUNE))
                 {
                     fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 }
                 p = Priority.getPriority(mat);
-                doBreak(event.getBlock(), enchants, player, p.mat);
+                //doDamage(enchants.get(Pick.UNBREAKING), player);
+                //doBreak(event.getBlock(), enchants, player, p.mat);
                 for (Location l : locations) {
 
                     if(player.getInventory().getItemInMainHand() != null)

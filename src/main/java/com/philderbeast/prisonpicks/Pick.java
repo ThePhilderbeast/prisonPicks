@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 import me.MnMaxon.AutoPickup.AutoSmelt;
+import me.MnMaxon.AutoPickup.AutoBlock;
 
 //NMS
 import net.minecraft.server.v1_11_R1.BlockOre;
@@ -108,18 +109,23 @@ public class Pick{
                             int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                             newItem.setAmount(Pick.getDropAmount(fortune, block));
                         }
-
-                        //AutoPickupPlugin.autoSmelt.contains(player.getName());
-
                         if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
                             newItem = AutoSmelt.smelt(newItem).getNewItem();
+                        }
+                        if (AutoPickupPlugin.autoBlock.contains(player.getName()))
+                        {
+                            stacks.addAll(AutoBlock.addItem(player, newItem).values());
                         }
 
                         if (Util.isSpaceAvailable(player, newItem)) {
                             player.getInventory().addItem(newItem);
+
                         } else {
                             noInventorySpace = true;
                         }
+
+                        
+
                         int exp = Util.calculateExperienceForBlock(block);
                         player.giveExp(exp); //Give Player Experience
                     }

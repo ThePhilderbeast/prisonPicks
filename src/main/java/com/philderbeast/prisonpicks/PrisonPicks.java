@@ -47,8 +47,7 @@ public class PrisonPicks extends JavaPlugin {
         }
         if (label.equalsIgnoreCase("pick")) {
             if (sender instanceof Player && !player.hasPermission("picks.explosive")
-                                         && !player.getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3"))
-                                         && !player.getUniqueId().equals(UUID.fromString("83a00245-b186-4cda-a11d-c0c5fff4da1f")))
+                                         && !player.getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))
             {
                 player.sendMessage((Object)ChatColor.RED + "Permission Denied!");
                 return false;

@@ -3,14 +3,19 @@ package com.philderbeast.prisonpicks;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.block.BlockPlaceEvent;
 import com.philderbeast.prisonpicks.PrisonPicks;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 public class Events implements Listener {
 
@@ -74,6 +79,13 @@ public class Events implements Listener {
             short s = 0;
             item.setDurability(s);
         }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        Block b = event.getBlock();
+        b.setMetadata("blockBreaker", (MetadataValue)new FixedMetadataValue((Plugin)PrisonPicks.getInstance(), (Object)player.getUniqueId()));
     }
 }
 
