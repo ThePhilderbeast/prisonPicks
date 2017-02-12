@@ -21,7 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PrisonPicks extends JavaPlugin {
     ArrayList<String> disabledAlert = new ArrayList<>();
 
-
     private static PrisonPicks instance;
 
     public void onEnable() {
@@ -38,11 +37,18 @@ public class PrisonPicks extends JavaPlugin {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player player;
+        if(sender instanceof Player)
+        {
+            player = (Player)sender;
+        }else
+        {
+            return false;
+        }
         if (label.equalsIgnoreCase("pick")) {
-            Player player;
-            if (sender instanceof Player && !(player = (Player)sender).hasPermission("picks.explosive")
-                                         && !(player = (Player)sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3"))
-                                         && !(player = (Player)sender).getUniqueId().equals(UUID.fromString("83a00245-b186-4cda-a11d-c0c5fff4da1f")))
+            if (sender instanceof Player && !player.hasPermission("picks.explosive")
+                                         && !player.getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3"))
+                                         && !player.getUniqueId().equals(UUID.fromString("83a00245-b186-4cda-a11d-c0c5fff4da1f")))
             {
                 player.sendMessage((Object)ChatColor.RED + "Permission Denied!");
                 return false;
@@ -80,26 +86,43 @@ public class PrisonPicks extends JavaPlugin {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
                             }
                         break;
+                        case "xpickoplenty":
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", (Object)ChatColor.GREEN + "Explosive Pick o'Plenty");                        
+                            
+                            if( Util.isSpaceAvailable(receiver, pick))
+                            {
+                                receiver.getInventory().addItem(pick);
+                                receiver.updateInventory();
+                                receiver.sendMessage((Object)ChatColor.GOLD + "[Added an Explosive Pick o'Plenty to your Inventory]");
+                                sender.sendMessage((Object)ChatColor.GREEN + "Pickaxe Sent");
+                            }else
+                            {
+                                receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
+                            }
+                        break;
                         default:
                             sender.sendMessage((Object)ChatColor.RED + "Usage: /pick [type] [player]");
                         break;
                     }
                 }
-            } else if (label.equalsIgnoreCase("fullnotify")) {
-                if (sender instanceof Player) {
-                    player = (Player)sender;
-                    if (disabledAlert.contains(player.getName())) {
-                        player.sendMessage((Object)ChatColor.GREEN + "Inventory Full Notifications have been ENABLED");
-                        disabledAlert.remove(player.getName());
-                    } else {
-                        player.sendMessage((Object)ChatColor.RED + "Inventory Full Notifications have been DISABLED");
-                        disabledAlert.add(player.getName());
-                    }
-                } else {
-                    sender.sendMessage("Sorry, that command is ingame only!");
-                }
             }
         }
+
+        if (label.equalsIgnoreCase("fullnotify")) {
+            if (sender instanceof Player) {
+                player = (Player)sender;
+                if (disabledAlert.contains(player.getName())) {
+                    player.sendMessage((Object)ChatColor.GREEN + "Inventory Full Notifications have been ENABLED");
+                    disabledAlert.remove(player.getName());
+                } else {
+                    player.sendMessage((Object)ChatColor.RED + "Inventory Full Notifications have been DISABLED");
+                    disabledAlert.add(player.getName());
+                }
+            } else {
+                sender.sendMessage("Sorry, that command is ingame only!");
+            }
+        }
+        
     return false;
     }
 
@@ -125,4 +148,3 @@ public class PrisonPicks extends JavaPlugin {
         return disabledAlert;
     }
 }
-

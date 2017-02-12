@@ -44,6 +44,11 @@ public class Events implements Listener {
         {
             Pickoplenty pop = new Pickoplenty();
             pop.breakBlock(event);
+        }else if( XPickoPlenty.isPick(item))
+        {
+            aoepick = true;
+            XPickoPlenty xpop = new XPickoPlenty();
+            xpop.breakBlock(event);
         }
 
         aoepick = false;
@@ -61,7 +66,8 @@ public class Events implements Listener {
             && item.hasItemMeta() 
             && item.getItemMeta().hasLore()
             && (item.getItemMeta().getLore().contains((Object)ChatColor.GOLD + "Explosive I") 
-            || item.getItemMeta().getLore().contains((Object)ChatColor.LIGHT_PURPLE + "Pick o'Plenty"))
+            || item.getItemMeta().getLore().contains((Object)ChatColor.LIGHT_PURPLE + "Pick o'Plenty")
+            || item.getItemMeta().getLore().contains((Object)ChatColor.GREEN + "Explosive Pick o'Plenty"))
             && item.getDurability() > 0)
             {
             player.sendMessage((Object)ChatColor.GOLD + "[Pickaxe Repaired]");

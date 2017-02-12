@@ -72,7 +72,7 @@ public class Xpick extends Pick {
             Map<String, Boolean> enchants = getEnchantments(item);
 
             doDamage(enchants.get(Pick.UNBREAKING), player);
-            doBreak(event.getBlock(), enchants, player);
+            doBreak(event.getBlock(), enchants, player, null);
 
             for (Location l : locations) {
                 //check to see if the pick broke
@@ -80,7 +80,7 @@ public class Xpick extends Pick {
                 {   
                     Block block = player.getWorld().getBlockAt(l);
                     doDamage(enchants.get(Pick.UNBREAKING), player);
-                    doBreak(block, enchants, player);
+                    doBreak(block, enchants, player, null);
                 }
             }
         }

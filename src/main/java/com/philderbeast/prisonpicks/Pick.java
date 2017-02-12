@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Collection;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.enchantments.Enchantment;
@@ -70,13 +72,19 @@ public class Pick{
         return enchants;
     }
 
-    public boolean doBreak(Block block, Map<String, Boolean> enchants, Player player)
+    public void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
         boolean noInventorySpace = false;
         ItemStack item = player.getInventory().getItemInMainHand();
         if (block.getType() != Material.BEDROCK) {
                 if (enchants.get(SILK_TOUCH)) {
-                    ItemStack blockStack = new ItemStack(block.getTypeId(), 1);
+                    ItemStack blockStack;
+                    if (material != null)
+                    {
+                        blockStack = new ItemStack(block.getTypeId(), 1);
+                    } else {
+                        blockStack = new ItemStack(material.getId(), 1);
+                    }
                     //they have silk touch so give them the block
                     if (Util.isSpaceAvailable(player, blockStack)) {
                         player.getInventory().addItem(blockStack);
@@ -85,7 +93,14 @@ public class Pick{
                     }
                 } else {
                     Collection<ItemStack> stacks = block.getDrops(player.getInventory().getItemInMainHand());
+                    if (material != null)
+                        {
+                            //System.out.println("using xpick o plenty logic");
+                            block.setType(material);
+                            stacks = block.getDrops(player.getInventory().getItemInMainHand());
+                        }
                     for (ItemStack newItem : stacks) {
+
                         if (enchants.get(FORTUNE)) {
                             int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                             newItem.setAmount(Pick.getDropAmount(fortune, block));
@@ -103,9 +118,13 @@ public class Pick{
                 }
                 block.setType(Material.AIR);
         }
-        return noInventorySpace;
-    }
 
+        if (noInventorySpace && !PrisonPicks.getInstance().getDisabledAlerts().contains(player.getName())) {
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
+            player.sendTitle(ChatColor.RED + "Inventory is Full!", ChatColor.GOLD + "/fullnotify to disable", 1, 15, 5);
+        }
+
+    }
 
     public static int getDropAmount(int enchantmentLevel, Block block) {
         if (block.getType().name().contains("ORE") && !block.getType().name().contains("REDSTONE")) {

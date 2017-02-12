@@ -6,7 +6,6 @@ import org.bukkit.block.Block;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
@@ -71,15 +70,10 @@ public class Pickoplenty extends Pick{
 
                 Priority p = Priority.getPriority(mat);
                 ItemStack drop = p.drop;
-                if (enchants.get("silk_touch")) {
-                    drop = new ItemStack(p.mat);
-                } else if (enchants.get("fortune")) {
-                    drop.setAmount(Util.randInt(p.amtFMin, p.amtFMax));
-                } else{
-                    drop.setAmount(Util.randInt(p.amtMin, p.amtMax));
-                }
 
                 doDamage(enchants.get("unbreaking"), player);
+                doBreak(event.getBlock(), enchants, player, p.mat);
+
                 player.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.0, 0.5), drop);
                 block.setType(Material.AIR);
             }
