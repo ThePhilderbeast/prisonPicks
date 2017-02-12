@@ -1,11 +1,4 @@
-/*
- * Decompiled with CFR 0_118.
- * 
- * Could not load the following classes:
- *  org.bukkit.Material
- *  org.bukkit.inventory.ItemStack
- */
-package com.philderbeast.xpop;
+package com.philderbeast.prisonpicks;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

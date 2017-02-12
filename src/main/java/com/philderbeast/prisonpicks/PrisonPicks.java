@@ -21,11 +21,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PrisonPicks extends JavaPlugin {
     ArrayList<String> disabledAlert = new ArrayList<>();
 
+
+    private static PrisonPicks instance;
+
     public void onEnable() {
+        instance = this;
         this.getServer().getPluginManager().registerEvents(new Events(this), (Plugin)this);
     }
 
     public void onDisable() {
+    }
+
+    public static PrisonPicks getInstance()
+    {
+        return instance;
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

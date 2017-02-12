@@ -18,6 +18,17 @@ import com.philderbeast.prisonpicks.PrisonPicks;
 
 public class Xpick extends Pick {
 
+    public static boolean isPick(ItemStack item)
+    {
+        if(Pick.isPick(item) && item.getItemMeta().getLore().contains((Object)ChatColor.GOLD + "Explosive I"))
+        {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
     public void breakBlock(BlockBreakEvent event)
     {
         Player player = event.getPlayer();
@@ -167,17 +178,6 @@ public class Xpick extends Pick {
                 }
             }
         }
-    }
-
-    public static boolean isPick(ItemStack item)
-    {
-        if(Pick.isPick(item) && item.getItemMeta().getLore().contains((Object)ChatColor.GOLD + "Explosive I"))
-        {
-            return true;
-        }else {
-            return false;
-        }
-
     }
 
 }
