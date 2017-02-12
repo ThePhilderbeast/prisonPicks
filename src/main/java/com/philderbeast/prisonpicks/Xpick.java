@@ -72,22 +72,16 @@ public class Xpick extends Pick {
 
             Map<String, Boolean> enchants = getEnchantments(item);
 
-            if (!enchants.get("unbreaking")) {
-                player.getInventory().getItemInMainHand().setDurability((short)(player.getInventory().getItemInMainHand().getDurability() + 1));
-            } else if (Util.randInt(1, 3) == 1) {
-                player.getInventory().getItemInMainHand().setDurability((short)(player.getInventory().getItemInMainHand().getDurability() + 1));
-            }
-            if (player.getInventory().getItemInMainHand().getDurability() > 1561) {
-                //break the pick
-                player.getInventory().setItemInMainHand(null);
-            }
-
+            item = doDamage(enchants.get("unbreaking"), item);
             doBreak(event.getBlock(), enchants, player);
 
             for (Location l : locations) {
                 Block block = player.getWorld().getBlockAt(l);
+                item = doDamage(enchants.get("unbreaking"), item);
                 doBreak(block, enchants, player);
             }
+
+            player.getInventory().setItemInMainHand(item);
         }
     }
 
