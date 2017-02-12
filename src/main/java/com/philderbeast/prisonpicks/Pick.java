@@ -166,8 +166,9 @@ public class Pick{
             } else {
                 return nmsBlock.a(rand);
             }
-        } else if (block.getType().name().contains("REDSTONE")) {
+        } else if (block.getType().name().contains("ORE") && block.getType().name().contains("REDSTONE")) {
             //Ensure we don't crash when mining Redstone
+            
             BlockRedstoneOre nmsBlock = (BlockRedstoneOre) CraftMagicNumbers.getBlock(block);
 
             int all_final = 0;
