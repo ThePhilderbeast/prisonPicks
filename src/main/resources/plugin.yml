@@ -1,0 +1,11 @@
+name: XPick
+main: com.philderbeast.prisonpicks.PrisonPicks
+version: 1.0.0
+description: PrisonPicks Pickaxes Plugin
+author: Philderbeast
+depends: ['WorldGuard']
+commands:
+  pick:
+    description: Main Command
+  fullnotify:
+    description: Toggle the Inventory Full Message for Explosive Picks
