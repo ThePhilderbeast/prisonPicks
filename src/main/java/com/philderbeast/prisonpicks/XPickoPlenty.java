@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.Location;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.enchantments.Enchantment;
@@ -83,11 +84,6 @@ public class XPickoPlenty extends Pick{
                 }
 
                 Map<String, Boolean> enchants = getEnchantments(item);
-                int fortune = 0;
-                if (enchants.get(Pick.FORTUNE))
-                {
-                    fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-                }
                 p = Priority.getPriority(mat);
                 for (Location l : locations) {
                     doDamage(enchants.get(Pick.UNBREAKING), player);
@@ -95,6 +91,11 @@ public class XPickoPlenty extends Pick{
                     {   
                         Block block = player.getWorld().getBlockAt(l);
                         doBreak(block, enchants, player, p.mat);
+                        if (!l.equals(event.getBlock().getLocation()))
+                        {
+                            BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
+                            Bukkit.getPluginManager().callEvent(newEvent);
+                        }
                     }
                 }
             }
