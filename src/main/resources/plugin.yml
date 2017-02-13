@@ -1,6 +1,6 @@
 name: PrisonPicks
 main: com.philderbeast.prisonpicks.PrisonPicks
-version: 1.1.3
+version: 1.2.0
 description: PrisonPicks Pickaxes Plugin
 author: Philderbeast
 depends: ['WorldGuard',
