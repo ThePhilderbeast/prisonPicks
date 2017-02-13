@@ -9,12 +9,11 @@ import org.bukkit.Location;
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.Bukkit;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
-import com.philderbeast.prisonpicks.PrisonPicks;
 
 public class XPickoPlenty extends Pick{
 
@@ -43,7 +42,7 @@ public class XPickoPlenty extends Pick{
             Location center = event.getBlock().getLocation();
 
             center.getWorld().playEffect(center, Effect.EXPLOSION_LARGE, 1);
-            center.getWorld().playSound(center, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+            center.getWorld().playSound(center, Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1.0f, 1.0f);
 
             int radius = 2;
 
