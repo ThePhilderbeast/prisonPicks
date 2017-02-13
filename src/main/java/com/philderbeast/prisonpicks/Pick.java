@@ -187,13 +187,21 @@ public class Pick{
     }
 
     public void doDamage(boolean unbreaking, Player player)
-    {   
-
+    {
         ItemStack tool = player.getInventory().getItemInMainHand();
+
+        int unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);
+
         if (!unbreaking) {
             tool.setDurability((short)(tool.getDurability() + 1));
-        } else if (Util.randInt(1, 3) == 1) {
-            tool.setDurability((short)(tool.getDurability() + 1));
+        } else if (unbreakingLevel > 0) {
+            Random r = new Random();
+            int chanceToReduce = (100/(unbreakingLevel+1));
+            int roll = r.nextInt(100);
+
+            if (roll <= chanceToReduce) {
+                tool.setDurability((short) (tool.getDurability() + 1));
+            }
         }
         if (tool.getDurability() >tool.getType().getMaxDurability()) {
             //break the pick
