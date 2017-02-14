@@ -2,14 +2,6 @@ language: java
 jdk:
   - oraclejdk8
 
-install:
-  - wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-
-script:
-  - git config --global --unset core.autocrlf
-  - java -jar BuildTools.jar | grep -vE "[^/ ]*/[^/ ]*\s*KB\s*$" | grep -v "^\s*$"
-  - gradle build
-
 cache:
   directorys: 
     - "$HOME/.m2"
