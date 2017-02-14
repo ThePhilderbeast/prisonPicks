@@ -6,9 +6,10 @@ jdk:
 install:
     - wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
-script:
+#script:
     # grep so that download counts don't appear in log files
-    - java -jar BuildTools.jar | grep -vE "[^/ ]*/[^/ ]*\s*KB\s*$" | grep -v "^\s*$"
+    #uncomment this to update spigot
+    # - java -jar BuildTools.jar | grep -vE "[^/ ]*/[^/ ]*\s*KB\s*$" | grep -v "^\s*$"
     #- find Spigot/Spigot-Server/target/*.jar
 
 cache:
