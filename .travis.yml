@@ -10,7 +10,8 @@ script:
   - gradle build
 
 cache:
-  directorys: "$home/.m2"
+  directorys: 
+    - "$home/.m2"
 
 deploy:
   provider: releases
