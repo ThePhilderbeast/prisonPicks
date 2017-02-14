@@ -3,28 +3,13 @@ package com.philderbeast.prisonpicks;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-import net.minecraft.server.v1_11_R1.IChatBaseComponent;
-import net.minecraft.server.v1_11_R1.Packet;
-import net.minecraft.server.v1_11_R1.PacketPlayOutTitle;
-import net.minecraft.server.v1_11_R1.PlayerConnection;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Util {
-    public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        CraftPlayer craftplayer = (CraftPlayer)player;
-        PlayerConnection connection = craftplayer.getHandle().playerConnection;
-        IChatBaseComponent titleJSON = IChatBaseComponent.ChatSerializer.a((String)("{\"text\": \"" + title + "\"}"));
-        IChatBaseComponent subtitleJSON = IChatBaseComponent.ChatSerializer.a((String)("{\"text\": \"" + subtitle + "\"}"));
-        PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, titleJSON, fadeIn, stay, fadeOut);
-        PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, subtitleJSON);
-        connection.sendPacket((Packet)titlePacket);
-        connection.sendPacket((Packet)subtitlePacket);
-    }
 
     public static int randInt(int min, int max) {
         Random rand = new Random();
