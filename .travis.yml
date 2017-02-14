@@ -7,7 +7,7 @@ install:
 
 script:
   - java -jar BuildTools.jar | grep -vE "[^/ ]*/[^/ ]*\s*KB\s*$" | grep -v "^\s*$"
-  - gradle build
+  #- gradle build
 
 cache:
   directorys: 
