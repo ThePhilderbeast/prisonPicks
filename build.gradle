@@ -6,6 +6,7 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     mavenLocal()
+    maven {url('https://jitpack.io/')}
     maven {url('https://oss.sonatype.org/content/groups/public/')}
     maven {url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')}
     maven {url('http://maven.sk89q.com/repo/')}
@@ -24,8 +25,10 @@ dependencies {
             name: "worldguard-legacy",
             version: "6.2"
             
-    compile files("libs/AutoPickup.jar")
-
+    compile group: "com.girhum.MnMaxon"
+            name: "AutoPickup"
+            version: "master-SNAPSHOT"
+            
     compile group: "com.sk89q.worldedit",
             name: "worldedit-core",
             version: "6.1.4-SNAPSHOT"
