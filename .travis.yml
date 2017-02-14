@@ -1,12 +1,17 @@
 language: java
 jdk:
-- oraclejdk8
+  - oraclejdk8
+
 install:
-- wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+  - wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+
 script:
-- java -jar BuildTools.jar | grep -vE "[^/ ]*/[^/ ]*\s*KB\s*$" | grep -v "^\s*$"
+  - java -jar BuildTools.jar | grep -vE "[^/ ]*/[^/ ]*\s*KB\s*$" | grep -v "^\s*$"
+  - gradle build
+
 cache:
   directorys: "$home/.m2"
+
 deploy:
   provider: releases
   api_key:
