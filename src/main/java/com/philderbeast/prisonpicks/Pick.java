@@ -17,12 +17,6 @@ import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 import me.MnMaxon.AutoPickup.AutoSmelt;
 import me.MnMaxon.AutoPickup.AutoBlock;
 
-//NMS
-import net.minecraft.server.v1_11_R1.BlockOre;
-import net.minecraft.server.v1_11_R1.BlockRedstoneOre;
-import net.minecraft.server.v1_11_R1.Item;
-import org.bukkit.craftbukkit.v1_11_R1.util.CraftMagicNumbers;
-
 public class Pick{
 
     public static final String FORTUNE = "fortune";
@@ -151,39 +145,76 @@ public class Pick{
     }
 
     public static int getDropAmount(int enchantmentLevel, Block block) {
-        if (block.getType().name().contains("ORE") && !block.getType().name().contains("REDSTONE")) {
-            BlockOre nmsBlock = (BlockOre) CraftMagicNumbers.getBlock(block);
+        boolean DEBUG = false;
+        int min, max, startAmount;
+        int multiple = 1;
+        int amount = 1;
 
-            int all_final = 0;
-            Random rand = new Random();
-            if(Item.getItemOf(nmsBlock) != nmsBlock.getDropType(nmsBlock.getBlockData(), rand, enchantmentLevel)) {
-                all_final = rand.nextInt(enchantmentLevel + 2) - 1;
-                if(all_final < 0) {
-                    all_final = 0;
-                }
+        if (block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE) {
+            return 1;
+        }
 
-                return nmsBlock.a(rand) * (all_final + 1);
-            } else {
-                return nmsBlock.a(rand);
+        if (enchantmentLevel > 0) {
+            switch (block.getType()) {
+                case GLOWING_REDSTONE_ORE:
+                case REDSTONE_ORE:
+                    min = 4;
+                    max = 5;
+                    break;
+                case LAPIS_ORE:
+                    min = 4;
+                    max = 8;
+                    break;
+                case GLOWSTONE:
+                    min = 2;
+                    max = 4;
+                    break;
+                default:
+                    min = 1;
+                    max = 1;
+                    break;
             }
-        } else if (block.getType().name().contains("ORE") && block.getType().name().contains("REDSTONE")) {
-            //Ensure we don't crash when mining Redstone
-            
-            BlockRedstoneOre nmsBlock = (BlockRedstoneOre) CraftMagicNumbers.getBlock(block);
 
-            int all_final = 0;
-            Random rand = new Random();
-            if(Item.getItemOf(nmsBlock) != nmsBlock.getDropType(nmsBlock.getBlockData(), rand, enchantmentLevel)) {
-                all_final = rand.nextInt(enchantmentLevel + 2) - 1;
-                if(all_final < 0) {
-                    all_final = 0;
+            if (block.getType() == Material.REDSTONE_ORE || block.getType() == Material.GLOWING_REDSTONE_ORE || block.getType() == Material.GLOWSTONE) {
+                int bonus = enchantmentLevel;
+                if (block.getType() == Material.GLOWSTONE && bonus > 4) { bonus = 4; }
+                max = max + bonus;
+                return min + (int)(Math.random() * ((max - min) + 1));
+            } else if (block.getType().name().contains("ORE")) {
+                amount = min + (int) (Math.random() * ((max - min) + 1));
+                startAmount = amount;
+
+                Random r = new Random();
+                int tiers = 2 + enchantmentLevel;
+                int chanceEach = (100 / tiers);
+                int chanceForOneDrop = 100 - ((tiers - 2) * chanceEach);
+                int currChance = chanceForOneDrop;
+                int roll = r.nextInt(100);
+
+                if (roll > chanceForOneDrop) {
+                    for (int i = 1; i <= tiers - 2; i++) {
+                        currChance += chanceEach;
+                        if (roll <= currChance) {
+                            multiple = (1 + i);
+                            amount = startAmount * multiple;
+                            break;
+                        }
+                    }
                 }
-                return nmsBlock.a(rand) * (all_final + 1);
-            } else {
-                return nmsBlock.a(rand);
+
+                if (DEBUG) {
+                    System.out.println("---------------------------------------------------------------");
+                    System.out.println("Start Amount: " + startAmount);
+                    System.out.println("Roll: " + roll);
+                    System.out.println("Multiple: " + multiple);
+                    System.out.println("Chance Each: " + chanceEach);
+                    System.out.println("Drop Amount: " + amount);
+                    System.out.println("---------------------------------------------------------------");
+                }
             }
         }
-        return 1;
+
+        return amount;
     }
 
     public void doDamage(boolean unbreaking, Player player)
