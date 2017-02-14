@@ -10,7 +10,7 @@ repositories {
     maven {url('https://oss.sonatype.org/content/groups/public/')}
     maven {url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')}
     maven {url('http://maven.sk89q.com/repo/')}
-}
+    maven {url('http://repo.bukkit.org/content/groups/public/')}
 
 dependencies {
     testCompile group: 'junit',
@@ -19,6 +19,10 @@ dependencies {
 
     compile group: 'org.spigotmc',
             name: 'spigot-api',
+            version: '1.11.2-R0.1-SNAPSHOT'
+            
+    compile group: 'org.bukkit',
+            name: 'craftbukkit',
             version: '1.11.2-R0.1-SNAPSHOT'
         
     compile group: "com.sk89q.worldguard",
