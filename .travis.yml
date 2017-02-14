@@ -11,7 +11,7 @@ script:
 
 cache:
   directorys: 
-    - "$home/.m2"
+    - "$HOME/.m2"
 
 deploy:
   provider: releases
