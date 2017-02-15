@@ -65,10 +65,10 @@ public class XPickoPlenty extends Pick{
                         if (distance < (double)(radius * radius) 
                                 && PrisonPicks.canBuild(block)
                                 && (block.getBlock().getType() != Material.BEDROCK)
-                                && (block.getBlock().getType() != Material.AIR)
-                                && !block.getBlock().hasMetadata("blockBreaker")) {
+                                && (block.getBlock().getType() != Material.AIR)) {
                                 locations.add(block);
-                                if (level < Priority.getPriority(block.getWorld().getBlockAt(block).getType()).level)
+                                if ((level < Priority.getPriority(block.getWorld().getBlockAt(block).getType()).level)
+                                    && !block.getBlock().hasMetadata("blockBreaker"))
                                 {
                                     mat = block.getWorld().getBlockAt(block).getType();
                                     level = Priority.getPriority(mat).level;
