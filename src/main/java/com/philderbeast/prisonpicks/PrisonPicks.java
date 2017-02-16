@@ -79,7 +79,7 @@ public class PrisonPicks extends JavaPlugin {
                             }
                         break;
                         case "xpickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Explosive" +  ChatColor.GOLD + " Pick o'Plenty");                                                    
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Explosive" +  ChatColor.LIGHT_PURPLE + " Pick o'Plenty");
                             if( Util.isSpaceAvailable(receiver, pick))
                             {
                                 receiver.getInventory().addItem(pick);
@@ -92,7 +92,7 @@ public class PrisonPicks extends JavaPlugin {
                             }
                         break;
                         case "fakexpickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.DARK_GREEN + "Explosive Pick o'Plenty");                        
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GREEN + "Explosive Pick o'Plenty");
                             
                             if( Util.isSpaceAvailable(receiver, pick))
                             {
