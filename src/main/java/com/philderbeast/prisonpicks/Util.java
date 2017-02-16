@@ -93,7 +93,7 @@ public class Util {
         boolean space = false;
         for (int i = 0; i <= 35; i++) {
             ItemStack slotItem = player.getInventory().getItem(i);
-            if (slotItem == null || ((slotItem.getType() == item.getType()) && item.getAmount() + slotItem.getAmount() <= player.getInventory().getMaxStackSize())) {
+            if (slotItem == null || (slotItem.getType() == item.getType() && item.getAmount() + slotItem.getAmount() <= slotItem.getMaxStackSize())) {
                 space = true;
             }
         }
