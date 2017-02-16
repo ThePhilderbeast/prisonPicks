@@ -5,10 +5,10 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import java.util.ArrayList;
 import java.util.UUID;
-import net.md_5.bungee.api.ChatColor;
 import com.philderbeast.prisonpicks.Events;
 import com.philderbeast.prisonpicks.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -53,47 +53,60 @@ public class PrisonPicks extends JavaPlugin {
                     switch (args[0])
                     {
                         case "explosive":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", (Object)ChatColor.GOLD + "Explosive I");
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Explosive I");
                             if( Util.isSpaceAvailable(receiver, pick))
                             {
                                 receiver.getInventory().addItem(pick);
                                 receiver.updateInventory();
-                                receiver.sendMessage((Object)ChatColor.GOLD + "[Added an Explosive Pickaxe to your Inventory]");
-                                sender.sendMessage((Object)ChatColor.GREEN + "Pickaxe Sent");
+                                receiver.sendMessage(ChatColor.GOLD + "[Added an Explosive Pickaxe to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
                             }else
                             {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
                             }
                         break;
                         case "pickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", (Object)ChatColor.LIGHT_PURPLE + "Pick o'Plenty");
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Pick o'Plenty");
                             if( Util.isSpaceAvailable(receiver, pick))
                             {
                                 receiver.getInventory().addItem(pick);
                                 receiver.updateInventory();
-                                receiver.sendMessage((Object)ChatColor.GOLD + "[Added an Pick o'Plenty to your Inventory]");
-                                sender.sendMessage((Object)ChatColor.GREEN + "Pickaxe Sent");
+                                receiver.sendMessage(ChatColor.GOLD + "[Added an Pick o'Plenty to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
                             }else
                             {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
                             }
                         break;
                         case "xpickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", (Object)ChatColor.GREEN + "Explosive Pick o'Plenty");                        
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Explosive" +  ChatColor.GOLD + " Pick o'Plenty");                                                    
+                            if( Util.isSpaceAvailable(receiver, pick))
+                            {
+                                receiver.getInventory().addItem(pick);
+                                receiver.updateInventory();
+                                receiver.sendMessage(ChatColor.GOLD + "[Added an Explosive Pick o'Plenty to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
+                            }else
+                            {
+                                receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
+                            }
+                        break;
+                        case "fakexpickoplenty":
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.DARK_GREEN + "Explosive Pick o'Plenty");                        
                             
                             if( Util.isSpaceAvailable(receiver, pick))
                             {
                                 receiver.getInventory().addItem(pick);
                                 receiver.updateInventory();
-                                receiver.sendMessage((Object)ChatColor.GOLD + "[Added an Explosive Pick o'Plenty to your Inventory]");
-                                sender.sendMessage((Object)ChatColor.GREEN + "Pickaxe Sent");
+                                receiver.sendMessage(ChatColor.GOLD + "[Added an Explosive Pick o'Plenty to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
                             }else
                             {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
                             }
                         break;
                         default:
-                            sender.sendMessage((Object)ChatColor.RED + "Usage: /pick [type] [player]");
+                            sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
                         break;
                     }
                 }
@@ -104,10 +117,10 @@ public class PrisonPicks extends JavaPlugin {
             if (sender instanceof Player) {
                 player = (Player)sender;
                 if (disabledAlert.contains(player.getName())) {
-                    player.sendMessage((Object)ChatColor.GREEN + "Inventory Full Notifications have been ENABLED");
+                    player.sendMessage(ChatColor.GREEN + "Inventory Full Notifications have been ENABLED");
                     disabledAlert.remove(player.getName());
                 } else {
-                    player.sendMessage((Object)ChatColor.RED + "Inventory Full Notifications have been DISABLED");
+                    player.sendMessage(ChatColor.RED + "Inventory Full Notifications have been DISABLED");
                     disabledAlert.add(player.getName());
                 }
             } else {

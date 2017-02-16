@@ -23,7 +23,7 @@ public class XPickoPlenty extends Pick{
     public static boolean isPick(ItemStack item)
     {
         if(Pick.isPick(item) 
-            && item.getItemMeta().getLore().contains((Object)ChatColor.GREEN + "Explosive Pick o'Plenty"))
+            && item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive" +  ChatColor.GOLD + " Pick o'Plenty"))
         {
             return true;
         }else {
@@ -63,40 +63,41 @@ public class XPickoPlenty extends Pick{
                         double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
                         Location block = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                         if (distance < (double)(radius * radius) 
-                                && PrisonPicks.canBuild(block)
-                                && (block.getBlock().getType() != Material.BEDROCK)
-                                && (block.getBlock().getType() != Material.AIR)) {
-                                locations.add(block);
-                                if ((level < Priority.getPriority(block.getWorld().getBlockAt(block).getType()).level)
-                                    && !block.getBlock().hasMetadata("blockBreaker"))
-                                {
-                                    mat = block.getWorld().getBlockAt(block).getType();
-                                    level = Priority.getPriority(mat).level;
-                                }
-                                
-                            }
-                            ++z;
-                        }
-                        ++y;
-                    }
-                    ++x;
-                }
-
-                Map<String, Boolean> enchants = getEnchantments(item);
-                p = Priority.getPriority(mat);
-                for (Location l : locations) {
-                    doDamage(enchants.get(Pick.UNBREAKING), player);
-                    if(player.getInventory().getItemInMainHand() != null)
-                    {   
-                        Block block = player.getWorld().getBlockAt(l);
-                        doBreak(block, enchants, player, p.mat);
-                        if (!l.equals(event.getBlock().getLocation()))
+                            && PrisonPicks.canBuild(block)
+                            && (block.getBlock().getType() != Material.BEDROCK)
+                            && (block.getBlock().getType() != Material.AIR)) 
                         {
-                            BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
-                            Bukkit.getPluginManager().callEvent(newEvent);
+                            locations.add(block);
+                            if ((level < Priority.getPriority(block.getWorld().getBlockAt(block).getType()).level)
+                                && !block.getBlock().hasMetadata("blockBreaker"))
+                            {
+                                mat = block.getWorld().getBlockAt(block).getType();
+                                level = Priority.getPriority(mat).level;
+                            }
+                            
                         }
+                        ++z;
+                    }
+                    ++y;
+                }
+                ++x;
+            }
+
+            Map<String, Boolean> enchants = getEnchantments(item);
+            p = Priority.getPriority(mat);
+            for (Location l : locations) {
+                doDamage(enchants.get(Pick.UNBREAKING), player);
+                if(player.getInventory().getItemInMainHand() != null)
+                {   
+                    Block block = player.getWorld().getBlockAt(l);
+                    doBreak(block, enchants, player, p.mat);
+                    if (!l.equals(event.getBlock().getLocation()))
+                    {
+                        BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
+                        Bukkit.getPluginManager().callEvent(newEvent);
                     }
                 }
             }
         }
     }
+}
