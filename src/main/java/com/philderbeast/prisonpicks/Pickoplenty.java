@@ -47,15 +47,16 @@ public class Pickoplenty extends Pick{
                 while (y < bY + radius) {
                     int z = bZ - radius;
                     while (z < bZ + radius) {
-                        Block b;
-                        Location loc;
+                        Location check = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                         double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
-                        if (!(distance >= (double)(radius * radius) 
-                                || hollow && distance < (double)((radius - 1) * (radius - 1)) 
-                                || (b = (loc = new Location(center.getWorld(), (double)x, (double)y, (double)z)).getWorld().getBlockAt(loc)).hasMetadata("blockBreaker") 
-                                || Priority.getPriority((Material)b.getType()).level <= level)) {
-                            mat = b.getType();
-                            level = Priority.getPriority((Material)b.getType()).level;
+                        if (distance < (double)(radius * radius) 
+                            && PrisonPicks.canBuild(check)
+                            && (check.getBlock().getType() != Material.BEDROCK)
+                            && (check.getBlock().getType() != Material.AIR)
+                            && Priority.getPriority((Material)check.getBlock().getType()).level >= level) 
+                        {
+                            mat = check.getBlock().getType();
+                            level = Priority.getPriority(mat).level;
                         }
                         ++z;
                     }
