@@ -66,7 +66,7 @@ public class PrisonPicks extends JavaPlugin {
                             }
                         break;
                         case "pickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Pick o'Plenty");
+                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.LIGHT_PURPLE + "Pick o'Plenty");
                             if( Util.isSpaceAvailable(receiver, pick))
                             {
                                 receiver.getInventory().addItem(pick);
