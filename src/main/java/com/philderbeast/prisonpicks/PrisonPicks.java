@@ -58,11 +58,13 @@ public class PrisonPicks extends JavaPlugin {
                             {
                                 receiver.getInventory().addItem(pick);
                                 receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added an Explosive Pickaxe to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
+                                receiver.sendMessage(ChatColor.GOLD + "[Added a Explosive Pickaxe to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "[Explosive Pickaxe sent to " + receiver.getName() + "]");
                             }else
                             {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
+                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pickaxe has been dropped!]");
+                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pickaxe was dropped.]");
                             }
                         break;
                         case "pickoplenty":
@@ -71,11 +73,13 @@ public class PrisonPicks extends JavaPlugin {
                             {
                                 receiver.getInventory().addItem(pick);
                                 receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added an Pick o'Plenty to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
+                                receiver.sendMessage(ChatColor.GOLD + "[Added a Pick o'Plenty to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "[Pick o'Plenty sent to " + receiver.getName() + "]");
                             }else
                             {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
+                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Pick o'Plenty has been dropped!]");
+                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Pick o'Plenty was dropped.]");
                             }
                         break;
                         case "xpickoplenty":
@@ -84,32 +88,43 @@ public class PrisonPicks extends JavaPlugin {
                             {
                                 receiver.getInventory().addItem(pick);
                                 receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added an Explosive Pick o'Plenty to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
+                                receiver.sendMessage(ChatColor.GOLD + "[Added a Explosive Pick o'Plenty to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "[Explosive Pick o'Plenty sent to " + receiver.getName() + "]");
                             }else
                             {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
+                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pick o'Plenty has been dropped!]");
+                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pick o'Plenty was dropped.]");
                             }
                         break;
                         case "fakexpickoplenty":
                             pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GREEN + "Explosive Pick o'Plenty");
+                            sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive pickaxe was dropped.]");
                             
                             if( Util.isSpaceAvailable(receiver, pick))
                             {
                                 receiver.getInventory().addItem(pick);
                                 receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added an Explosive Pick o'Plenty to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "Pickaxe Sent");
+                                receiver.sendMessage(ChatColor.GOLD + "[Added a Explosive Pick o'Plenty to your Inventory]");
+                                sender.sendMessage(ChatColor.GREEN + "[Explosive Pick o'Plenty sent to " + receiver.getName() + "]");
                             }else
                             {
                                 receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
+                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pick o'Plenty has been dropped!]");
+                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pick o'Plenty was dropped.]");
                             }
                         break;
                         default:
+                            sender.sendMessage(ChatColor.RED + "Invalid pickaxe type!" + ChatColor.GOLD + " Available options: explosive, pickoplenty, xpickoplenty, fakexpickoplenty");
                             sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
                         break;
                     }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "Could not find player '" + args[1] + "'");
+                    sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
             }
         }
 

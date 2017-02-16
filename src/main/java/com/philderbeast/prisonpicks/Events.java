@@ -74,8 +74,14 @@ public class Events implements Listener {
             || item.getItemMeta().getLore().contains(ChatColor.LIGHT_PURPLE + "Pick o'Plenty")
             || item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive" + ChatColor.LIGHT_PURPLE + " Pick o'Plenty"))
             && item.getDurability() > 0)
-            {
-            player.sendMessage((Object)ChatColor.GOLD + "[Pickaxe Repaired]");
+        {
+            if (item.getItemMeta().getLore().contains(ChatColor.LIGHT_PURPLE + "Pick o'Plenty")) {
+                player.sendMessage(ChatColor.LIGHT_PURPLE + "[Pickaxe Repaired]");
+            } else if (item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive" + ChatColor.LIGHT_PURPLE + " Pick o'Plenty")) {
+                player.sendMessage(ChatColor.AQUA + "[Pickaxe Repaired]");
+            } else {
+                player.sendMessage(ChatColor.GOLD + "[Pickaxe Repaired]");
+            }
             short s = 0;
             item.setDurability(s);
         }
