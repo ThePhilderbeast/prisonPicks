@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Collection;
 import java.util.ArrayList;
-import net.md_5.bungee.api.ChatColor;
+import java.util.Iterator;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -102,7 +104,9 @@ public class Pick{
 
                     Collection<ItemStack> blocks = new ArrayList<>();
 
-                    for (ItemStack newItem : stacks) {
+                    Iterator itr = stacks.iterator();
+                    if (itr.hasNext()) {
+                        ItemStack newItem = (ItemStack) itr.next();
 
                         if (enchants.get(FORTUNE)) {
                             int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
@@ -120,9 +124,7 @@ public class Pick{
                                     player.getInventory().addItem(is);
                                 }
                             }
-                        
-                        }else {
-
+                        } else {
                             if (Util.isSpaceAvailable(player, newItem)) {
                                 player.getInventory().addItem(newItem);
                             } else {
