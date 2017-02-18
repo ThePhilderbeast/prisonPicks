@@ -1,5 +1,7 @@
 package com.philderbeast.prisonpicks;
 
+import com.philderbeast.prisonpicks.PrisonPicks;
+
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,7 +15,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.block.BlockPlaceEvent;
-import com.philderbeast.prisonpicks.PrisonPicks;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 

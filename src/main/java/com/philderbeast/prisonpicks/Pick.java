@@ -77,65 +77,64 @@ public class Pick{
         boolean noInventorySpace = false;
         ItemStack item = player.getInventory().getItemInMainHand();
         if (block.getType() != Material.BEDROCK) {
-                if (enchants.get(SILK_TOUCH)) {
-                    ItemStack blockStack;
-                    if (material == null)
-                    {
-                        blockStack = new ItemStack(block.getTypeId(), 1);
-                    } else {
-                        blockStack = new ItemStack(material.getId(), 1);
-                    }
-                    //they have silk touch so give them the block
-                    if (Util.isSpaceAvailable(player, blockStack)) {
-                        player.getInventory().addItem(blockStack);
-                    } else {
-                        noInventorySpace = true;
-                    }
+            if (enchants.get(SILK_TOUCH)) {
+                ItemStack blockStack;
+                if (material == null)
+                {
+                    blockStack = new ItemStack(block.getTypeId(), 1);
                 } else {
-                    Collection<ItemStack> stacks = block.getDrops(player.getInventory().getItemInMainHand());
-                    if (material != null)
-                    {
-                        //System.out.println("using xpick o plenty logic");
-                        block.setType(material);
-                        stacks = block.getDrops(player.getInventory().getItemInMainHand());
-                    }
-
-                    Collection<ItemStack> blocks = new ArrayList<>();
-
-                    for (ItemStack newItem : stacks) {
-
-                        if (enchants.get(FORTUNE)) {
-                            int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-                            newItem.setAmount(Pick.getDropAmount(fortune, block));
-                        }
-                        if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
-                            newItem = AutoSmelt.smelt(newItem).getNewItem();
-                        }
-                        
-                        if (AutoPickupPlugin.autoBlock.contains(player.getName()))
-                        {
-                            blocks.addAll(AutoBlock.addItem(player, newItem).values());
-                            for (ItemStack is : blocks) {
-                                if (Util.isSpaceAvailable(player, newItem)) {
-                                    player.getInventory().addItem(is);
-                                }
-                            }
-                        
-                        }else {
-
-                            if (Util.isSpaceAvailable(player, newItem)) {
-                                player.getInventory().addItem(newItem);
-                            } else {
-                                noInventorySpace = true;
-                            }
-                        }
-
-                        int exp = Util.calculateExperienceForBlock(block);
-                        player.giveExp(exp); //Give Player Experience
-                    }
-                    stacks.clear();
+                    blockStack = new ItemStack(material.getId(), 1);
                 }
-                block.setType(Material.AIR);
+                //they have silk touch so give them the block
+                if (Util.isSpaceAvailable(player, blockStack)) {
+                    player.getInventory().addItem(blockStack);
+                } else {
+                    noInventorySpace = true;
+                }
+            } else {
+                Collection<ItemStack> stacks = block.getDrops(player.getInventory().getItemInMainHand());
+                if (material != null)
+                {
+                    //System.out.println("using xpick o plenty logic");
+                    block.setType(material);
+                    stacks = block.getDrops(player.getInventory().getItemInMainHand());
+                }
+
+                Collection<ItemStack> blocks = new ArrayList<>();
+
+                for (ItemStack newItem : stacks) {
+
+                    if (enchants.get(FORTUNE)) {
+                        int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+                        newItem.setAmount(Pick.getDropAmount(fortune, block));
+                    }
+                    if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
+                        newItem = AutoSmelt.smelt(newItem).getNewItem();
+                    }
+                    
+                    if (AutoPickupPlugin.autoBlock.contains(player.getName()))
+                    {
+                        blocks.addAll(AutoBlock.addItem(player, newItem).values());
+                        for (ItemStack is : blocks) {
+                            if (Util.isSpaceAvailable(player, newItem)) {
+                                player.getInventory().addItem(is);
+                            }
+                        }
+                    } else {
+
+                        if (Util.isSpaceAvailable(player, newItem)) {
+                            player.getInventory().addItem(newItem);
+                        } else {
+                            noInventorySpace = true;
+                        }
+                    }
+
+                    int exp = Util.calculateExperienceForBlock(block);
+                    player.giveExp(exp); //Give Player Experience
+                }
+                stacks.clear();
+            }
+            block.setType(Material.AIR);
         }
 
         if (noInventorySpace && !PrisonPicks.getInstance().getDisabledAlerts().contains(player.getName())) {

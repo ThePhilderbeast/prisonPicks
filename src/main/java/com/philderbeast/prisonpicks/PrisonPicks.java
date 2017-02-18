@@ -36,13 +36,17 @@ public class PrisonPicks extends JavaPlugin {
         return instance;
     }
 
+    /**
+     * returns true if the command was successfull
+     **/
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-
+        System.out.println("Starting command runner");
         if (label.equalsIgnoreCase("pick")) {
             if (sender instanceof Player && !(sender).hasPermission("picks.explosive")
                     && !(player = (Player)sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))  {
                 player.sendMessage(ChatColor.RED + "Permission Denied!");
+                System.out.println("no permissions");
                 return false;
             }
 
@@ -66,7 +70,7 @@ public class PrisonPicks extends JavaPlugin {
                                 receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pickaxe has been dropped!]");
                                 sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pickaxe was dropped.]");
                             }
-                        break;
+                            return true;
                         case "pickoplenty":
                             pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.LIGHT_PURPLE + "Pick o'Plenty");
                             if( Util.isSpaceAvailable(receiver, pick))
@@ -81,7 +85,7 @@ public class PrisonPicks extends JavaPlugin {
                                 receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Pick o'Plenty has been dropped!]");
                                 sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Pick o'Plenty was dropped.]");
                             }
-                        break;
+                            return true;
                         case "xpickoplenty":
                             pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Explosive" +  ChatColor.LIGHT_PURPLE + " Pick o'Plenty");
                             if( Util.isSpaceAvailable(receiver, pick))
@@ -96,7 +100,7 @@ public class PrisonPicks extends JavaPlugin {
                                 receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pick o'Plenty has been dropped!]");
                                 sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pick o'Plenty was dropped.]");
                             }
-                        break;
+                            return true;
                         case "fakexpickoplenty":
                             pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GREEN + "Explosive Pick o'Plenty");
                             sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive pickaxe was dropped.]");
@@ -113,15 +117,17 @@ public class PrisonPicks extends JavaPlugin {
                                 receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pick o'Plenty has been dropped!]");
                                 sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pick o'Plenty was dropped.]");
                             }
-                        break;
+                            return true;
                         default:
                             sender.sendMessage(ChatColor.RED + "Invalid pickaxe type!" + ChatColor.GOLD + " Available options: explosive, pickoplenty, xpickoplenty, fakexpickoplenty");
                             sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
+                            System.out.println("invalid pickaxe");
                         break;
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "Could not find player '" + args[1] + "'");
                     sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
+                    System.out.println("could not find player");
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
@@ -138,6 +144,7 @@ public class PrisonPicks extends JavaPlugin {
                     player.sendMessage(ChatColor.RED + "Inventory Full Notifications have been DISABLED");
                     disabledAlert.add(player.getName());
                 }
+                return true;
             } else {
                 sender.sendMessage("Sorry, that command is ingame only!");
             }
