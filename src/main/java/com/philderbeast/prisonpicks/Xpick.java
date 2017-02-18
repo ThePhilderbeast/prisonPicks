@@ -2,7 +2,7 @@ package com.philderbeast.prisonpicks;
 
 import java.util.Map;
 import java.util.ArrayList;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.Location;
@@ -19,7 +19,7 @@ public class Xpick extends Pick {
 
     public static boolean isPick(ItemStack item)
     {
-        if(Pick.isPick(item) && item.getItemMeta().getLore().contains((Object)ChatColor.GOLD + "Explosive I"))
+        if(Pick.isPick(item) && item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive I"))
         {
             return true;
         }else {

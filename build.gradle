@@ -1,5 +1,5 @@
-
-apply plugin: 'java'
+apply plugin: "java"
+apply plugin: "jacoco"
 
 sourceCompatibility = 1.8
 
@@ -24,14 +24,21 @@ jar {
     }
 }
     
-dependencies {
-    testCompile group: 'junit',
-            name: 'junit',
-            version: '4.11'
+jacoco {
+    toolVersion = "0.7.9"
+    //applyTo build
+}
 
-    compile group: 'org.spigotmc',
-            name: 'spigot-api',
-            version: '1.11.2-R0.1-SNAPSHOT'
+task applicationCodeCoverageReport(type:JacocoReport){
+    executionData build
+    sourceSets sourceSets.main
+}
+
+dependencies {
+
+    compile group: "org.spigotmc",
+            name: "spigot-api",
+            version: "1.11.2-R0.1-SNAPSHOT"
                    
     compile group: "com.sk89q.worldguard",
             name: "worldguard-legacy",
@@ -44,5 +51,26 @@ dependencies {
     compile group: "com.sk89q.worldedit",
             name: "worldedit-core",
             version: "6.1.4-SNAPSHOT"
+
+    //testing dependencys
+    testCompile group: "junit",
+                name: "junit",
+                version: "4.12"
+
+    testCompile group: "org.powermock",
+                name: "powermock-core",
+                version: "1.7.0RC2"
+
+    testCompile group: "org.powermock",
+                name: "powermock-module-junit4",
+                version: "1.7.0RC2"
+
+    testCompile group: "org.powermock",
+                name: "powermock-api-mockito2",
+                version: "1.7.0RC2"
+
+//    testCompile group: "org.jacoco",
+//              name: "jacoco-maven-plugin",
+//              version: "0.7.9"
 
 }

@@ -2,16 +2,23 @@ language: java
 jdk:
   - oraclejdk8
 
+#cache dependencys so the ci builds are faster
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
-  directorys: 
-    - "$HOME/.m2"
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.m2
 
 deploy:
   provider: releases
   api_key:
     secure: NaS/0mkOcJJWXb9a1ZCpo251a1wsvObeZGH7G4XpwAOu4nJ9nulPNsfY/cMTEuo3WYza3v3Ry3zZdmLeFk6vfaX4nAXW8clI+cfQnKNV6KguS538KocAHeCzLiYTo1lD8z5DybegsZncZVWaocYzvQz+V+dCVTFtztHBbTpY7dqR67sAGWaA1tv0U3gZT3Z5yC3SjXD0G565Fon9wIHnmLDwUD0Ne+/uCQHZ1P9suL3it93tEgdW071yGIqaPGSt4ClvuPFUUVqLK8XlxBL4uyzJN4bwMiDPirF+iurbXzJ8MEA71TjgVqxgtDiyqiB/Rquw2aWo0MdYuxazzirJPP9l7tUI/7xM7Niv8h4KR7mdnCpCxwzFo3f9gexQ6ukaGXc4bT40YorysuW1yjub7+iC0tRKLD/8hFSTdrTLJjZG57sN288eq7Kk2wW7041t+Jpw+0BXR1zUt8ccmtGrY+2yi9M48FYBk+wA0/qssjKy3qPproGmAgSen4BFCUz0rrgaorsUBbvHcyBYL8KeSsSYCn4ys0//FBghwj6CVdDOjNWmFeMqqrpZiUiQWd1SLvqtK6C4ncZ45ZVcnRZLcpJf4tDn9e1dcaJ85p1KeCUO4qqEY2fSgot2nuDAmEU1CIJK6wCLgTpDlz9tvhNW9ReNC0v0au9TxZtNgWf5ZzQ=
   file_glob: true
-  file: prisonPicks*.jar
+  file: build/libs/prisonPicks*.jar
   skip_cleanup: true
   on:
     tags: true
