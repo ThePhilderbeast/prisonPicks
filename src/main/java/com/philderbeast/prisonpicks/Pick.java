@@ -60,25 +60,26 @@ public class Pick{
                 enchants.put(UNBREAKING, false);
             }
 
-            if (item.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
-                enchants.put(FORTUNE, true);
-            }else{
-                enchants.put(FORTUNE, false);
-            }
+        if (item.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
+            enchants.put(FORTUNE, true);
+        } else {
+            enchants.put(FORTUNE, false);
+        }
 
-            if (item.containsEnchantment(Enchantment.SILK_TOUCH)) {
-                enchants.put(SILK_TOUCH, true);
-            }else{
-                enchants.put(SILK_TOUCH, false);
-            }
+        if (item.containsEnchantment(Enchantment.SILK_TOUCH)) {
+            enchants.put(SILK_TOUCH, true);
+        } else {
+            enchants.put(SILK_TOUCH, false);
+        }
         return enchants;
     }
 
-    public synchronized void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
+    public boolean doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
+        boolean blockBroken = false;
         boolean noInventorySpace = false;
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (block.getType() != Material.BEDROCK) {
+        if (block.getType() != Material.BEDROCK
+            && block.getType() != Material.AIR) {
             if (enchants.get(SILK_TOUCH)) {
                 ItemStack blockStack;
                 if (material == null)
@@ -100,6 +101,7 @@ public class Pick{
                     block.setType(material);
                 }
 
+                ItemStack item = player.getInventory().getItemInMainHand();
                 int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 ItemStack newItem = getDrop(fortune, block, item);
 
@@ -127,13 +129,17 @@ public class Pick{
                 int exp = Util.calculateExperienceForBlock(block);
                 player.giveExp(exp); //Give Player Experience
             }
+            block.setType(Material.AIR);
+            blockBroken = true;
+            
         }
-        block.setType(Material.AIR);
 
         if (noInventorySpace && !PrisonPicks.getInstance().getDisabledAlerts().contains(player.getName())) {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f);
             player.sendTitle(ChatColor.RED + "Inventory is Full!", ChatColor.GOLD + "/fullnotify to disable", 1, 15, 5);
         }
+
+        return blockBroken;
 
     }
 

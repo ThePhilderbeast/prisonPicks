@@ -41,12 +41,10 @@ public class PrisonPicks extends JavaPlugin {
      **/
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        System.out.println("Starting command runner");
         if (label.equalsIgnoreCase("pick")) {
             if (sender instanceof Player && !(sender).hasPermission("picks.explosive")
                     && !(player = (Player)sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))  {
                 player.sendMessage(ChatColor.RED + "Permission Denied!");
-                System.out.println("no permissions");
                 return false;
             }
 
@@ -121,13 +119,11 @@ public class PrisonPicks extends JavaPlugin {
                         default:
                             sender.sendMessage(ChatColor.RED + "Invalid pickaxe type!" + ChatColor.GOLD + " Available options: explosive, pickoplenty, xpickoplenty, fakexpickoplenty");
                             sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
-                            System.out.println("invalid pickaxe");
                         break;
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "Could not find player '" + args[1] + "'");
                     sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
-                    System.out.println("could not find player");
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
