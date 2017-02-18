@@ -22,22 +22,23 @@ public class XpickTest {
         //make a mock Xpick
         ItemMeta i = mock(ItemMeta.class);
         ArrayList<String> lore = new ArrayList<String>();
-        lore.add(ChatColor.GOLD + "Explosive I");
-        doReturn(lore).when(i).getLore();
         doReturn(true).when(i).hasLore();
 
         ItemStack xpick = mock(ItemStack.class);
+        doReturn(Material.DIAMOND_PICKAXE).when(xpick).getType();
         doReturn(true).when(xpick).hasItemMeta();
         doReturn(i).when(xpick).getItemMeta();
 
         //this is wrong
         lore.add(ChatColor.GREEN + "Explosive I");
+        doReturn(lore).when(i).getLore();
         assertFalse(Xpick.isPick(xpick));
+ 
         //this should work
+        lore.clear();
         lore.add(ChatColor.GOLD + "Explosive I");
+        doReturn(lore).when(i).getLore();
         assertTrue(Xpick.isPick(xpick));
-
-        
 
     }
 
