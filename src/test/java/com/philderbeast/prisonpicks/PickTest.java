@@ -1,14 +1,13 @@
 package com.philderbeast.prisonpicks;
 
-import java.util.ArrayList;
+import java.util.Map;
 
 import org.junit.Test;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.enchantments.Enchantment;
 
 import static org.mockito.Mockito.*;
 
@@ -39,8 +38,51 @@ public class PickTest {
         doReturn(true).when(i).hasLore();
         doReturn(false).when(pick).hasItemMeta();
         assertFalse(Pick.isPick(pick));
+    }
 
+    @Test
+    public void hasUnbreakingTest()
+    {
+        ItemStack pick = mock(ItemStack.class);
+        doReturn(true).when(pick).containsEnchantment(Enchantment.DURABILITY);
+        
+        Pick p = new Pick();
 
+        Map<String, Boolean> enchants = p.getEnchantments(pick);
+
+        assertTrue(enchants.get(Pick.UNBREAKING));
+        assertFalse(enchants.get(Pick.FORTUNE));
+        assertFalse(enchants.get(Pick.SILK_TOUCH));
+    }
+
+    @Test
+    public void hasFortuneTest()
+    {
+        ItemStack pick = mock(ItemStack.class);
+        doReturn(true).when(pick).containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS);
+        
+        Pick p = new Pick();
+
+        Map<String, Boolean> enchants = p.getEnchantments(pick);
+
+        assertFalse(enchants.get(Pick.UNBREAKING));
+        assertTrue(enchants.get(Pick.FORTUNE));
+        assertFalse(enchants.get(Pick.SILK_TOUCH));
+    }
+
+    @Test
+    public void hasSilkTouchTest()
+    {
+        ItemStack pick = mock(ItemStack.class);
+        doReturn(true).when(pick).containsEnchantment(Enchantment.SILK_TOUCH);
+        
+        Pick p = new Pick();
+
+        Map<String, Boolean> enchants = p.getEnchantments(pick);
+
+        assertFalse(enchants.get(Pick.UNBREAKING));
+        assertFalse(enchants.get(Pick.FORTUNE));
+        assertTrue(enchants.get(Pick.SILK_TOUCH));
     }
 
 }
