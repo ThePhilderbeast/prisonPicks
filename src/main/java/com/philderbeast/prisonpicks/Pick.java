@@ -79,66 +79,56 @@ public class Pick{
         boolean noInventorySpace = false;
         ItemStack item = player.getInventory().getItemInMainHand();
         if (block.getType() != Material.BEDROCK) {
-                if (enchants.get(SILK_TOUCH)) {
-                    ItemStack blockStack;
-                    if (material == null)
-                    {
-                        blockStack = new ItemStack(block.getTypeId(), 1);
-                    } else {
-                        blockStack = new ItemStack(material.getId(), 1);
+            if (enchants.get(SILK_TOUCH)) {
+                ItemStack blockStack;
+                if (material == null)
+                {
+                    blockStack = new ItemStack(block.getTypeId(), 1);
+                } else {
+                    blockStack = new ItemStack(material.getId(), 1);
+                }
+                //they have silk touch so give them the block
+                if (Util.isSpaceAvailable(player, blockStack)) {
+                    player.getInventory().addItem(blockStack);
+                } else {
+                    noInventorySpace = true;
+                }
+            } else {
+                if (material != null)
+                {
+                    //System.out.println("using xpick o plenty logic");
+                    block.setType(material);
+                }
+
+                int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+                ItemStack newItem = getDrop(fortune, block, item);
+
+                if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
+                    newItem = AutoSmelt.smelt(newItem).getNewItem();
+                }
+
+                if (AutoPickupPlugin.autoBlock.contains(player.getName()))
+                {
+                    Collection<ItemStack> blocks = new ArrayList<>();
+                    blocks.addAll(AutoBlock.addItem(player, newItem).values());
+                    for (ItemStack is : blocks) {
+                        if (Util.isSpaceAvailable(player, newItem)) {
+                            player.getInventory().addItem(is);
+                        }
                     }
-                    //they have silk touch so give them the block
-                    if (Util.isSpaceAvailable(player, blockStack)) {
-                        player.getInventory().addItem(blockStack);
+                } else {
+                    if (Util.isSpaceAvailable(player, newItem)) {
+                        player.getInventory().addItem(newItem);
                     } else {
                         noInventorySpace = true;
                     }
-                } else {
-                    Collection<ItemStack> stacks = block.getDrops(player.getInventory().getItemInMainHand());
-                    if (material != null)
-                    {
-                        //System.out.println("using xpick o plenty logic");
-                        block.setType(material);
-                        stacks = block.getDrops(player.getInventory().getItemInMainHand());
-                    }
-
-                    Collection<ItemStack> blocks = new ArrayList<>();
-
-                    Iterator itr = stacks.iterator();
-                    if (itr.hasNext()) {
-                        ItemStack newItem = (ItemStack) itr.next();
-
-                        if (enchants.get(FORTUNE)) {
-                            int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-                            newItem.setAmount(Pick.getDropAmount(fortune, block));
-                        }
-                        if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
-                            newItem = AutoSmelt.smelt(newItem).getNewItem();
-                        }
-                        
-                        if (AutoPickupPlugin.autoBlock.contains(player.getName()))
-                        {
-                            blocks.addAll(AutoBlock.addItem(player, newItem).values());
-                            for (ItemStack is : blocks) {
-                                if (Util.isSpaceAvailable(player, newItem)) {
-                                    player.getInventory().addItem(is);
-                                }
-                            }
-                        } else {
-                            if (Util.isSpaceAvailable(player, newItem)) {
-                                player.getInventory().addItem(newItem);
-                            } else {
-                                noInventorySpace = true;
-                            }
-                        }
-
-                        int exp = Util.calculateExperienceForBlock(block);
-                        player.giveExp(exp); //Give Player Experience
-                    }
-                    stacks.clear();
                 }
-                block.setType(Material.AIR);
+
+                int exp = Util.calculateExperienceForBlock(block);
+                player.giveExp(exp); //Give Player Experience
+            }
         }
+        block.setType(Material.AIR);
 
         if (noInventorySpace && !PrisonPicks.getInstance().getDisabledAlerts().contains(player.getName())) {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f);
@@ -147,26 +137,33 @@ public class Pick{
 
     }
 
-    public static int getDropAmount(int enchantmentLevel, Block block) {
+    public static ItemStack getDrop(int enchantmentLevel, Block block, ItemStack tool) {
         boolean DEBUG = false;
         int min, max, startAmount;
         int multiple = 1;
-        int amount = 1;
+        int amount;
 
-        if (block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE) {
-            return 1;
+        Collection<ItemStack> stacks = block.getDrops(tool);
+        Iterator itr = stacks.iterator();
+        ItemStack drop;
+
+        if (!itr.hasNext()) {
+            return new ItemStack(Material.AIR, 0);
+        } else {
+            drop = (ItemStack) itr.next();
         }
 
-        if (enchantmentLevel > 0) {
+        if (block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE) {
+            drop.setAmount(1);
+            return drop;
+        }
+
+        if (block.getType() == Material.REDSTONE_ORE || block.getType() == Material.GLOWING_REDSTONE_ORE || block.getType() == Material.GLOWSTONE) {
             switch (block.getType()) {
                 case GLOWING_REDSTONE_ORE:
                 case REDSTONE_ORE:
                     min = 4;
                     max = 5;
-                    break;
-                case LAPIS_ORE:
-                    min = 4;
-                    max = 8;
                     break;
                 case GLOWSTONE:
                     min = 2;
@@ -178,15 +175,17 @@ public class Pick{
                     break;
             }
 
-            if (block.getType() == Material.REDSTONE_ORE || block.getType() == Material.GLOWING_REDSTONE_ORE || block.getType() == Material.GLOWSTONE) {
-                int bonus = enchantmentLevel;
-                if (block.getType() == Material.GLOWSTONE && bonus > 4) { bonus = 4; }
-                max = max + bonus;
-                return min + (int)(Math.random() * ((max - min) + 1));
-            } else if (block.getType().name().contains("ORE")) {
-                amount = min + (int) (Math.random() * ((max - min) + 1));
-                startAmount = amount;
+            int bonus = enchantmentLevel;
+            if (block.getType() == Material.GLOWSTONE && bonus > 4) { bonus = 4; }
+            max = max + bonus;
+            amount = min + (int)(Math.random() * ((max - min) + 1));
+            drop.setAmount(amount);
+            return drop;
+        } else if (block.getType().name().contains("ORE")) {
+            amount = stacks.size();
+            startAmount = amount;
 
+            if (enchantmentLevel > 0) {
                 Random r = new Random();
                 int tiers = 2 + enchantmentLevel;
                 int chanceEach = (100 / tiers);
@@ -215,9 +214,12 @@ public class Pick{
                     System.out.println("---------------------------------------------------------------");
                 }
             }
+
+            drop.setAmount(amount);
+            stacks.clear();
         }
 
-        return amount;
+        return drop;
     }
 
     public void doDamage(boolean unbreaking, Player player)
