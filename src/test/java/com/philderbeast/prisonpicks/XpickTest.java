@@ -17,22 +17,28 @@ import static org.junit.Assert.*;
 public class XpickTest {
 
     @Test
-    public void isPick()
+    public void isXPickTest()
     {
+        //make a mock Xpick
         ItemMeta i = mock(ItemMeta.class);
-
         ArrayList<String> lore = new ArrayList<String>();
         lore.add(ChatColor.GOLD + "Explosive I");
         doReturn(lore).when(i).getLore();
         doReturn(true).when(i).hasLore();
 
         ItemStack xpick = mock(ItemStack.class);
-        doReturn(Material.DIAMOND_PICKAXE).when(xpick).getType();
         doReturn(true).when(xpick).hasItemMeta();
-
         doReturn(i).when(xpick).getItemMeta();
 
+        //this is wrong
+        lore.add(ChatColor.GREEN + "Explosive I");
+        assertFalse(Xpick.isPick(xpick));
+        //this should work
+        lore.add(ChatColor.GOLD + "Explosive I");
         assertTrue(Xpick.isPick(xpick));
+
+        
+
     }
 
 }
