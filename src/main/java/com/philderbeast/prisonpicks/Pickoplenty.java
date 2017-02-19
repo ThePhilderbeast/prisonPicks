@@ -9,11 +9,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
-import com.philderbeast.prisonpicks.PrisonPicks;
 
 
 public class Pickoplenty extends Pick{
-
 
     public static boolean isPick(ItemStack item)
     {
@@ -27,14 +25,12 @@ public class Pickoplenty extends Pick{
     }
     public void breakBlock(BlockBreakEvent event)
     {
-
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         Block block = event.getBlock();
 
         if (!block.hasMetadata("blockBreaker") && PrisonPicks.getWorldGuard().canBuild(player, block)) {
             Location center = event.getBlock().getLocation();
-            boolean hollow = false;
             int radius = 2;
             int bX = center.getBlockX();
             int bY = center.getBlockY();
@@ -53,6 +49,7 @@ public class Pickoplenty extends Pick{
                             && PrisonPicks.canBuild(check)
                             && (check.getBlock().getType() != Material.BEDROCK)
                             && (check.getBlock().getType() != Material.AIR)
+                            && (!check.getBlock().hasMetadata("blockBreaker"))
                             && Priority.getPriority((Material)check.getBlock().getType()).level >= level) 
                         {
                             mat = check.getBlock().getType();
@@ -69,12 +66,10 @@ public class Pickoplenty extends Pick{
                 Map<String, Boolean> enchants = getEnchantments(item);
 
                 Priority p = Priority.getPriority(mat);
-                ItemStack drop = p.drop;
 
                 doDamage(enchants.get("unbreaking"), player);
                 doBreak(event.getBlock(), enchants, player, p.mat);
 
-                //player.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.0, 0.5), drop);
                 block.setType(Material.AIR);
             }
         }

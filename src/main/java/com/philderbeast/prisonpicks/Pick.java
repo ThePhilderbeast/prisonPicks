@@ -84,9 +84,9 @@ public class Pick{
                 ItemStack blockStack;
                 if (material == null)
                 {
-                    blockStack = new ItemStack(block.getTypeId(), 1);
+                    blockStack = new ItemStack(block.getTypeId(), 1, block.getData());
                 } else {
-                    blockStack = new ItemStack(material.getId(), 1);
+                    blockStack = new ItemStack(material.getId(), 1, block.getData());
                 }
                 //they have silk touch so give them the block
                 if (Util.isSpaceAvailable(player, blockStack)) {
