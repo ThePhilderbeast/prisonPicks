@@ -2,12 +2,17 @@ package com.philderbeast.prisonpicks;
 
 import com.philderbeast.prisonpicks.PrisonPicks;
 
+import me.MnMaxon.AutoPickup.AutoBlock;
+
+
+import me.MnMaxon.AutoPickup.AutoSmelt;
+
+
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.block.Block;
@@ -17,10 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.AutoSmelt;
-import me.MnMaxon.AutoPickup.AutoBlock;
 
 public class Events implements Listener {
 
@@ -61,19 +62,9 @@ public class Events implements Listener {
             xpop.breakBlock(event);
         }
 
+        AutoBlock.block(player, false);
+
         aoepick = false;
-
-        if (Pick.isPick(item))
-        {
-            if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
-                AutoSmelt.smelt(player, false);
-            }
-
-            if (AutoPickupPlugin.autoBlock.contains(player.getName()))
-            {
-                AutoBlock.block(player, false);
-            }
-        }
     }
 
     @EventHandler

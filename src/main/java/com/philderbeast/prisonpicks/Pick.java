@@ -15,6 +15,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.AutoSmelt;
+import me.MnMaxon.AutoPickup.AutoBlock;
+
 public class Pick{
 
     public static final String FORTUNE = "fortune";
@@ -98,6 +102,10 @@ public class Pick{
                 ItemStack item = player.getInventory().getItemInMainHand();
                 int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 ItemStack newItem = getDrop(fortune, block, item);
+
+                if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
+                    newItem = AutoSmelt.smelt(newItem).getNewItem();
+                }
 
                 if (Util.isSpaceAvailable(player, newItem)) {
                     player.getInventory().addItem(newItem);
