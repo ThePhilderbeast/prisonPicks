@@ -31,7 +31,6 @@ public class Pickoplenty extends Pick{
 
         if (!block.hasMetadata("blockBreaker") && PrisonPicks.getWorldGuard().canBuild(player, block)) {
             Location center = event.getBlock().getLocation();
-            boolean hollow = false;
             int radius = 2;
             int bX = center.getBlockX();
             int bY = center.getBlockY();
@@ -67,12 +66,10 @@ public class Pickoplenty extends Pick{
                 Map<String, Boolean> enchants = getEnchantments(item);
 
                 Priority p = Priority.getPriority(mat);
-                ItemStack drop = p.drop;
 
                 doDamage(enchants.get("unbreaking"), player);
                 doBreak(event.getBlock(), enchants, player, p.mat);
 
-                //player.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.0, 0.5), drop);
                 block.setType(Material.AIR);
             }
         }
