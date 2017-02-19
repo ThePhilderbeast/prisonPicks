@@ -74,7 +74,7 @@ public class Pick{
         return enchants;
     }
 
-    public synchronized void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
+    public void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
         boolean noInventorySpace = false;
         ItemStack item = player.getInventory().getItemInMainHand();
