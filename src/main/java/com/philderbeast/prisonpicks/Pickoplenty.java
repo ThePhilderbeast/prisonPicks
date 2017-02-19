@@ -14,7 +14,6 @@ import com.philderbeast.prisonpicks.PrisonPicks;
 
 public class Pickoplenty extends Pick{
 
-
     public static boolean isPick(ItemStack item)
     {
         if(Pick.isPick(item) && item.getItemMeta().getLore().contains((Object)ChatColor.LIGHT_PURPLE + "Pick o'Plenty"))
@@ -53,6 +52,7 @@ public class Pickoplenty extends Pick{
                             && PrisonPicks.canBuild(check)
                             && (check.getBlock().getType() != Material.BEDROCK)
                             && (check.getBlock().getType() != Material.AIR)
+                            && (!check.getBlock().hasMetadata("blockBreaker"))
                             && Priority.getPriority((Material)check.getBlock().getType()).level >= level) 
                         {
                             mat = check.getBlock().getType();
