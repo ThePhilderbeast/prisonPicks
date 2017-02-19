@@ -3,7 +3,7 @@ apply plugin: "jacoco"
 
 sourceCompatibility = 1.8
 
-version = '1.2.7'
+version = '1.2.8'
 
 repositories {
     mavenCentral()
@@ -43,9 +43,10 @@ dependencies {
             name: "worldguard-legacy",
             version: "6.2"
             
-    compile group: "com.github.MnMaxon",
+    //TODO: update this with a better version
+    compile group: "com.github.thePhilderbeast",
             name: "AutoPickup",
-            version: "master-SNAPSHOT"
+            version: "362ebabb26"
             
     compile group: "com.sk89q.worldedit",
             name: "worldedit-core",
