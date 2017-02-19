@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Collection;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.bukkit.ChatColor;
@@ -15,10 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-
-import me.MnMaxon.AutoPickup.AutoPickupPlugin;
-import me.MnMaxon.AutoPickup.AutoSmelt;
-import me.MnMaxon.AutoPickup.AutoBlock;
 
 public class Pick{
 
@@ -97,7 +92,6 @@ public class Pick{
             } else {
                 if (material != null)
                 {
-                    //System.out.println("using xpick o plenty logic");
                     block.setType(material);
                 }
 
@@ -105,25 +99,10 @@ public class Pick{
                 int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 ItemStack newItem = getDrop(fortune, block, item);
 
-                if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
-                    newItem = AutoSmelt.smelt(newItem).getNewItem();
-                }
-
-                if (AutoPickupPlugin.autoBlock.contains(player.getName()))
-                {
-                    Collection<ItemStack> blocks = new ArrayList<>();
-                    blocks.addAll(AutoBlock.addItem(player, newItem).values());
-                    for (ItemStack is : blocks) {
-                        if (Util.isSpaceAvailable(player, newItem)) {
-                            player.getInventory().addItem(is);
-                        }
-                    }
+                if (Util.isSpaceAvailable(player, newItem)) {
+                    player.getInventory().addItem(newItem);
                 } else {
-                    if (Util.isSpaceAvailable(player, newItem)) {
-                        player.getInventory().addItem(newItem);
-                    } else {
-                        noInventorySpace = true;
-                    }
+                    noInventorySpace = true;
                 }
 
                 int exp = Util.calculateExperienceForBlock(block);

@@ -18,6 +18,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+import me.MnMaxon.AutoPickup.AutoSmelt;
+import me.MnMaxon.AutoPickup.AutoBlock;
+
 public class Events implements Listener {
 
     private PrisonPicks plugin;
@@ -58,6 +62,18 @@ public class Events implements Listener {
         }
 
         aoepick = false;
+
+        if (Pick.isPick(item))
+        {
+            if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
+                AutoSmelt.smelt(player, false);
+            }
+
+            if (AutoPickupPlugin.autoBlock.contains(player.getName()))
+            {
+                AutoBlock.block(player, false);
+            }
+        }
     }
 
     @EventHandler
