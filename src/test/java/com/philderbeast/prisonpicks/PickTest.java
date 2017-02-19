@@ -1,13 +1,18 @@
 package com.philderbeast.prisonpicks; 
 
 import java.util.Map; 
-import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.util.HashMap;
+import java.util.Collection;
 
 import org.junit.Before; 
 import org.junit.Test; 
 
-import org.mockito.Mock; 
+import org.mockito.Mock;
+import org.mockito.Mockito;
+ 
 import org.mockito.MockitoAnnotations; 
+import org.mockito.ArgumentCaptor;
 
 import org.bukkit.block.Block; 
 import org.bukkit.Material; 
@@ -17,10 +22,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.enchantments.Enchantment; 
 import org.bukkit.entity.Player; 
 
+import static org.mockito.Mockito.* ; 
 
-import static org.mockito.Mockito. * ; 
-
-import static org.junit.Assert. * ; 
+import static org.junit.Assert.* ; 
 
 public class PickTest {
 
@@ -98,6 +102,112 @@ public class PickTest {
         Block block = mock(Block.class); 
         doReturn(Material.STONE).when(block).getType(); 
 
+        Collection<ItemStack> drops = new ArrayList<ItemStack>();
+        drops.add(new ItemStack(Material.COBBLESTONE));
+        doReturn(drops).when(block).getDrops(Mockito.anyObject());
+
+        ItemStack tool = mock(ItemStack.class); 
+        doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
+
+        PlayerInventory inventory = mock(PlayerInventory.class); 
+        doReturn(tool).when(inventory).getItemInMainHand(); 
+
+        Player player = mock(Player.class); 
+        doReturn(inventory).when(player).getInventory(); 
+
+        Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
+        enchants.put(Pick.UNBREAKING, false); 
+        enchants.put(Pick.FORTUNE, false); 
+        enchants.put(Pick.SILK_TOUCH, false); 
+        
+        Pick p = new Pick();
+
+        //test normal picks
+        assertTrue(p.doBreak(block, enchants, player, null)); 
+
+        ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
+        verify(inventory, times(1)).addItem(argumentCaptor.capture());
+        ItemStack capturedArgument = argumentCaptor.getValue();
+        System.err.println(capturedArgument.getType());
+        assertTrue(capturedArgument.getType().equals(Material.COBBLESTONE));
+
+    }
+
+    @Test
+    public void doBreakStoneSilkTouchtest() {
+        Block block = mock(Block.class); 
+        doReturn(Material.STONE).when(block).getType(); 
+
+        Collection<ItemStack> drops = new ArrayList<ItemStack>();
+        drops.add(new ItemStack(Material.COBBLESTONE));
+        doReturn(drops).when(block).getDrops(Mockito.anyObject());
+
+        ItemStack tool = mock(ItemStack.class); 
+        doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
+
+        PlayerInventory inventory = mock(PlayerInventory.class); 
+        doReturn(tool).when(inventory).getItemInMainHand(); 
+
+        Player player = mock(Player.class); 
+        doReturn(inventory).when(player).getInventory(); 
+
+        Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
+        enchants.put(Pick.UNBREAKING, false); 
+        enchants.put(Pick.FORTUNE, false); 
+        enchants.put(Pick.SILK_TOUCH, true); 
+
+        Pick p = new Pick();
+        //test normal picks
+        assertTrue(p.doBreak(block, enchants, player, null)); 
+        ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
+        verify(inventory, times(1)).addItem(argumentCaptor.capture());
+        ItemStack capturedArgument = argumentCaptor.getValue();
+        System.err.println(capturedArgument.getType());
+        assertTrue(capturedArgument.getType().equals(Material.STONE));
+    }
+
+    @Test
+    public void doBreakDiamondSilkTouchtest() {
+        
+        Block block = mock(Block.class); 
+        doReturn(Material.DIAMOND_ORE).when(block).getType(); 
+
+        Collection<ItemStack> drops = new ArrayList<ItemStack>();
+        drops.add(new ItemStack(Material.DIAMOND));
+        doReturn(drops).when(block).getDrops(Mockito.anyObject());
+
+        ItemStack tool = mock(ItemStack.class); 
+        doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
+
+        PlayerInventory inventory = mock(PlayerInventory.class); 
+        doReturn(tool).when(inventory).getItemInMainHand(); 
+
+        Player player = mock(Player.class); 
+        doReturn(inventory).when(player).getInventory(); 
+
+        Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
+        enchants.put(Pick.UNBREAKING, false); 
+        enchants.put(Pick.FORTUNE, false); 
+        enchants.put(Pick.SILK_TOUCH, true); 
+
+        Pick p = new Pick();
+        //test normal picks
+        assertTrue(p.doBreak(block, enchants, player, null)); 
+
+        //test normal picks
+        ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
+        verify(inventory, times(1)).addItem(argumentCaptor.capture());
+        ItemStack capturedArgument = argumentCaptor.getValue();
+        System.err.println(capturedArgument.getType());
+        assertTrue(capturedArgument.getType().equals(Material.DIAMOND_ORE));
+    }
+
+    @Test
+    public void doBreakBedrocktest() {
+        
+        Block block = mock(Block.class); 
+        doReturn(Material.BEDROCK).when(block).getType(); 
+
         ItemStack tool = mock(ItemStack.class); 
         doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
 
@@ -115,41 +225,14 @@ public class PickTest {
         Pick p = new Pick(); 
         
         //test normal picks
-        //assertTrue(bloc);
-        assertTrue(p.doBreak(block, enchants, player, null)); 
-    }
-
-    public void doBreakStoneSilkTouchtest() {
-        
-        Block block = mock(Block.class); 
-        doReturn(Material.STONE).when(block).getType(); 
-
-        ItemStack tool = mock(ItemStack.class); 
-        doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
-
-        PlayerInventory inventory = mock(PlayerInventory.class); 
-        doReturn(tool).when(inventory).getItemInMainHand(); 
-
-        Player player = mock(Player.class); 
-        doReturn(inventory).when(player).getInventory(); 
-
-        Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
-        enchants.put(Pick.UNBREAKING, false); 
-        enchants.put(Pick.FORTUNE, false); 
-        enchants.put(Pick.SILK_TOUCH, true); 
-
-        Pick p = new Pick(); 
-        
-        //test normal picks
-        //assertTrue(bloc);
-        assertTrue(p.doBreak(block, enchants, player, null)); 
+        assertFalse(p.doBreak(block, enchants, player, null)); 
     }
 
     @Test
-    public void doBreakBedrocktest() {
+    public void doBreakAirtest() {
         
         Block block = mock(Block.class); 
-        doReturn(Material.BEDROCK).when(block).getType(); 
+        doReturn(Material.AIR).when(block).getType(); 
 
         ItemStack tool = mock(ItemStack.class); 
         doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 

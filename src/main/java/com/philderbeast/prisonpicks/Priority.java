@@ -10,9 +10,10 @@ public enum Priority {
     REDSTONE(3, Material.REDSTONE_ORE, Material.REDSTONE, 1, 4, 4, 9),
     LAPIS(4, Material.LAPIS_ORE, new ItemStack(Material.INK_SACK, 1, (short)4), 1, 4, 4, 9),
     GOLD(5, Material.GOLD_ORE, Material.GOLD_ORE, 1, 1, 1, 1),
-    DIAMOND(6, Material.DIAMOND_ORE, Material.DIAMOND, 1, 1, 1, 4),
-    DIAMONDBLOCK(7, Material.DIAMOND_BLOCK, Material.DIAMOND_BLOCK, 1, 1, 1, 1),
-    EMERALD(8, Material.EMERALD_ORE, Material.EMERALD, 1, 1, 1, 4);
+    QUARTZ(6, Material.QUARTZ_ORE, Material.QUARTZ, 1, 1, 1, 1),
+    DIAMOND(7, Material.DIAMOND_ORE, Material.DIAMOND, 1, 1, 1, 4),
+    DIAMONDBLOCK(8, Material.DIAMOND_BLOCK, Material.DIAMOND_BLOCK, 1, 1, 1, 1),
+    EMERALD(9, Material.EMERALD_ORE, Material.EMERALD, 1, 1, 1, 4);
 
     int level;
     Material mat;

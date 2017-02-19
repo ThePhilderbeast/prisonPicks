@@ -90,14 +90,13 @@ public class Util {
 
     static boolean isSpaceAvailable(Player player, ItemStack item) {
         //Exclude armor slots - ids 100, 101, 102, 103 - Normal Inventory is slots 0-35
-        boolean space = false;
         for (int i = 0; i <= 35; i++) {
             ItemStack slotItem = player.getInventory().getItem(i);
             if (slotItem == null || (slotItem.getType() == item.getType() && item.getAmount() + slotItem.getAmount() <= slotItem.getMaxStackSize())) {
-                space = true;
+                return true;
             }
         }
-        return space;
+        return false;
     }
 
     static int calculateExperienceForBlock(Block block) {

@@ -79,9 +79,9 @@ public class Pick{
                 ItemStack blockStack;
                 if (material == null)
                 {
-                    blockStack = new ItemStack(block.getTypeId(), 1, block.getData());
+                    blockStack = new ItemStack(block.getType(), 1, block.getData());
                 } else {
-                    blockStack = new ItemStack(material.getId(), 1, block.getData());
+                    blockStack = new ItemStack(material, 1, block.getData());
                 }
                 //they have silk touch so give them the block
                 if (Util.isSpaceAvailable(player, blockStack)) {
@@ -110,7 +110,6 @@ public class Pick{
             }
             block.setType(Material.AIR);
             blockBroken = true;
-            
         }
 
         if (noInventorySpace && !PrisonPicks.getInstance().getDisabledAlerts().contains(player.getName())) {

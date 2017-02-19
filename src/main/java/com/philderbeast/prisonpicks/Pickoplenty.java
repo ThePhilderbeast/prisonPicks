@@ -68,7 +68,7 @@ public class Pickoplenty extends Pick{
                 Priority p = Priority.getPriority(mat);
 
                 doDamage(enchants.get("unbreaking"), player);
-                doBreak(event.getBlock(), enchants, player, p.mat);
+                doBreak(event.getBlock(), enchants, player, mat);
 
                 block.setType(Material.AIR);
             }
