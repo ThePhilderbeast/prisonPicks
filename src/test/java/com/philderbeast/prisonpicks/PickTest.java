@@ -119,6 +119,32 @@ public class PickTest {
         assertTrue(p.doBreak(block, enchants, player, null)); 
     }
 
+    public void doBreakStoneSilkTouchtest() {
+        
+        Block block = mock(Block.class); 
+        doReturn(Material.STONE).when(block).getType(); 
+
+        ItemStack tool = mock(ItemStack.class); 
+        doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
+
+        PlayerInventory inventory = mock(PlayerInventory.class); 
+        doReturn(tool).when(inventory).getItemInMainHand(); 
+
+        Player player = mock(Player.class); 
+        doReturn(inventory).when(player).getInventory(); 
+
+        Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
+        enchants.put(Pick.UNBREAKING, false); 
+        enchants.put(Pick.FORTUNE, false); 
+        enchants.put(Pick.SILK_TOUCH, true); 
+
+        Pick p = new Pick(); 
+        
+        //test normal picks
+        //assertTrue(bloc);
+        assertTrue(p.doBreak(block, enchants, player, null)); 
+    }
+
     @Test
     public void doBreakBedrocktest() {
         
