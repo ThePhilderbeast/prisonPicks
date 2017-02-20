@@ -136,8 +136,6 @@ public abstract class Pick{
         Collection<ItemStack> stacks = block.getDrops(tool);
         ItemStack drop;
         if (stacks.size() == 0) {
-            System.err.println(block.getDrops(tool));
-            System.err.println(stacks.size());
             return new ItemStack(Material.AIR, 0);
         } else {
             drop = (ItemStack) stacks.toArray()[0];
