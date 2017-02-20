@@ -6,12 +6,12 @@ sourceCompatibility = 1.8
 version = '1.3.1'
 
 repositories {
-    mavenCentral()
     mavenLocal()
-    maven {url('https://jitpack.io/')}
+    mavenCentral()
     maven {url('https://oss.sonatype.org/content/groups/public/')}
     maven {url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')}
     maven {url('http://maven.sk89q.com/repo/')}
+    maven {url('https://jitpack.io/')}
 }
 
 jar {
@@ -23,10 +23,11 @@ jar {
         }
     }
 }
-    
 
 jacocoTestReport {
     reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
         html.enabled = true
     }
 }
@@ -43,7 +44,6 @@ dependencies {
             name: "worldguard-legacy",
             version: "6.2"
             
-    //TODO: update this with a better version
     compile group: "com.github.thePhilderbeast",
             name: "AutoPickup",
             version: "4.1.1"

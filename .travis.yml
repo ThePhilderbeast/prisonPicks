@@ -2,6 +2,11 @@ language: java
 jdk:
   - oraclejdk8
 
+script:
+  - ./gradlew build
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 #cache dependencys so the ci builds are faster
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

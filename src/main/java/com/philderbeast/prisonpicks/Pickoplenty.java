@@ -23,6 +23,8 @@ public class Pickoplenty extends Pick{
         }
 
     }
+
+    @Override
     public void breakBlock(BlockBreakEvent event)
     {
         Player player = event.getPlayer();

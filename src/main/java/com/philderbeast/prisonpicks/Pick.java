@@ -11,15 +11,15 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 import me.MnMaxon.AutoPickup.AutoSmelt;
-import me.MnMaxon.AutoPickup.AutoBlock;
 
-public class Pick{
+public abstract class Pick{
 
     public static final String FORTUNE = "fortune";
     public static final String UNBREAKING = "unbreaking";
@@ -30,9 +30,7 @@ public class Pick{
 
     }
 
-    public void breakBlock()
-    {
-    }
+    public abstract void breakBlock(BlockBreakEvent event);
 
     public static boolean isPick(ItemStack item)
     {
@@ -136,13 +134,13 @@ public class Pick{
         int amount;
 
         Collection<ItemStack> stacks = block.getDrops(tool);
-        Iterator itr = stacks.iterator();
         ItemStack drop;
-
-        if (!itr.hasNext()) {
+        if (stacks.size() == 0) {
+            System.err.println(block.getDrops(tool));
+            System.err.println(stacks.size());
             return new ItemStack(Material.AIR, 0);
         } else {
-            drop = (ItemStack) itr.next();
+            drop = (ItemStack) stacks.toArray()[0];
         }
 
         if (block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE) {

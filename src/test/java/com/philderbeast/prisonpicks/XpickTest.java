@@ -2,19 +2,33 @@ package com.philderbeast.prisonpicks;
 
 import java.util.ArrayList;
 
+import org.junit.Before;
+
 import org.junit.Test;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.PluginManager;
 
 import static org.mockito.Mockito.*;
 
 import static org.junit.Assert.*;
 
 public class XpickTest {
+
+
+    //@Before
+    public void setUp()
+    {
+        Bukkit b = mock(Bukkit.class);
+
+        PluginManager pm = mock(PluginManager.class);
+
+        doReturn(pm).when(b).getPluginManager();
+    }
 
     @Test
     public void isXPickTest()
