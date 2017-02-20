@@ -3,6 +3,8 @@ package com.philderbeast.prisonpicks;
 import com.philderbeast.prisonpicks.PrisonPicks;
 
 import me.MnMaxon.AutoPickup.AutoBlock;
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
+
 
 
 import me.MnMaxon.AutoPickup.AutoSmelt;
@@ -62,8 +64,11 @@ public class Events implements Listener {
             xpop.breakBlock(event);
         }
 
-        AutoBlock.block(player, false);
-
+        if(AutoPickupPlugin.autoPickup.contains(player.getName()))
+        {
+            AutoBlock.block(player, false);
+        }
+        
         aoepick = false;
     }
 
