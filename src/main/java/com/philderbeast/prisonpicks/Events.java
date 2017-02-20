@@ -64,7 +64,7 @@ public class Events implements Listener {
             xpop.breakBlock(event);
         }
 
-        if(AutoPickupPlugin.autoPickup.contains(player.getName()))
+        if(AutoPickupPlugin.autoBlock.contains(player.getName()))
         {
             AutoBlock.block(player, false);
         }
