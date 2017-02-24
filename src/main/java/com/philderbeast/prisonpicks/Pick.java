@@ -227,7 +227,13 @@ public abstract class Pick{
                 tool.setDurability((short) (tool.getDurability() + 1));
             }
         }
-        if (tool.getDurability() >tool.getType().getMaxDurability()) {
+        if (tool.getDurability() > tool.getType().getMaxDurability()) {
+            System.out.println("-------------------------------------");
+            System.out.println("Player: " + player.getName());
+            System.out.println("UUID: " + player.getUniqueId());
+            System.out.println("Pick Current Durability: " + tool.getDurability());
+            System.out.println("Pick Max Durability: " + tool.getType().getMaxDurability());
+            System.out.println("-------------------------------------");
             //break the pick
            player.getInventory().remove(tool);
         }
