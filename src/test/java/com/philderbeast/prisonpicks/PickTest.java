@@ -6,17 +6,17 @@ import java.util.HashMap;
 import java.util.Collection;
 
 import org.junit.Before; 
-import org.junit.Test; 
+import org.junit.Test;
 
-import org.mockito.Mock;
+
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.Mockito;
- 
-import org.mockito.MockitoAnnotations; 
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 
 import org.bukkit.block.Block; 
-import org.bukkit.Material; 
+import org.bukkit.Material;
+ 
 import org.bukkit.inventory.ItemStack; 
 import org.bukkit.inventory.PlayerInventory; 
 import org.bukkit.inventory.meta.ItemMeta; 
@@ -38,15 +38,16 @@ public class PickTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this); 
-        //default to fortue 0
+        MockitoAnnotations.initMocks(this);
+
         doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
         doReturn(tool).when(inventory).getItemInMainHand(); 
         doReturn(inventory).when(player).getInventory(); 
     }
 
     @Test
-    public void isPickTest() {
+    public void testIsPick() {
+
         //make a mock Xpick
         ItemMeta i = mock(ItemMeta.class); 
         doReturn(true).when(i).hasLore(); 
@@ -63,11 +64,11 @@ public class PickTest {
         assertFalse(Pick.isPick(tool)); 
 
         //no metadata
-        doReturn(true).when(i).hasLore(); 
         doReturn(false).when(tool).hasItemMeta(); 
         assertFalse(Pick.isPick(tool)); 
     }
 
+    
     @Test
     public void hasUnbreakingTest() {
         doReturn(true).when(tool).containsEnchantment(Enchantment.DURABILITY);  
@@ -108,7 +109,7 @@ public class PickTest {
 
         Collection<ItemStack> drops = new ArrayList<ItemStack>();
         drops.add(new ItemStack(Material.COBBLESTONE));
-        doReturn(drops).when(block).getDrops(Mockito.anyObject());
+        doReturn(drops).when(block).getDrops(any());
 
         Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
         enchants.put(Pick.UNBREAKING, false); 
@@ -122,7 +123,6 @@ public class PickTest {
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
         ItemStack capturedArgument = argumentCaptor.getValue();
         assertTrue(capturedArgument.getType().equals(Material.COBBLESTONE));
-
     }
 
     @Test
@@ -131,7 +131,6 @@ public class PickTest {
 
         Collection<ItemStack> drops = new ArrayList<ItemStack>();
         drops.add(new ItemStack(Material.COBBLESTONE));
-        doReturn(drops).when(block).getDrops(Mockito.anyObject());
 
         Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
         enchants.put(Pick.UNBREAKING, false); 
@@ -144,6 +143,47 @@ public class PickTest {
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
         ItemStack capturedArgument = argumentCaptor.getValue();
         assertTrue(capturedArgument.getType().equals(Material.STONE));
+    }
+
+    @Test
+    public void doBreakAsEmmeraldStonetest() {
+
+        doReturn(Material.STONE).when(block).getType(); 
+
+        Collection<ItemStack> drops = new ArrayList<ItemStack>();
+        drops.add(new ItemStack(Material.COBBLESTONE));
+        doReturn(drops).when(block).getDrops(any());
+
+        Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
+        enchants.put(Pick.UNBREAKING, false); 
+        enchants.put(Pick.FORTUNE, false); 
+        enchants.put(Pick.SILK_TOUCH, false); 
+
+        //test normal picks
+        assertTrue(pick.doBreak(block, enchants, player, Material.EMERALD_ORE)); 
+
+        //verify we are settting the block to EMERALD_ORE
+        verify(block).setType(Material.EMERALD_ORE);
+    }
+
+    
+    @Test
+    public void doBreakAsEmmeraldStoneSilkTouchtest() {
+
+        doReturn(Material.STONE).when(block).getType(); 
+
+        Map < String, Boolean > enchants = new HashMap < String, Boolean > (); 
+        enchants.put(Pick.UNBREAKING, false); 
+        enchants.put(Pick.FORTUNE, false); 
+        enchants.put(Pick.SILK_TOUCH, true); 
+
+        //test normal picks
+        assertTrue(pick.doBreak(block, enchants, player, Material.EMERALD_ORE)); 
+
+        ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
+        verify(inventory, times(1)).addItem(argumentCaptor.capture());
+        ItemStack capturedArgument = argumentCaptor.getValue();
+        assertTrue(capturedArgument.getType().equals(Material.EMERALD_ORE));
     }
 
     @Test
@@ -183,7 +223,7 @@ public class PickTest {
         doReturn((short) 0).when(tool).getDurability(); 
 
         pick.doDamage(false, player);
-        verify(tool, times(1)).setDurability(Mockito.anyShort());
+        verify(tool, times(1)).setDurability(anyShort());
     }
 
     
@@ -194,9 +234,13 @@ public class PickTest {
         doReturn(Material.DIAMOND_PICKAXE).when(tool).getType();
         doReturn((short) 0).when(tool).getDurability(); 
 
-        pick.doDamage(true, player);
+        //run this 100 times to check
+        for(int i = 0; i < 100; i++)
+        { 
+            pick.doDamage(true, player);
+        }
         //not sure how to test this since its random?
-        //verify(tool, times(1)).setDurability(Mockito.anyShort());
+        verify(tool, atLeast(1)).setDurability(anyShort());
     }
 
     @Test
@@ -207,8 +251,7 @@ public class PickTest {
         doReturn(Material.DIAMOND_PICKAXE).when(tool).getType();
 
         pick.doDamage(true, player);
-        //not sure how to test this since its random?
-        //verify(tool, times(1)).setDurability(Mockito.anyShort());
+        verify(inventory).remove(tool);
     }
 
 
@@ -218,7 +261,7 @@ public class PickTest {
         doReturn(Material.IRON_ORE).when(block).getType();
         Collection<ItemStack> drops = new ArrayList<ItemStack>();
         drops.add(new ItemStack(Material.IRON_ORE));
-        doReturn(drops).when(block).getDrops(Mockito.anyObject());
+        doReturn(drops).when(block).getDrops(any());
 
         ItemStack dropped = Pick.getDrop(0, block, tool);
         assertTrue(dropped.getType().equals(Material.IRON_ORE));
@@ -234,7 +277,7 @@ public class PickTest {
         drops.add(new ItemStack(Material.REDSTONE, 1));
         drops.add(new ItemStack(Material.REDSTONE, 1));
         drops.add(new ItemStack(Material.REDSTONE, 1));
-        doReturn(drops).when(block).getDrops(Mockito.anyObject());
+        doReturn(drops).when(block).getDrops(any());
 
         //run this 100 times to check
         for(int i = 0; i < 100; i++)
@@ -254,7 +297,7 @@ public class PickTest {
         drops.add(new ItemStack(Material.GLOWSTONE_DUST, 1));
         drops.add(new ItemStack(Material.GLOWSTONE_DUST, 1));
         drops.add(new ItemStack(Material.GLOWSTONE_DUST, 1));
-        doReturn(drops).when(block).getDrops(Mockito.anyObject());
+        doReturn(drops).when(block).getDrops(any());
 
         //run this 100 times to check
         for(int i = 0; i < 100; i++)
@@ -280,7 +323,7 @@ public class PickTest {
             drops.add(new ItemStack(Material.INK_SACK, 1));
             drops.add(new ItemStack(Material.INK_SACK, 1));
             drops.add(new ItemStack(Material.INK_SACK, 1));
-            doReturn(drops).when(block).getDrops(Mockito.anyObject());
+            doReturn(drops).when(block).getDrops(any());
 
             ItemStack dropped = Pick.getDrop(0, block, tool);
             assertTrue(dropped.getType().equals(Material.INK_SACK));
@@ -302,7 +345,7 @@ public class PickTest {
             drops.add(new ItemStack(Material.INK_SACK, 1, (short) 4));
             drops.add(new ItemStack(Material.INK_SACK, 1, (short) 4));
             drops.add(new ItemStack(Material.INK_SACK, 1, (short) 4));
-            doReturn(drops).when(block).getDrops(Mockito.anyObject());
+            doReturn(drops).when(block).getDrops(any());
 
             ItemStack dropped = Pick.getDrop(3, block, tool);
             assertTrue(dropped.getType().equals(Material.INK_SACK));

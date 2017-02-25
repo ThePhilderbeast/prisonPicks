@@ -1,6 +1,5 @@
 package com.philderbeast.prisonpicks;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import org.bukkit.Material;
@@ -17,33 +16,6 @@ public class Util {
         return randomNum;
     }
 
-    public static void deleteFolder(File folder) {
-        File[] files = folder.listFiles();
-        if (files != null) {
-            File[] arrfile = files;
-            int n = arrfile.length;
-            int n2 = 0;
-            while (n2 < n) {
-                File f = arrfile[n2];
-                if (f.isDirectory()) {
-                    Util.deleteFolder(f);
-                } else {
-                    f.delete();
-                }
-                ++n2;
-            }
-        }
-        folder.delete();
-    }
-
-    public static ItemStack createItemStack(Material type, int amt, String name) {
-        ItemStack stack = new ItemStack(type, amt);
-        ItemMeta im = stack.getItemMeta();
-        im.setDisplayName(name);
-        stack.setItemMeta(im);
-        return stack;
-    }
-
     public static /* varargs */ ItemStack createItemStack(Material type, int amt, String name, String ... lores) {
         ItemStack stack = new ItemStack(type, amt);
         ItemMeta im = stack.getItemMeta();
@@ -57,32 +29,6 @@ public class Util {
             lore.add(str);
             ++n2;
         }
-        im.setLore(lore);
-        stack.setItemMeta(im);
-        return stack;
-    }
-
-    public static /* varargs */ ItemStack createItemStack(ItemStack stack, String name, String ... lores) {
-        ItemMeta im = stack.getItemMeta();
-        im.setDisplayName(name);
-        ArrayList<String> lore = new ArrayList<String>();
-        String[] arrstring = lores;
-        int n = arrstring.length;
-        int n2 = 0;
-        while (n2 < n) {
-            String str = arrstring[n2];
-            lore.add(str);
-            ++n2;
-        }
-        im.setLore(lore);
-        stack.setItemMeta(im);
-        return stack;
-    }
-
-    public static ItemStack createItemStack(Material type, int amt, String name, ArrayList<String> lore) {
-        ItemStack stack = new ItemStack(type, amt);
-        ItemMeta im = stack.getItemMeta();
-        im.setDisplayName(name);
         im.setLore(lore);
         stack.setItemMeta(im);
         return stack;

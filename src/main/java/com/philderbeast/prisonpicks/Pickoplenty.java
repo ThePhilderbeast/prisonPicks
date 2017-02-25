@@ -67,8 +67,6 @@ public class Pickoplenty extends Pick{
                 event.setCancelled(true);
                 Map<String, Boolean> enchants = getEnchantments(item);
 
-                Priority p = Priority.getPriority(mat);
-
                 doDamage(enchants.get("unbreaking"), player);
                 doBreak(event.getBlock(), enchants, player, mat);
 

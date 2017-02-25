@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -128,7 +127,7 @@ public abstract class Pick{
     }
 
     public static ItemStack getDrop(int enchantmentLevel, Block block, ItemStack tool) {
-        boolean DEBUG = false;
+
         int min, max, startAmount;
         int multiple = 1;
         int amount;
@@ -190,16 +189,6 @@ public abstract class Pick{
                             break;
                         }
                     }
-                }
-
-                if (DEBUG) {
-                    System.out.println("---------------------------------------------------------------");
-                    System.out.println("Start Amount: " + startAmount);
-                    System.out.println("Roll: " + roll);
-                    System.out.println("Multiple: " + multiple);
-                    System.out.println("Chance Each: " + chanceEach);
-                    System.out.println("Drop Amount: " + amount);
-                    System.out.println("---------------------------------------------------------------");
                 }
             }
 

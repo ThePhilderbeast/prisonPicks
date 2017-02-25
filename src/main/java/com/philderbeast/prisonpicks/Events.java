@@ -5,11 +5,6 @@ import com.philderbeast.prisonpicks.PrisonPicks;
 import me.MnMaxon.AutoPickup.AutoBlock;
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 
-
-
-import me.MnMaxon.AutoPickup.AutoSmelt;
-
-
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
