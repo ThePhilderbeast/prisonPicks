@@ -84,12 +84,9 @@ public abstract class Pick{
                 } else {
                     blockStack = new ItemStack(material, 1, block.getData());
                 }
+
                 //they have silk touch so give them the block
-                if (Util.isSpaceAvailable(player, blockStack)) {
-                    player.getInventory().addItem(blockStack);
-                } else {
-                    noInventorySpace = true;
-                }
+                AutoPickupPlugin.giveItem(player, blockStack);
             } else {
                 if (material != null)
                 {
@@ -104,22 +101,13 @@ public abstract class Pick{
                     newItem = AutoSmelt.smelt(newItem).getNewItem();
                 }
 
-                if (Util.isSpaceAvailable(player, newItem)) {
-                    player.getInventory().addItem(newItem);
-                } else {
-                    noInventorySpace = true;
-                }
+                AutoPickupPlugin.giveItem(player, newItem);
 
                 int exp = Util.calculateExperienceForBlock(block);
                 player.giveExp(exp); //Give Player Experience
             }
             block.setType(Material.AIR);
             blockBroken = true;
-        }
-
-        if (noInventorySpace && !PrisonPicks.getInstance().getDisabledAlerts().contains(player.getName())) {
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            player.sendTitle(ChatColor.RED + "Inventory is Full!", ChatColor.GOLD + "/fullnotify to disable", 1, 15, 5);
         }
 
         return blockBroken;
