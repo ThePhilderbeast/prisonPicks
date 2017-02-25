@@ -150,21 +150,36 @@ public class PrisonPicks extends JavaPlugin {
     }
 
     public static WorldGuardPlugin getWorldGuard() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
-        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+        try
+        {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
+            if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+                return null;
+            }
+            return (WorldGuardPlugin)plugin;
+        }catch (NullPointerException e)
+        {
+            //THIS IS for unit testing
             return null;
         }
-        return (WorldGuardPlugin)plugin;
+
     }
 
     public static boolean canBuild(Location loc) {
-        ApplicableRegionSet set = PrisonPicks.getWorldGuard()
-                                       .getRegionManager(loc.getWorld())
-                                       .getApplicableRegions(loc);
-        if (set.allows(DefaultFlag.BLOCK_BREAK)) {
+        WorldGuardPlugin wg = PrisonPicks.getWorldGuard();
+        if(wg != null)
+        {
+            ApplicableRegionSet set = wg.getRegionManager(loc.getWorld())
+                                        .getApplicableRegions(loc);
+            if (set != null && set.allows(DefaultFlag.BLOCK_BREAK)) {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            //no world guard so we can break this
             return true;
         }
-        return false;
     }
 
     ArrayList<String> getDisabledAlerts() {

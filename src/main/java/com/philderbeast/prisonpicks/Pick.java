@@ -218,7 +218,7 @@ public abstract class Pick{
                 tool.setDurability((short) (tool.getDurability() + 1));
             }
         }
-        if (tool.getDurability() >tool.getType().getMaxDurability()) {
+        if (tool.getDurability() > tool.getType().getMaxDurability()) {
             //break the pick
            player.getInventory().remove(tool);
         }

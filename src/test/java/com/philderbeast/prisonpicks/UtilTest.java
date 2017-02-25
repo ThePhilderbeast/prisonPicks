@@ -6,14 +6,12 @@ import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.MockitoAnnotations;
-import org.bukkit.Material;
-  
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;  
 import org.bukkit.inventory.ItemStack; 
 import org.bukkit.inventory.PlayerInventory; 
-import org.bukkit.enchantments.Enchantment; 
-import org.bukkit.entity.Player; 
+import org.bukkit.entity.Player;
 
 import static org.mockito.Mockito.* ; 
 import static org.junit.Assert.* ;
@@ -26,11 +24,10 @@ public class UtilTest {
     @Mock Block block;
 
     @Spy Pick pick;
-
+    
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this); 
-        //default to fortue 0
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -44,13 +41,35 @@ public class UtilTest {
         }
     }
 
-    public void testisSpaceAvailable()
+    @Test
+    public void testisSpaceAvailabletrue()
+    {
+        PlayerInventory pi = mock(PlayerInventory.class);
+        doReturn(pi).when(player).getInventory();
+        ItemStack itemStack = new ItemStack(Material.EMERALD);
+        assertTrue(Util.isSpaceAvailable(player, itemStack));
+    }
+    
+    @Test
+    public void testisSpaceAvailablefalse()
     {
         Player player = spy(Player.class);
+        PlayerInventory pi = mock(PlayerInventory.class);
+        when(player.getInventory()).thenReturn(pi);
+        when(pi.getItem(anyInt())).thenReturn(new ItemStack(Material.GRASS));
+
         ItemStack itemStack = new ItemStack(Material.EMERALD);
-
-        assertTrue(Util.isSpaceAvailable(player, itemStack));
-
+        assertFalse(Util.isSpaceAvailable(player, itemStack));
     }
-
+    
+    //TODO: this test fails
+    //@Test
+    public void testCreatItemStack()
+    {
+        //TODO: look at what else we want to check here
+        ItemStack pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "name", "Explosive I");
+        assertTrue(pick.getType().equals(Material.DIAMOND_PICKAXE));
+        assertFalse(pick.getItemMeta().getLore().isEmpty());
+    }
+    
 }
