@@ -45,13 +45,10 @@ public class XPickoPlenty extends Pick{
             center.getWorld().playSound(center, Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1.0f, 1.0f);
 
             int radius = 2;
-
             int bX = center.getBlockX();
             int bY = center.getBlockY();
             int bZ = center.getBlockZ();
-
             int level = 0;
-
             int x = bX - radius;
 
             while (x < bX + radius) {
@@ -74,7 +71,6 @@ public class XPickoPlenty extends Pick{
                                 mat = block.getWorld().getBlockAt(block).getType();
                                 level = Priority.getPriority(mat).level;
                             }
-                            
                         }
                         ++z;
                     }

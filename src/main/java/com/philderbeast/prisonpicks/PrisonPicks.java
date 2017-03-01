@@ -3,6 +3,8 @@ package com.philderbeast.prisonpicks;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
+
+import java.io.File;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,11 +15,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
 public class PrisonPicks extends JavaPlugin {
 
     private static PrisonPicks instance;
+
+     /**
+     * This is for unit testing.
+     * @param loader The PluginLoader to use.
+     * @param description The Description file to use.
+     * @param dataFolder The folder that other datafiles can be found in.
+     * @param file The location of the plugin.
+     */
+    public PrisonPicks(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
+    }
 
     public void onEnable() {
         instance = this;
@@ -33,8 +48,9 @@ public class PrisonPicks extends JavaPlugin {
     }
 
     /**
-     * returns true if the command was successfull
+     * {@inheritDoc}
      **/
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (label.equalsIgnoreCase("pick")) {
@@ -129,20 +145,12 @@ public class PrisonPicks extends JavaPlugin {
         return false;
     }
 
-    public static WorldGuardPlugin getWorldGuard() {
-        try
-        {
-            Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
-            if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-                return null;
-            }
-            return (WorldGuardPlugin)plugin;
-        }catch (NullPointerException e)
-        {
-            //THIS IS for unit testing
+    private static WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
             return null;
         }
-
+        return (WorldGuardPlugin)plugin;
     }
 
     public static boolean canBuild(Location loc) {

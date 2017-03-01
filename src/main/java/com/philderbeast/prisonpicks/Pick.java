@@ -76,7 +76,6 @@ public abstract class Pick{
     public boolean doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
         boolean blockBroken = false;
-        boolean noInventorySpace = false;
         if (block.getType() != Material.BEDROCK
             && block.getType() != Material.AIR) {
             if (enchants.get(SILK_TOUCH)) {
