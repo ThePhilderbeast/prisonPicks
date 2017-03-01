@@ -5,26 +5,19 @@ import org.junit.runner.RunWith;
 import org.junit.Before; 
 
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.MockitoAnnotations;
 
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import org.bukkit.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFactory;
   
 import org.bukkit.inventory.ItemStack; 
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.PluginManager;
-
  
 import org.bukkit.entity.Player;
 
@@ -38,14 +31,10 @@ public class UtilTest {
     @Mock private Player player;
     @Mock private ItemFactory itemFactory;
     @Mock private ItemMeta itemMeta;
-
-    private Pick pick;
     
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
-        pick = spy(Pick.class);
 
         PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.getItemFactory()).thenReturn(itemFactory);
