@@ -5,13 +5,12 @@ import com.philderbeast.prisonpicks.PrisonPicks;
 import me.MnMaxon.AutoPickup.AutoBlock;
 import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
