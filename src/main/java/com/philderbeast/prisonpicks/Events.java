@@ -23,9 +23,9 @@ public class Events implements Listener {
 
     @SuppressWarnings("unused")
     private PrisonPicks plugin;
-    boolean aoepick = false;
+    private boolean aoepick = false;
 
-    Events(PrisonPicks plugin) {
+    public Events(PrisonPicks plugin) {
         this.plugin = plugin;
     }
 

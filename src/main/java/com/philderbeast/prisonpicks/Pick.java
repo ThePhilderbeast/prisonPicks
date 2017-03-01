@@ -43,7 +43,7 @@ public abstract class Pick{
         }
     }
 
-    public Map<String, Boolean> getEnchantments(ItemStack item)
+    protected Map<String, Boolean> getEnchantments(ItemStack item)
     {
 
         Map<String, Boolean> enchants = new HashMap<String, Boolean>();
@@ -69,7 +69,7 @@ public abstract class Pick{
         return enchants;
     }
 
-    public boolean doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
+    protected boolean doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
         boolean blockBroken = false;
         if (block.getType() != Material.BEDROCK
@@ -115,7 +115,7 @@ public abstract class Pick{
 
     }
 
-    public static ItemStack getDrop(int enchantmentLevel, Block block, ItemStack tool) {
+    protected static ItemStack getDrop(int enchantmentLevel, Block block, ItemStack tool) {
 
         int min, max, startAmount;
         int multiple = 1;
@@ -188,7 +188,7 @@ public abstract class Pick{
         return drop;
     }
 
-    public void doDamage(boolean unbreaking, Player player)
+    protected void doDamage(boolean unbreaking, Player player)
     {
         ItemStack tool = player.getInventory().getItemInMainHand();
 

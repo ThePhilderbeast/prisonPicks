@@ -8,15 +8,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class Util {
+class Util {
 
-    public static int randInt(int min, int max) {
+    static int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt(max - min + 1) + min;
         return randomNum;
     }
 
-    public static /* varargs */ ItemStack createItemStack(Material type, int amt, String name, String ... lores) {
+    static /* varargs */ ItemStack createItemStack(Material type, int amt, String name, String ... lores) {
         ItemStack stack = new ItemStack(type, amt);
         ItemMeta im = stack.getItemMeta();
         im.setDisplayName(name);
