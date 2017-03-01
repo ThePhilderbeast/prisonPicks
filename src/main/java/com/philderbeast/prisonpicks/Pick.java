@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Collection;
 
+import org.bukkit.Bukkit;
+
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -213,6 +216,21 @@ public abstract class Pick{
             System.out.println("-------------------------------------");
             //break the pick
            player.getInventory().remove(tool);
+
+           String pick="";
+
+           if (Xpick.isPick(tool))
+           {
+                pick = "Explosive Pick";
+           }else if(Pickoplenty.isPick(tool))
+           {
+               pick = "Pick 'o' Penty";
+           }else if(XPickoPlenty.isPick(tool))
+           {
+               pick = "Explosive Pick 'o' plenty";
+           }
+
+           Bukkit.broadcastMessage(player.getName() + " just broke there " + pick + " RIP");
         }
     }
 }
