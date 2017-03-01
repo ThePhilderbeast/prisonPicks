@@ -78,6 +78,7 @@ public abstract class Pick{
                 ItemStack blockStack;
                 if (material == null)
                 {
+                    //TODO: do we need this data call? if so can we find a better way
                     blockStack = new ItemStack(block.getType(), 1, block.getData());
                 } else {
                     blockStack = new ItemStack(material, 1, block.getData());

@@ -1,5 +1,6 @@
 package com.philderbeast.prisonpicks;
 
+import com.avaje.ebeaninternal.server.el.ElComparator;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
@@ -153,19 +154,13 @@ public class PrisonPicks extends JavaPlugin {
         return (WorldGuardPlugin)plugin;
     }
 
-    public static boolean canBuild(Location loc) {
+    public static boolean canBuild(Player player, Location location)
+    {
         WorldGuardPlugin wg = PrisonPicks.getWorldGuard();
         if(wg != null)
         {
-            ApplicableRegionSet set = wg.getRegionManager(loc.getWorld())
-                                        .getApplicableRegions(loc);
-            if (set != null && set.allows(DefaultFlag.BLOCK_BREAK)) {
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            //no world guard so we can break this
+            return wg.canBuild(player, location);
+        }else {
             return true;
         }
     }
