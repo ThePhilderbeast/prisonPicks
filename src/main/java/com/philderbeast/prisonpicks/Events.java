@@ -21,6 +21,7 @@ import org.bukkit.metadata.MetadataValue;
 
 public class Events implements Listener {
 
+    @SuppressWarnings("unused")
     private PrisonPicks plugin;
     boolean aoepick = false;
 

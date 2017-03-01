@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Location;
-import org.bukkit.Effect;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -37,7 +37,7 @@ public class Xpick extends Pick {
         {
             Location center = event.getBlock().getLocation();
 
-            center.getWorld().playEffect(center, Effect.EXPLOSION_LARGE, 1);
+            center.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center,  1);
             center.getWorld().playSound(center, Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1.0f, 1.0f);
 
             int radius = 2;

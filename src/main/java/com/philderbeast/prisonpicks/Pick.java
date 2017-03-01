@@ -7,11 +7,7 @@ import java.util.Collection;
 
 import org.bukkit.Bukkit;
 
-
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -88,6 +84,7 @@ public abstract class Pick{
                 }
 
                 //they have silk touch so give them the block
+                //TODO: make this a soft depend
                 AutoPickupPlugin.giveItem(player, blockStack);
             } else {
                 if (material != null)
@@ -99,6 +96,7 @@ public abstract class Pick{
                 int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 ItemStack newItem = getDrop(fortune, block, item);
 
+                //TODO: make this a soft depend
                 if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
                     newItem = AutoSmelt.smelt(newItem).getNewItem();
                 }
