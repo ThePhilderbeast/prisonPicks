@@ -15,7 +15,7 @@ public class Pickoplenty extends Pick{
 
     public static boolean isPick(ItemStack item)
     {
-        if(Pick.isPick(item) && item.getItemMeta().getLore().contains((Object)ChatColor.LIGHT_PURPLE + "Pick o'Plenty"))
+        if(Pick.isPick(item) && item.getItemMeta().getLore().contains(ChatColor.LIGHT_PURPLE + "Pick o'Plenty"))
         {
             return true;
         }else {
@@ -31,7 +31,9 @@ public class Pickoplenty extends Pick{
         ItemStack item = player.getInventory().getItemInMainHand();
         Block block = event.getBlock();
 
-        if (!block.hasMetadata("blockBreaker") && PrisonPicks.getWorldGuard().canBuild(player, block)) {
+        if (!block.hasMetadata("blockBreaker") 
+            && PrisonPicks.canBuild(block.getLocation())) 
+        {
             Location center = event.getBlock().getLocation();
             int radius = 2;
             int bX = center.getBlockX();
@@ -63,18 +65,22 @@ public class Pickoplenty extends Pick{
                 }
                 ++x;
             }
-            if (mat != block.getType() && level > 0) {
-                event.setCancelled(true);
+            if (!block.hasMetadata("blockBreaker")) {
                 Map<String, Boolean> enchants = getEnchantments(item);
 
                 doDamage(enchants.get("unbreaking"), player);
                 doBreak(event.getBlock(), enchants, player, mat);
 
                 block.setType(Material.AIR);
+            }else
+            {
+                Map<String, Boolean> enchants = getEnchantments(item);
+
+                doDamage(enchants.get("unbreaking"), player);
+                doBreak(event.getBlock(), enchants, player, null);
+                block.removeMetadata("blockBreaker", (Plugin)PrisonPicks.getInstance());
+                block.setType(Material.AIR);
             }
-        }
-        if (block.hasMetadata("blockBreaker")) {
-            block.removeMetadata("blockBreaker", (Plugin)PrisonPicks.getInstance());
         }
     }
 }

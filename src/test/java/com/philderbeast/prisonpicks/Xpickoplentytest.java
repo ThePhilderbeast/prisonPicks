@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Bukkit.class)
-public class XpickTest {
+public class Xpickoplentytest {
 
     @Mock World world;
     @Mock PlayerInventory inventory;
@@ -83,15 +83,15 @@ public class XpickTest {
         doReturn(itemMeta).when(tool).getItemMeta();
         //this is the wrong lore
         ArrayList<String> lore = new ArrayList<String>();
-        lore.add(ChatColor.GREEN + "Explosive I");
+        lore.add(ChatColor.GREEN + "Explosive Pick o'Plenty");
         doReturn(lore).when(itemMeta).getLore();
-        assertFalse(Xpick.isPick(tool));
+        assertFalse(XPickoPlenty.isPick(tool));
  
         //this should work with the correct lore
         lore.clear();
-        lore.add(ChatColor.GOLD + "Explosive I");
+        lore.add(ChatColor.GOLD + "Explosive" +  ChatColor.LIGHT_PURPLE + " Pick o'Plenty");
         doReturn(lore).when(itemMeta).getLore();
-        assertTrue(Xpick.isPick(tool));
+        assertTrue(XPickoPlenty.isPick(tool));
     }
 
 
@@ -99,7 +99,7 @@ public class XpickTest {
     public void testBreakBlock()
     {
         BlockBreakEvent bbe = new BlockBreakEvent(block, player);
-        Xpick xpick = new Xpick();
+        XPickoPlenty xpick = new XPickoPlenty();
         
         xpick.breakBlock(bbe);
         verify(block, atLeastOnce()).setType(Material.AIR);

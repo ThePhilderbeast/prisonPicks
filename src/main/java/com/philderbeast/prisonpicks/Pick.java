@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Collection;
 
+import org.bukkit.Bukkit;
+
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -73,7 +76,6 @@ public abstract class Pick{
     public boolean doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
         boolean blockBroken = false;
-        boolean noInventorySpace = false;
         if (block.getType() != Material.BEDROCK
             && block.getType() != Material.AIR) {
             if (enchants.get(SILK_TOUCH)) {
@@ -84,12 +86,9 @@ public abstract class Pick{
                 } else {
                     blockStack = new ItemStack(material, 1, block.getData());
                 }
+
                 //they have silk touch so give them the block
-                if (Util.isSpaceAvailable(player, blockStack)) {
-                    player.getInventory().addItem(blockStack);
-                } else {
-                    noInventorySpace = true;
-                }
+                AutoPickupPlugin.giveItem(player, blockStack);
             } else {
                 if (material != null)
                 {
@@ -104,22 +103,13 @@ public abstract class Pick{
                     newItem = AutoSmelt.smelt(newItem).getNewItem();
                 }
 
-                if (Util.isSpaceAvailable(player, newItem)) {
-                    player.getInventory().addItem(newItem);
-                } else {
-                    noInventorySpace = true;
-                }
+                AutoPickupPlugin.giveItem(player, newItem);
 
                 int exp = Util.calculateExperienceForBlock(block);
                 player.giveExp(exp); //Give Player Experience
             }
             block.setType(Material.AIR);
             blockBroken = true;
-        }
-
-        if (noInventorySpace && !PrisonPicks.getInstance().getDisabledAlerts().contains(player.getName())) {
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            player.sendTitle(ChatColor.RED + "Inventory is Full!", ChatColor.GOLD + "/fullnotify to disable", 1, 15, 5);
         }
 
         return blockBroken;
@@ -217,14 +207,31 @@ public abstract class Pick{
             }
         }
         if (tool.getDurability() > tool.getType().getMaxDurability()) {
+            String pick="";
+
+            if (Xpick.isPick(tool))
+            {
+                pick = "Explosive Pick";
+            }else if(Pickoplenty.isPick(tool))
+            {
+                pick = "Pick 'o' Penty";
+            }else if(XPickoPlenty.isPick(tool))
+            {
+                pick = "Explosive Pick 'o' plenty";
+            }
+
+            Bukkit.broadcastMessage(player.getName() + " just broke there " + pick + " RIP");
+
             System.out.println("-------------------------------------");
             System.out.println("Player: " + player.getName());
             System.out.println("UUID: " + player.getUniqueId());
+            System.out.println("Pick type: " + pick);
             System.out.println("Pick Current Durability: " + tool.getDurability());
             System.out.println("Pick Max Durability: " + tool.getType().getMaxDurability());
             System.out.println("-------------------------------------");
             //break the pick
-           player.getInventory().remove(tool);
+            player.getInventory().remove(tool);
+
         }
     }
 }

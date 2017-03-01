@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Bukkit.class)
-public class XpickTest {
+public class PickoplentyTest {
 
     @Mock World world;
     @Mock PlayerInventory inventory;
@@ -70,6 +70,9 @@ public class XpickTest {
         //itemmeta stubbs
         doReturn(true).when(itemMeta).hasLore();
 
+        //Block Stubs
+        when(block.hasMetadata(anyString())).thenReturn(false);
+
         //bukkit Stub
         PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.getPluginManager()).thenReturn(pluginManager);
@@ -83,25 +86,24 @@ public class XpickTest {
         doReturn(itemMeta).when(tool).getItemMeta();
         //this is the wrong lore
         ArrayList<String> lore = new ArrayList<String>();
-        lore.add(ChatColor.GREEN + "Explosive I");
+        lore.add(ChatColor.GREEN + "Pick o'Plenty");
         doReturn(lore).when(itemMeta).getLore();
-        assertFalse(Xpick.isPick(tool));
+        assertFalse(Pickoplenty.isPick(tool));
  
         //this should work with the correct lore
         lore.clear();
-        lore.add(ChatColor.GOLD + "Explosive I");
+        lore.add(ChatColor.LIGHT_PURPLE + "Pick o'Plenty");
         doReturn(lore).when(itemMeta).getLore();
-        assertTrue(Xpick.isPick(tool));
+        assertTrue(Pickoplenty.isPick(tool));
     }
-
 
     @Test
     public void testBreakBlock()
     {
         BlockBreakEvent bbe = new BlockBreakEvent(block, player);
-        Xpick xpick = new Xpick();
+        Pickoplenty pickoplenty = new Pickoplenty();
         
-        xpick.breakBlock(bbe);
+        pickoplenty.breakBlock(bbe);
         verify(block, atLeastOnce()).setType(Material.AIR);
     }
 }

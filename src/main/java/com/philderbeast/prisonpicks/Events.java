@@ -59,6 +59,7 @@ public class Events implements Listener {
             xpop.breakBlock(event);
         }
 
+        //TODO: this should look to see if the plugin exsists
         if(AutoPickupPlugin.autoBlock.contains(player.getName()))
         {
             AutoBlock.block(player, false);
@@ -75,17 +76,14 @@ public class Events implements Listener {
         //are they using one of our picks
         if ((event.getAction() == Action.RIGHT_CLICK_AIR 
             || event.getAction() == Action.RIGHT_CLICK_BLOCK) 
-            && item != null && item.getType() == Material.DIAMOND_PICKAXE 
-            && item.hasItemMeta() 
-            && item.getItemMeta().hasLore()
-            && (item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive I")
-            || item.getItemMeta().getLore().contains(ChatColor.LIGHT_PURPLE + "Pick o'Plenty")
-            || item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive" + ChatColor.LIGHT_PURPLE + " Pick o'Plenty"))
+            && Xpick.isPick(item)
+            || Pickoplenty.isPick(item)
+            || XPickoPlenty.isPick(item)
             && item.getDurability() > 0)
         {
-            if (item.getItemMeta().getLore().contains(ChatColor.LIGHT_PURPLE + "Pick o'Plenty")) {
+            if (Pickoplenty.isPick(item)) {
                 player.sendMessage(ChatColor.LIGHT_PURPLE + "[Pickaxe Repaired]");
-            } else if (item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive" + ChatColor.LIGHT_PURPLE + " Pick o'Plenty")) {
+            } else if (XPickoPlenty.isPick(item)) {
                 player.sendMessage(ChatColor.AQUA + "[Pickaxe Repaired]");
             } else {
                 player.sendMessage(ChatColor.GOLD + "[Pickaxe Repaired]");
