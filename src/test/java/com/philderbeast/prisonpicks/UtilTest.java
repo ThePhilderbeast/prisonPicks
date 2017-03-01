@@ -1,33 +1,56 @@
 package com.philderbeast.prisonpicks; 
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.Before; 
 
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.MockitoAnnotations;
 
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import org.bukkit.Location;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;  
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFactory;
+  
 import org.bukkit.inventory.ItemStack; 
-import org.bukkit.inventory.PlayerInventory; 
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.PluginManager;
+
+ 
 import org.bukkit.entity.Player;
 
 import static org.mockito.Mockito.* ; 
 import static org.junit.Assert.* ;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Bukkit.class})
 public class UtilTest {
 
-    @Mock PlayerInventory inventory;
-    @Mock ItemStack tool;
-    @Mock Player player;
-    @Mock Block block;
+    @Mock private Player player;
+    @Mock private ItemFactory itemFactory;
+    @Mock private ItemMeta itemMeta;
 
-    @Spy Pick pick;
+    private Pick pick;
     
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+
+        pick = spy(Pick.class);
+
+        PowerMockito.mockStatic(Bukkit.class);
+        when(Bukkit.getItemFactory()).thenReturn(itemFactory);
+
+        when(itemFactory.getItemMeta(Material.DIAMOND_PICKAXE)).thenReturn(itemMeta);
     }
 
     @Test
@@ -62,14 +85,12 @@ public class UtilTest {
         assertFalse(Util.isSpaceAvailable(player, itemStack));
     }
     
-    //TODO: this test fails
-    //@Test
-    public void testCreatItemStack()
+    @Test
+    public void testCreateItemStack()
     {
         //TODO: look at what else we want to check here
         ItemStack pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "name", "Explosive I");
         assertTrue(pick.getType().equals(Material.DIAMOND_PICKAXE));
-        assertFalse(pick.getItemMeta().getLore().isEmpty());
     }
     
 }

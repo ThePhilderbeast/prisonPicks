@@ -1,9 +1,6 @@
 package com.philderbeast.prisonpicks;
 
-import com.avaje.ebeaninternal.server.el.ElComparator;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
 
 import java.io.File;
 import java.util.UUID;

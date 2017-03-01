@@ -70,7 +70,6 @@ public class PrisonPicksTest {
         pp = PowerMockito.spy(new PrisonPicks(mockPluginLoader, pdf, pluginDirectory, new File(pluginDirectory, "testPluginFile")));
 
         // MOCKS BELOW HERE
-
         when(player.getUniqueId()).thenReturn(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3"));
         when(player.getInventory()).thenReturn(playerInventory);
 
