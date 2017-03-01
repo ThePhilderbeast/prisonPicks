@@ -208,29 +208,31 @@ public abstract class Pick{
             }
         }
         if (tool.getDurability() > tool.getType().getMaxDurability()) {
+            String pick="";
+
+            if (Xpick.isPick(tool))
+            {
+                pick = "Explosive Pick";
+            }else if(Pickoplenty.isPick(tool))
+            {
+                pick = "Pick 'o' Penty";
+            }else if(XPickoPlenty.isPick(tool))
+            {
+                pick = "Explosive Pick 'o' plenty";
+            }
+
+            Bukkit.broadcastMessage(player.getName() + " just broke there " + pick + " RIP");
+
             System.out.println("-------------------------------------");
             System.out.println("Player: " + player.getName());
             System.out.println("UUID: " + player.getUniqueId());
+            System.out.println("Pick type: " + pick);
             System.out.println("Pick Current Durability: " + tool.getDurability());
             System.out.println("Pick Max Durability: " + tool.getType().getMaxDurability());
             System.out.println("-------------------------------------");
             //break the pick
-           player.getInventory().remove(tool);
+            player.getInventory().remove(tool);
 
-           String pick="";
-
-           if (Xpick.isPick(tool))
-           {
-                pick = "Explosive Pick";
-           }else if(Pickoplenty.isPick(tool))
-           {
-               pick = "Pick 'o' Penty";
-           }else if(XPickoPlenty.isPick(tool))
-           {
-               pick = "Explosive Pick 'o' plenty";
-           }
-
-           Bukkit.broadcastMessage(player.getName() + " just broke there " + pick + " RIP");
         }
     }
 }

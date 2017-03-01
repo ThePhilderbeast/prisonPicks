@@ -7,6 +7,8 @@ import java.util.Collection;
 
 import org.junit.Before; 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
 
 
 import org.mockito.MockitoAnnotations;
@@ -16,17 +18,23 @@ import org.mockito.Mock;
 
 import org.bukkit.block.Block; 
 import org.bukkit.Material;
- 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack; 
 import org.bukkit.inventory.PlayerInventory; 
 import org.bukkit.inventory.meta.ItemMeta; 
 import org.bukkit.enchantments.Enchantment; 
 import org.bukkit.entity.Player; 
 
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
 import static org.mockito.Mockito.* ; 
 
 import static org.junit.Assert.* ; 
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Bukkit.class)
 public class PickTest {
 
     @Mock PlayerInventory inventory;
@@ -34,7 +42,7 @@ public class PickTest {
     @Mock Player player;
     @Mock Block block;
 
-    @Spy Pick pick;
+    @Spy Pick pick = new Xpick();
 
     @Before
     public void setUp() {
@@ -43,6 +51,10 @@ public class PickTest {
         doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS); 
         doReturn(tool).when(inventory).getItemInMainHand(); 
         doReturn(inventory).when(player).getInventory(); 
+
+        //bukkit Stub
+        PowerMockito.mockStatic(Bukkit.class);
+        when(Bukkit.broadcastMessage(any())).thenReturn(1);
     }
 
     @Test

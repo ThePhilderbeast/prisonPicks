@@ -30,8 +30,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest(Bukkit.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Bukkit.class)
 public class XpickTest {
 
     @Mock World world;
@@ -71,8 +71,8 @@ public class XpickTest {
         doReturn(true).when(itemMeta).hasLore();
 
         //bukkit Stub
-        //PowerMockito.mockStatic(Bukkit.class);
-        //when(Bukkit.getPluginManager()).thenReturn(pluginManager);
+        PowerMockito.mockStatic(Bukkit.class);
+        when(Bukkit.getPluginManager()).thenReturn(pluginManager);
     }
 
     @Test
@@ -95,13 +95,13 @@ public class XpickTest {
     }
 
 
-    //@Test
+    @Test
     public void testBreakBlock()
     {
         BlockBreakEvent bbe = new BlockBreakEvent(block, player);
         Xpick xpick = new Xpick();
         
         xpick.breakBlock(bbe);
-        verify(block).setType(Material.AIR);
+        verify(block, atLeastOnce()).setType(Material.AIR);
     }
 }
