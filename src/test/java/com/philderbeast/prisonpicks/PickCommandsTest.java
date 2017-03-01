@@ -35,7 +35,7 @@ import static org.junit.Assert.* ;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Bukkit.class, JavaPluginLoader.class, PluginDescriptionFile.class})
-public class PrisonPicksTest {
+public class PickCommandsTest {
 
     @Mock private Player player;
     @Mock private CommandSender commandSender;
@@ -45,7 +45,7 @@ public class PrisonPicksTest {
     @Mock private ItemMeta itemMeta;
     @Mock private PlayerInventory playerInventory;
     
-    private PrisonPicks pp;
+    private PickCommands pickCommands;
 
     public static final File pluginDirectory = new File("build/libs");
 
@@ -66,8 +66,7 @@ public class PrisonPicksTest {
                 "com.philderbeast.prisonpicks.PrisonPicks"));
         when(pdf.getAuthors()).thenReturn(new ArrayList<String>());
 
-        //add my plugin object
-        pp = PowerMockito.spy(new PrisonPicks(mockPluginLoader, pdf, pluginDirectory, new File(pluginDirectory, "testPluginFile")));
+        pickCommands = new PickCommands();
 
         // MOCKS BELOW HERE
         when(player.getUniqueId()).thenReturn(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3"));
@@ -84,7 +83,7 @@ public class PrisonPicksTest {
     @Test
     public void commandHelpTest()
     {
-        assertFalse(pp.onCommand(commandSender, null, "pick", new String[0]));
+        assertFalse(pickCommands.onCommand(commandSender, null, "pick", new String[0]));
     }
 
     @Test
@@ -97,7 +96,7 @@ public class PrisonPicksTest {
         args[0] = "explosive";
         args[1] = "Philderbeast";
 
-        assertTrue(pp.onCommand(player, null, "pick", args));
+        assertTrue(pickCommands.onCommand(player, null, "pick", args));
     }
 
     @Test
@@ -110,7 +109,7 @@ public class PrisonPicksTest {
         args[0] = "pickoplenty";
         args[1] = "Philderbeast";
 
-        assertTrue(pp.onCommand(player, null, "pick", args));
+        assertTrue(pickCommands.onCommand(player, null, "pick", args));
     }
 
     @Test
@@ -123,7 +122,7 @@ public class PrisonPicksTest {
         args[0] = "xpickoplenty";
         args[1] = "Philderbeast";
 
-        assertTrue(pp.onCommand(player, null, "pick", args));
+        assertTrue(pickCommands.onCommand(player, null, "pick", args));
     }
 
     @Test
@@ -136,7 +135,7 @@ public class PrisonPicksTest {
         args[0] = "fakexpickoplenty";
         args[1] = "Philderbeast";
 
-        assertTrue(pp.onCommand(player, null, "pick", args));
+        assertTrue(pickCommands.onCommand(player, null, "pick", args));
     }
 
 }

@@ -19,7 +19,9 @@ import org.bukkit.Material;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack; 
 import org.bukkit.inventory.PlayerInventory; 
-import org.bukkit.inventory.meta.ItemMeta; 
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.PluginManager;
+ 
 import org.bukkit.enchantments.Enchantment; 
 import org.bukkit.entity.Player; 
 
@@ -35,12 +37,13 @@ import static org.junit.Assert.* ;
 @PrepareForTest(Bukkit.class)
 public class PickTest {
 
+    @Mock PluginManager pluginManager;
     @Mock PlayerInventory inventory;
     @Mock ItemStack tool;
     @Mock Player player;
     @Mock Block block;
 
-    @Spy Pick pick = new Xpick();
+    Pick pick;
 
     @Before
     public void setUp() {
@@ -50,9 +53,12 @@ public class PickTest {
         doReturn(tool).when(inventory).getItemInMainHand(); 
         doReturn(inventory).when(player).getInventory(); 
 
+        pick = spy(Xpick.class);
+
         //bukkit Stub
         PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.broadcastMessage(any())).thenReturn(1);
+        when(Bukkit.getPluginManager()).thenReturn(pluginManager);
     }
 
     @Test

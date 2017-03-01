@@ -16,7 +16,8 @@ repositories {
 
 jar {
         eachFile { copyDetails ->
-        if (copyDetails.path == 'plugin.yml') {
+        if (copyDetails.path == 'plugin.yml'
+            || copyDetails.path == 'PrisonPicksTest.java' ) {
             filter { line ->
                 line.replace('{{version}}', "$version")
             }

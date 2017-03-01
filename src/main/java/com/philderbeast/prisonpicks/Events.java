@@ -25,6 +25,11 @@ public class Events implements Listener {
     private PrisonPicks plugin;
     private boolean aoepick = false;
 
+
+    public Events()
+    {
+    }
+
     public Events(PrisonPicks plugin) {
         this.plugin = plugin;
     }
@@ -60,7 +65,8 @@ public class Events implements Listener {
         }
 
         //TODO: this should look to see if the plugin exsists
-        if(AutoPickupPlugin.autoBlock.contains(player.getName()))
+        if (PrisonPicks.getAutoPickup() != null
+            && AutoPickupPlugin.autoBlock.contains(player.getName()))
         {
             AutoBlock.block(player, false);
         }

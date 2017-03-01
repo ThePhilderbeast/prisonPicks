@@ -86,7 +86,14 @@ public abstract class Pick{
 
                 //they have silk touch so give them the block
                 //TODO: make this a soft depend
-                AutoPickupPlugin.giveItem(player, blockStack);
+                if (PrisonPicks.getAutoPickup() != null)
+                {
+                    AutoPickupPlugin.giveItem(player, blockStack);
+                }else
+                {
+                    player.getInventory().addItem(blockStack);
+                }
+
             } else {
                 if (material != null)
                 {
@@ -97,12 +104,15 @@ public abstract class Pick{
                 int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 ItemStack newItem = getDrop(fortune, block, item);
 
-                //TODO: make this a soft depend
-                if (AutoPickupPlugin.autoSmelt.contains(player.getName())) {
+                if (PrisonPicks.getAutoPickup() != null
+                    && AutoPickupPlugin.autoSmelt.contains(player.getName()))
+                {
                     newItem = AutoSmelt.smelt(newItem).getNewItem();
+                    AutoPickupPlugin.giveItem(player, newItem);
+                }else if (Util.isSpaceAvailable(player, newItem))
+                {
+                    player.getInventory().addItem(newItem);
                 }
-
-                AutoPickupPlugin.giveItem(player, newItem);
 
                 int exp = Util.calculateExperienceForBlock(block);
                 player.giveExp(exp); //Give Player Experience
@@ -110,9 +120,7 @@ public abstract class Pick{
             block.setType(Material.AIR);
             blockBroken = true;
         }
-
         return blockBroken;
-
     }
 
     protected static ItemStack getDrop(int enchantmentLevel, Block block, ItemStack tool) {

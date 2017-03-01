@@ -57,21 +57,6 @@ public class EventTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        // Initialize the Mock server.
-        JavaPluginLoader mockPluginLoader = new JavaPluginLoader(mockServer);
-        Whitebox.setInternalState(mockPluginLoader, "server", mockServer);
-        when(mockServer.getName()).thenReturn("TestBukkit");
-        Logger.getLogger("Minecraft").setParent(TestUtil.logger);
-        when(mockServer.getLogger()).thenReturn(TestUtil.logger);
-
-         // Return a fake PDF file.
-        PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("PrisonPicks", "1.3.4-Test",
-                "com.philderbeast.prisonpicks.PrisonPicks"));
-        when(pdf.getAuthors()).thenReturn(new ArrayList<String>());
-
-        //add my plugin object
-        pp = PowerMockito.spy(new PrisonPicks(mockPluginLoader, pdf, pluginDirectory, new File(pluginDirectory, "testPluginFile")));
-
         //Tool Stubbs
         doReturn(0).when(tool).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
         doReturn(Material.DIAMOND_PICKAXE).when(tool).getType();
@@ -89,15 +74,14 @@ public class EventTest {
         lore = new ArrayList<String>();
         lore.add(ChatColor.GOLD + "Explosive I");
         doReturn(lore).when(itemMeta).getLore();
-         doReturn(true).when(itemMeta).hasLore();
-
+        doReturn(true).when(itemMeta).hasLore();
     }
 
     @Test
     public void repairTest()
     {
         PlayerInteractEvent pie = new PlayerInteractEvent(player, Action.RIGHT_CLICK_AIR , tool, null, null);
-        Events e = new Events(pp);
+        Events e = new Events();
         e.onPlayerInteract(pie);
         verify(tool).setDurability((short) 0 );
     }

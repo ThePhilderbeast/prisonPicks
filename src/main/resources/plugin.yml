@@ -3,9 +3,8 @@ main: com.philderbeast.prisonpicks.PrisonPicks
 version: {{version}}
 description: PrisonPicks Pickaxes Plugin
 author: Philderbeast
-depends: ['WorldGuard',
-          'AutoPickup'
-        ]
+softdepend: ['WorldGuard',
+              'AutoPickup']
 commands:
   pick:
     description: Main Command
