@@ -27,7 +27,7 @@ public class Pickoplenty extends Pick{
         Block block = event.getBlock();
 
         if (!block.hasMetadata("blockBreaker") 
-            && PrisonPicks.canBuild(player, block.getLocation())) 
+            && PrisonPicks.canBuild(player, block.getLocation()))
         {
             Location center = event.getBlock().getLocation();
             int radius = 2;

@@ -25,7 +25,7 @@ public class Xpick extends Pick {
     public void breakBlock(BlockBreakEvent event)
     {
         Player player = event.getPlayer();
-        ArrayList<Location> locations = new  ArrayList<Location>();
+        ArrayList<Location> locations = new  ArrayList<>();
         ItemStack item = player.getInventory().getItemInMainHand();
 
         if (PrisonPicks.canBuild(player, event.getBlock().getLocation()))
@@ -53,7 +53,7 @@ public class Xpick extends Pick {
                         double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
                         Location block = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                         if (distance < (double)(radius * radius) 
-                                && PrisonPicks.canBuild(player, block) 
+                                && PrisonPicks.canBuild(player, block)
                                 && (!block.equals(centerloc))
                                 && (block.getBlock().getType() != Material.BEDROCK)
                                 && (block.getBlock().getType() != Material.AIR)) {
