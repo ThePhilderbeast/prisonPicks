@@ -227,7 +227,7 @@ public abstract class Pick{
                 pick = "Explosive Pick 'o' plenty";
             }
 
-            Bukkit.broadcastMessage(player.getName() + " just broke there " + pick + " RIP");
+            Bukkit.broadcastMessage(ChatColor.DARK_RED + player.getName() + " just broke their " + pick + " while mining... Press 'F' to pay respects.");
 
             System.out.println("-------------------------------------");
             System.out.println("Player: " + player.getName());

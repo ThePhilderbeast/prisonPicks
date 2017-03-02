@@ -22,13 +22,8 @@ public class XPickoPlenty extends Pick{
 
     public static boolean isPick(ItemStack item)
     {
-        if(Pick.isPick(item) 
-            && item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive" +  ChatColor.LIGHT_PURPLE + " Pick o'Plenty"))
-        {
-            return true;
-        }else {
-            return false;
-        }
+        return (Pick.isPick(item)
+            && item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive" +  ChatColor.LIGHT_PURPLE + " Pick o'Plenty"));
     }
 
     public void breakBlock(BlockBreakEvent event)
