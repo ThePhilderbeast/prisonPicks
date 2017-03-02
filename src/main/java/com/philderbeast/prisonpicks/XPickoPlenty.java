@@ -29,7 +29,7 @@ public class XPickoPlenty extends Pick{
     public void breakBlock(BlockBreakEvent event)
     {
         Player player = event.getPlayer();
-        ArrayList<Location> locations = new  ArrayList<Location>();
+        ArrayList<Location> locations = new  ArrayList<>();
         ItemStack item = player.getInventory().getItemInMainHand();
 
         if (PrisonPicks.canBuild(player, event.getBlock().getLocation()))
