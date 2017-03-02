@@ -15,20 +15,24 @@ import org.bukkit.inventory.ItemStack;
 
 public class PickCommands implements CommandExecutor
 {
-
-
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
+    {
         Player player;
-        if (label.equalsIgnoreCase("pick")) {
-            if (sender instanceof Player && !(sender).hasPermission("picks.explosive")
-                    && !(player = (Player)sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))  {
+        if (label.equalsIgnoreCase("pick")) 
+        {
+            if (sender instanceof Player 
+                && !(sender).hasPermission("picks.explosive")
+                && !(player = (Player)sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))  
+            {
                 player.sendMessage(ChatColor.RED + "Permission Denied!");
                 return false;
             }
 
-            if (args.length == 2) {
+            if (args.length == 2) 
+            {
                 Player receiver = Bukkit.getPlayer((String)args[1]);
-                if (receiver != null) {
+                if (receiver != null) 
+                {
                     ItemStack pick;
                     switch (args[0])
                     {
@@ -99,11 +103,13 @@ public class PickCommands implements CommandExecutor
                             sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
                         break;
                     }
-                } else {
+                } else 
+                {
                     sender.sendMessage(ChatColor.RED + "Could not find player '" + args[1] + "'");
                     sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
                 }
-            } else {
+            } else 
+            {
                 sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
             }
         }
