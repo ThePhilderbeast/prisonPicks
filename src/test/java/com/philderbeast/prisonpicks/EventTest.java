@@ -7,10 +7,8 @@ import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,7 +21,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -32,7 +29,6 @@ import static org.mockito.Mockito.* ;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PluginDescriptionFile.class)
@@ -49,7 +45,6 @@ public class EventTest {
     @Mock private ItemStack tool;
     
     private ArrayList<String> lore;
-    private PrisonPicks pp;
 
     public static final File pluginDirectory = new File("build/libs");
 

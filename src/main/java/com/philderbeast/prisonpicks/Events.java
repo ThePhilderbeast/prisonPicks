@@ -81,10 +81,10 @@ public class Events implements Listener {
 
         //are they using one of our picks
         if ((event.getAction() == Action.RIGHT_CLICK_AIR 
-            || event.getAction() == Action.RIGHT_CLICK_BLOCK) 
-            && Xpick.isPick(item)
-            || Pickoplenty.isPick(item)
-            || XPickoPlenty.isPick(item)
+                || event.getAction() == Action.RIGHT_CLICK_BLOCK) 
+            && (Xpick.isPick(item)
+                || Pickoplenty.isPick(item)
+                || XPickoPlenty.isPick(item))
             && item.getDurability() > 0)
         {
             if (Pickoplenty.isPick(item)) {
