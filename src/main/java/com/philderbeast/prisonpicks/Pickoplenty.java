@@ -27,7 +27,7 @@ public class Pickoplenty extends Pick{
         Block block = event.getBlock();
 
         if (!block.hasMetadata("blockBreaker") 
-            && PrisonPicks.canBuild(player, block.getLocation()))
+            && Util.canBuild(player, block.getLocation()))
         {
             Location center = event.getBlock().getLocation();
             int radius = 2;
@@ -45,7 +45,7 @@ public class Pickoplenty extends Pick{
                         Location check = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                         double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
                         if (distance < (double)(radius * radius) 
-                            && PrisonPicks.canBuild(player, check)
+                            && Util.canBuild(player, check)
                             && (check.getBlock().getType() != Material.BEDROCK)
                             && (check.getBlock().getType() != Material.AIR)
                             && (!check.getBlock().hasMetadata("blockBreaker"))

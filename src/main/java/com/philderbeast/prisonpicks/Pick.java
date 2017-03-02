@@ -88,7 +88,7 @@ public abstract class Pick{
 
                 //they have silk touch so give them the block
                 //TODO: make this a soft depend
-                if (PrisonPicks.getAutoPickup() != null)
+                if (Util.getAutoPickup() != null)
                 {
                     AutoPickupPlugin.giveItem(player, blockStack);
                 }else
@@ -106,7 +106,7 @@ public abstract class Pick{
                 int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 ItemStack newItem = getDrop(fortune, block, item);
 
-                if (PrisonPicks.getAutoPickup() != null
+                if (Util.getAutoPickup() != null
                     && AutoPickupPlugin.autoSmelt.contains(player.getName()))
                 {
                     newItem = AutoSmelt.smelt(newItem).getNewItem();

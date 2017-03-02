@@ -65,7 +65,7 @@ public class Events implements Listener {
         }
 
         //TODO: this should look to see if the plugin exsists
-        if (PrisonPicks.getAutoPickup() != null
+        if (Util.getAutoPickup() != null
             && AutoPickupPlugin.autoBlock.contains(player.getName()))
         {
             AutoBlock.block(player, false);

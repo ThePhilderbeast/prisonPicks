@@ -2,11 +2,22 @@ package com.philderbeast.prisonpicks;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
+
+import com.sk89q.worldguard.bukkit.BukkitUtil;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+
+import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 
 class Util {
 
@@ -77,5 +88,37 @@ class Util {
 
         return min + (int)(Math.random() * ((max - min) + 1));
     }
+
+    static WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            return null;
+        }
+        return (WorldGuardPlugin)plugin;
+    }
+
+    static boolean canBuild(Player player, Location location)
+    {
+        WorldGuardPlugin wg = getWorldGuard();
+        if(wg != null)
+        {
+            World world = location.getWorld();
+            ApplicableRegionSet regions = wg.getRegionManager(world).getApplicableRegions(BukkitUtil.toVector(location));
+
+            return wg.canBuild(player, location) && regions.testState(null,  Config.prisonPickFlag);
+        } else {
+            return true;
+        }
+    }
+
+    static AutoPickupPlugin getAutoPickup()
+    {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("AutoPickup");
+        if (plugin == null || !(plugin instanceof AutoPickupPlugin)) {
+            return null;
+        }
+        return (AutoPickupPlugin)plugin;
+    }
+
 }
 
