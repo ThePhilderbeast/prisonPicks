@@ -2,8 +2,9 @@
 
 ## Code Style
 
-{}'s should all be on there own line
+The Styleguide for this repository can be found [here](https://github.com/ThePhilderbeast/Java-Styleguide/blob/master/styleguide.md)
 
-when using If statements with a number of conditions && conditions should be on a new line || conditions should remain on the same line
+## Unit tests
+All exsisting unit tests must pass on travis before a pull request will be accepeted
 
-all if/for etc blocks should be eclosed in {}'s even if there is only one statement
+Any new sections of logic should have appropriate tests created and included in the commit
