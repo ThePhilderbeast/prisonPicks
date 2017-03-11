@@ -34,7 +34,7 @@ import java.util.ArrayList;
 @PrepareForTest(PluginDescriptionFile.class)
 public class EventTest {
 
-    @Mock PlayerInventory inventory;
+    @Mock private PlayerInventory inventory;
     @Mock private Player player;
     @Mock private CommandSender commandSender;
     @Mock private Server mockServer;
