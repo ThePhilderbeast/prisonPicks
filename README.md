@@ -27,7 +27,7 @@ Custom Diamond Picks:
  * The Explosive Pick o' Plenty is a combination of the previous 2 picks, it will mine all connected blocks AND turn them in to the highest value ore (using the same value list as the pick o' plenty)
 
 ## Commands
-the picks are not added to any form or world generation, nor are there any recepies for them they can only be spawned with the following command:
+the picks are not added to any form or world generation, nor are there any recipes for them they can only be spawned with the following command:
 /pick (explosive|pickoplenty|xpickoplenty) (player to receive pick)
 
 ## Permissions
