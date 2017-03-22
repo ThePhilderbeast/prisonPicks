@@ -111,12 +111,15 @@ public abstract class Pick
                 int fortune = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                 ItemStack newItem = getDrop(fortune, block, item);
 
-                if (Util.getAutoPickup() != null)
+                if (newItem != null)
                 {
-                    AutoPickupMethods.autoGive(player, newItem);
-                }else if (Util.isSpaceAvailable(player, newItem))
-                {
-                    player.getInventory().addItem(newItem);
+                    if (Util.getAutoPickup() != null)
+                    {
+                        AutoPickupMethods.autoGive(player, newItem);
+                    }else if (Util.isSpaceAvailable(player, newItem))
+                    {
+                        player.getInventory().addItem(newItem);
+                    }
                 }
 
                 int exp = Util.calculateExperienceForBlock(block);
@@ -139,7 +142,7 @@ public abstract class Pick
         ItemStack drop;
         if (stacks.size() == 0)
         {
-            return new ItemStack(Material.AIR, 0);
+            return null;
         }else
         {
             drop = (ItemStack)stacks.toArray()[0];
