@@ -1,9 +1,6 @@
 package com.philderbeast.prisonpicks;
 
-import com.philderbeast.prisonpicks.PrisonPicks;
-
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -14,25 +11,18 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 
-import me.MnMaxon.AutoPickup.API.AutoPickupMethods;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Events implements Listener
 {
 
-    @SuppressWarnings("unused")
-    private PrisonPicks plugin;
     private boolean aoepick = false;
 
-    public Events()
-    {
-    }
+    public static List< String > hideRepair = new ArrayList<>();
 
-    public Events(PrisonPicks plugin)
-    {
-        this.plugin = plugin;
-    }
+    public Events(){}
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event)
@@ -51,7 +41,7 @@ public class Events implements Listener
         if (Xpick.isPick(item))
         {
             aoepick = true;
-            //this is an inXpick
+            //this is an Xpick
             Xpick x = new Xpick();
             x.breakBlock(event);
         }else if (Pickoplenty.isPick(item))
@@ -79,15 +69,18 @@ public class Events implements Listener
             && (Xpick.isPick(item) || Pickoplenty.isPick(item) || XPickoPlenty.isPick(item))
             && item.getDurability() > 0)
         {
-            if (Pickoplenty.isPick(item))
+            if (!hideRepair.contains(player.getName()))
             {
-                player.sendMessage(ChatColor.LIGHT_PURPLE + "[Pickaxe Repaired]");
-            }else if (XPickoPlenty.isPick(item))
-            {
-                player.sendMessage(ChatColor.AQUA + "[Pickaxe Repaired]");
-            }else
-            {
-                player.sendMessage(ChatColor.GOLD + "[Pickaxe Repaired]");
+                if (Pickoplenty.isPick(item))
+                {
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "[Pickaxe Repaired]");
+                } else if (XPickoPlenty.isPick(item))
+                {
+                    player.sendMessage(ChatColor.AQUA + "[Pickaxe Repaired]");
+                } else
+                {
+                    player.sendMessage(ChatColor.GOLD + "[Pickaxe Repaired]");
+                }
             }
             short s = 0;
             item.setDurability(s);
@@ -99,7 +92,7 @@ public class Events implements Listener
     {
         Player player = event.getPlayer();
         Block b = event.getBlock();
-        b.setMetadata("blockBreaker", (MetadataValue)new FixedMetadataValue((Plugin)PrisonPicks.getInstance(), (Object)player.getUniqueId()));
+        b.setMetadata("blockBreaker", new FixedMetadataValue(PrisonPicks.getInstance(), player.getUniqueId()));
     }
 }
 

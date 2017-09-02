@@ -12,6 +12,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.sk89q.worldguard.protection.flags.StateFlag; 
 
+/**
+ * Creates the YMAL configuration file for the Plugin that contains all settings
+ **/
 public class Config 
 {
 
@@ -19,7 +22,7 @@ public class Config
 	private static YamlConfiguration mainConfig = null; 
 	private static boolean WORLDGUARD_DEFAULT = true; 
 
-	public static boolean DEBUG = false; 
+	public static boolean DEBUG = false;
     public static StateFlag prisonPickFlag = new StateFlag("prison-picks", WORLDGUARD_DEFAULT); 
 
     private static final String MAIN_CONFIG = "config.yaml"; 
@@ -27,6 +30,14 @@ public class Config
     public static void setConfigFolder(String configFolder)
     {
         Config.configFolder = configFolder; 
+    }
+
+	public static void reloadConfigs()
+    {
+        mainConfig = load(configFolder + "/" + MAIN_CONFIG); 
+
+		WORLDGUARD_DEFAULT = mainConfig.getBoolean("worldguard_flag_enable"); 
+		prisonPickFlag = new StateFlag("prison-picks", WORLDGUARD_DEFAULT); 
     }
 
 	private static YamlConfiguration load(String FileLocation)
@@ -58,15 +69,6 @@ public class Config
 		}
 		return cfg; 
 	}
-
-
-	public static void reloadConfigs()
-    {
-        mainConfig = load(configFolder + "/" + MAIN_CONFIG); 
-
-		WORLDGUARD_DEFAULT = mainConfig.getBoolean("worldguard_flag_enable"); 
-		prisonPickFlag = new StateFlag("prison-picks", WORLDGUARD_DEFAULT); 
-    }
 
 	private static YamlConfiguration setDefaults()
     {

@@ -1,64 +1,61 @@
+import de.undercouch.gradle.tasks.download.Download
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath group: 'com.github.rodionmoiseev.gradle.plugins', name: 'idea-utils', version: '0.2'
+    }
+}
+
+plugins {
+    id "com.github.johnrengelman.shadow" version "1.2.3"
+    id "de.undercouch.download" version "3.1.1"
+}
+
 apply plugin:"java"
 apply plugin:"jacoco"
 
-sourceCompatibility = 1.8
-
-version = '1.4.1'
+group = project.property("group")
+version = project.property("version")
+sourceCompatibility = project.property("sourceversion")
 
 repositories
-{
-    mavenLocal()
-    mavenCentral()
-    maven
-    {
-        url('https://oss.sonatype.org/content/groups/public/')
-    }
-    maven
-    {
-        url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')
-    }
-    maven
-    {
-        url('http://maven.sk89q.com/repo/')
-    }
-    maven
-    {
-        url('https://jitpack.io/')
-    }
-    maven
-    {
-        url('http://maven.drekryan.com:8081/artifactory/libs-release-local')
-    }
-    maven
-    {
-        url('http://maven.drekryan.com:8081/artifactory/libs-snapshot-local')
-    }
-    maven {url('http://repo.stealthyone.com/content/groups/public')}
-}
+        {
+            jcenter()
+            maven { url('https://oss.sonatype.org/content/groups/public/') }
+            maven { url('http://artifactory.philderbeast.com/artifactory/release') }
+            maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
+            maven { url('http://maven.sk89q.com/repo/') }
+            maven { url('http://maven.drekryan.com:8081/artifactory/libs-release-local') }
+            maven { url('http://maven.drekryan.com:8081/artifactory/libs-snapshot-local') }
+            maven { url('http://repo.stealthyone.com/content/groups/public') }
+        }
 
 jar
 {
     eachFile
-    {
-        copyDetails->
-        if (copyDetails.path == 'plugin.yml' || copyDetails.path == 'PrisonPicksTest.java')
         {
-            filter
-            {
-                line -> line.replace('{{version}}', "$version")
-            }
+            copyDetails->
+                if (copyDetails.path == 'plugin.yml' || copyDetails.path == 'PrisonPicksTest.java')
+                {
+                    filter
+                            {
+                                line -> line.replace('{{version}}', "$version")
+                            }
+                }
         }
-    }
 }
 
 jacocoTestReport
 {
     reports
-    {
-        xml.enabled true
-        xml.destination "${buildDir}/reports/jacoco/report.xml"
-        html.enabled = true
-    }
+        {
+            xml.enabled = true
+            xml.destination = new File("${buildDir}/reports/jacoco/", "report.xml")
+            html.enabled = true
+        }
 }
 
 check.dependsOn jacocoTestReport
@@ -74,25 +71,126 @@ dependencies
             name:"worldguard-legacy",
             version:"6.2"
 
-    compile group:"com.github.thePhilderbeast",
+    compile group:"me.MnMaxon",
             name:"AutoPickup",
-            version:"5.0.0"
+            version:"5.0.3"
 
     compile group:"com.sk89q.worldedit",
             name:"worldedit-core",
             version:"6.1.4-SNAPSHOT"
 
-    //testing dependencys
+    //testing dependencies
     testCompile group:"junit",
-                name:"junit",
-                version:"4.12"
+            name:"junit",
+            version:"4.12"
 
     testCompile group:"org.powermock",
-                name:"powermock-module-junit4",
-                version:"1.7+"
+            name:"powermock-module-junit4",
+            version:"1.7+"
 
     testCompile group:"org.powermock",
-                name:"powermock-api-mockito2",
-                version:"1.7+"
+            name:"powermock-api-mockito2",
+            version:"1.7+"
 
+}
+
+compileJava.dependsOn {
+    buildSpigot
+}
+
+shadowJar {
+    dependencies {
+        exclude( dependency('org.spigotmc:spigot-api:.*') )
+        exclude( dependency('org.spigotmc:spigot:.*') )
+    }
+}
+
+task deploy(type: Copy, dependsOn: ['build']) {
+    from "${buildDir}/libs"
+    into "final/"
+}
+
+task setupDevServer(dependsOn: 'extractServerJar', type: Copy) {
+    from 'config/serverfiles'
+    into 'testserver'
+}
+
+task copyPluginToTestserver(dependsOn: ['build', 'shadowJar'], type: Copy) {
+    from "${buildDir}/libs"
+    include "*-all.jar"
+    into "testserver/plugins"
+}
+
+task prepareDevServer(dependsOn: ['buildSpigot', 'setupDevServer', 'copyPluginToTestserver']) {}
+
+task startDevServer(dependsOn: [prepareDevServer], type: JavaExec) {
+    classpath configurations.compile, configurations.runtime
+    main = "org.bukkit.craftbukkit.Main"
+    workingDir = "testserver/"
+    standardInput = System.in
+}
+
+// START Building Spigot and Bukkit
+def spigotBuildDir = new File("$buildDir/spigot/")
+
+task extractServerJar(type: Copy) {
+    from spigotBuildDir
+    into "testserver/"
+
+    include "spigot-" + project.property("apibuildtoolversion") + ".jar"
+
+    rename  "spigot-" + project.property("apibuildtoolversion") + ".jar", "server.jar"
+}
+
+task setupWorkspace(dependsOn: ['buildSpigot']) {
+}
+
+task buildSpigot(type: Exec) {
+
+    if (hasSpigotJar()) {
+        enabled = false
+        dependsOn = []
+    } else {
+        dependsOn = ['downloadBuildTool']
+    }
+
+    // Determine the current OS.
+    def os_name = System.getProperty("os.name").toLowerCase()
+    def os_windows = os_name.contains("windows")
+    def os_linux = os_name.contains("linux")
+
+    workingDir = spigotBuildDir
+
+    if (os_windows)
+    {
+        executable = 'C:\\Program Files\\Git\\bin\\bash.exe'
+    }else if(os_linux)
+    {
+        executable = 'bash'
+    }
+
+    args = ['-c', 'java -jar ./BuildTools.jar --rev ' + project.property("apibuildtoolversion") ]
+}
+
+task downloadBuildTool(type: Download) {
+    spigotBuildDir.mkdirs()
+    src project.property("buildtoolurl")
+    dest new File(spigotBuildDir, "BuildTools.jar")
+}
+
+def hasSpigotJar() {
+    def file = new File("$buildDir/spigot/spigot-" + project.property("apibuildtoolversion") + ".jar")
+    return file.exists()
+}
+
+def hasSpigot() {
+    def groupId = "org.spigotmc"
+    def version = project.property("apiversion")
+    return hasArtifact(groupId, "spigot-api", version) && hasArtifact(groupId, "spigot", version)
+}
+
+def hasArtifact(groupId, artifactId, version) {
+    def localMavenRepo = new File(new File(ant.properties['user.home'] as String), ".m2/repository/")
+    def file = new File(localMavenRepo, groupId.replace('.', '/') + "/" + artifactId + "/" + version + "/")
+    return file.exists()
 }

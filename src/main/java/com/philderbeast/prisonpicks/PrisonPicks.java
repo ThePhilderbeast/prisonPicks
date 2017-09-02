@@ -35,7 +35,7 @@ public class PrisonPicks extends JavaPlugin
     public void onEnable()
     {
         instance = this; 
-        this.getServer().getPluginManager().registerEvents(new Events(this), this); 
+        this.getServer().getPluginManager().registerEvents(new Events(), this);
         this.getCommand("pick").setExecutor(new PickCommands()); 
     }
 

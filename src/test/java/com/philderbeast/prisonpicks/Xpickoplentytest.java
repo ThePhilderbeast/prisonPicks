@@ -98,6 +98,7 @@ public class Xpickoplentytest {
     @Test
     public void testBreakBlock()
     {
+        //TODO: update this test to be more comprehensive
         BlockBreakEvent bbe = new BlockBreakEvent(block, player);
         XPickoPlenty xpick = new XPickoPlenty();
         

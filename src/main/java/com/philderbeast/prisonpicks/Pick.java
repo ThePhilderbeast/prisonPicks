@@ -262,7 +262,6 @@ public abstract class Pick
             System.out.println("-------------------------------------");
             //break the pick
             player.getInventory().remove(tool);
-
         }
     }
 }
