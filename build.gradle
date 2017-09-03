@@ -94,10 +94,6 @@ dependencies
 
 }
 
-compileJava.dependsOn {
-    buildSpigot
-}
-
 shadowJar {
     dependencies {
         exclude( dependency('org.spigotmc:spigot-api:.*') )
