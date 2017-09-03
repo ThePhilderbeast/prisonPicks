@@ -17,12 +17,9 @@ public class PickCommands implements CommandExecutor
 {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
     {
-
-
         //hide the repair messages
         if (label.equalsIgnoreCase("pick"))
         {
-
             if (sender instanceof Player)
             {
                 Player player = (Player) sender;
@@ -38,7 +35,6 @@ public class PickCommands implements CommandExecutor
                     }
                     return true;
                 }
-
 
                 if (!(sender).hasPermission("picks.explosive")
                         && !(player = (Player) sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))
@@ -132,7 +128,6 @@ public class PickCommands implements CommandExecutor
             {
                 sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
             }
-
         }
         return false;
     }

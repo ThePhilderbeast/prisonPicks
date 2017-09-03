@@ -1,5 +1,6 @@
 package com.philderbeast.prisonpicks;
 
+import java.util.ArrayList;
 import java.util.Map;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;
@@ -27,6 +28,7 @@ public class XPickoPlenty extends Pick
     {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
+        ArrayList<Location> locations = new ArrayList<>();
 
         if (Util.canBuild(player, event.getBlock().getLocation()))
         {
@@ -40,10 +42,7 @@ public class XPickoPlenty extends Pick
             int bX = center.getBlockX();
             int bY = center.getBlockY();
             int bZ = center.getBlockZ();
-            int level = 0;
             int x = bX - radius;
-
-            Map < String, Boolean > enchants = getEnchantments(item);
 
             while (x < bX + radius)
             {
@@ -64,25 +63,27 @@ public class XPickoPlenty extends Pick
 
                             //set the block to the highest value material
                             block.getWorld().getBlockAt(block).setType(getMaterial(block));
-                            doDamage(enchants.get(Pick.UNBREAKING), player);
-
-                            if (player.getInventory().getItemInMainHand() != null)
-                            {
-                                Block b = player.getWorld().getBlockAt(block);
-                                doBreak(b, enchants, player, null);
-
-                                if ( !block.equals(event.getBlock().getLocation()))
-                                {
-                                    BlockBreakEvent newEvent = new BlockBreakEvent(b, player);
-                                    Bukkit.getPluginManager().callEvent(newEvent);
-                                }
-                            }
+                            locations.add(block);
 
                         } ++ z;
                     } ++ y;
                 } ++ x;
             }
 
+            Map<String, Boolean> enchants = getEnchantments(item);
+            for (Location l : locations) {
+                doDamage(enchants.get(Pick.UNBREAKING), player);
+                if(player.getInventory().getItemInMainHand() != null)
+                {
+                    Block block = player.getWorld().getBlockAt(l);
+                    doBreak(block, enchants, player, null);
+                    if (!l.equals(event.getBlock().getLocation()))
+                    {
+                        BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
+                        Bukkit.getPluginManager().callEvent(newEvent);
+                    }
+                }
+            }
         }
     }
 

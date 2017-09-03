@@ -1,6 +1,7 @@
 *.class
 *.MF
 build
+testserver/
 
 # macOS File System Dust
 *.DS_STORE
