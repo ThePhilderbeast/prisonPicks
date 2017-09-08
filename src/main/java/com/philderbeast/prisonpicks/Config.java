@@ -33,6 +33,16 @@ class Config
     static ChatColor CHAT_SUCCESS_COLOR = ChatColor.GREEN;
     static ChatColor CHAT_FAIL_COLOR = ChatColor.RED;
 
+    static int COAL_PRIORITY = 1;
+    static int IRON_PRIORITY = 2;
+    static int REDSTONE_PRIORITY = 3;
+    static int LAPIS_PRIORITY = 4;
+    static int GOLD_PRIORITY = 5;
+    static int QUARTZ_PRIORITY = 6;
+    static int DIAMOND_PRIORITY = 7;
+    static int DIAMOND_BLOCK_PRIORITY = 8;
+    static int EMERALD_PRIORITY = 9;
+
     static void setConfigFolder(String configFolder)
     {
         Config.configFolder = configFolder; 
@@ -49,6 +59,16 @@ class Config
         FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR = ChatColor.getByChar(mainConfig.getString("fake_xpop_color").charAt(1));
         CHAT_SUCCESS_COLOR = ChatColor.getByChar(mainConfig.getString("success_color").charAt(1));
         CHAT_FAIL_COLOR = ChatColor.getByChar(mainConfig.getString("fail_color").charAt(1));
+
+        COAL_PRIORITY = mainConfig.getInt("coal_priority");
+        IRON_PRIORITY = mainConfig.getInt("iron_priority");
+        REDSTONE_PRIORITY = mainConfig.getInt("redstone_priority");
+        LAPIS_PRIORITY = mainConfig.getInt("lapis_priority");
+        GOLD_PRIORITY = mainConfig.getInt("gold_priority");
+        QUARTZ_PRIORITY = mainConfig.getInt("quartz_priority");
+        DIAMOND_PRIORITY = mainConfig.getInt("diamond_priority");
+        DIAMOND_BLOCK_PRIORITY = mainConfig.getInt("diamond_block_priority");
+        EMERALD_PRIORITY = mainConfig.getInt("emerald_priority");
     }
 
 	private static YamlConfiguration load(String FileLocation)
@@ -109,6 +129,24 @@ class Config
         {
 			config.set(entry.getKey(), entry.getValue()); 
 		}
+
+        defaults.clear();
+
+        defaults.put("coal_priority", 1);
+        defaults.put("iron_priority", 2);
+        defaults.put("redstone_priority", 3);
+        defaults.put("lapis_priority", 4);
+        defaults.put("gold_priority", 5);
+        defaults.put("quartz_priority", 6);
+        defaults.put("diamond_priority", 7);
+        defaults.put("diamond_block_priority", 8);
+        defaults.put("emerald_priority", 9);
+
+        for (Map.Entry < String, Object > entry:defaults.entrySet())
+        {
+            config.set(entry.getKey(), entry.getValue());
+        }
+
 		return config; 
 	}
 }
