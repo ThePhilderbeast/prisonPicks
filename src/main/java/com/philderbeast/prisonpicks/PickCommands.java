@@ -38,7 +38,7 @@ class PickCommands implements CommandExecutor
                 if (!(sender).hasPermission("picks.explosive")
                         && !(player = (Player) sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))
                 {
-                    player.sendMessage(ChatColor.RED + "Permission Denied!");
+                    player.sendMessage(Config.CHAT_FAIL_COLOR + "Permission Denied!");
                     return false;
                 }
             }
@@ -61,7 +61,7 @@ class PickCommands implements CommandExecutor
                             return true;
                         case "xpickoplenty":
                             pick = Util.createItemStack(Config.EXPLOSIVE_COLOR + "Explosive" + Config.PICK_O_PLENTY_COLOR + " Pick o'Plenty");
-                            sendMessage(sender, receiver, "Explosive " + Config.PICK_O_PLENTY_COLOR + " Pick o'Plenty", Config.PICK_O_PLENTY_COLOR, givePick(receiver, pick));
+                            sendMessage(sender, receiver, "Explosive " + Config.PICK_O_PLENTY_COLOR + "Pick o'Plenty", Config.EXPLOSIVE_COLOR, givePick(receiver, pick));
                             return true;
                         case "fakexpickoplenty":
                             pick = Util.createItemStack(Config.FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR + "Explosive Pick o'Plenty");
@@ -80,7 +80,8 @@ class PickCommands implements CommandExecutor
                 }
             } else
             {
-                sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player]");
+                sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick repair to toggle repair mesages");
+                sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player] to spawn a pick");
             }
         }
         return false;
@@ -91,11 +92,11 @@ class PickCommands implements CommandExecutor
         if (success)
         {
             receiver.sendMessage(Config.CHAT_SUCCESS_COLOR + "[Added a " + pickColour + pickType + Config.CHAT_SUCCESS_COLOR + " to your Inventory]");
-            sender.sendMessage(Config.CHAT_SUCCESS_COLOR + "[Explosive Pickaxe sent to " + receiver.getName() + "]");
+            sender.sendMessage(Config.CHAT_SUCCESS_COLOR + "[" + pickColour + pickType + Config.CHAT_SUCCESS_COLOR + " Pickaxe sent to " + receiver.getName() + "]");
         } else
         {
             receiver.sendMessage(Config.CHAT_FAIL_COLOR + "[Your inventory is full! " + pickColour + pickType + Config.CHAT_FAIL_COLOR + " has been dropped!]");
-            sender.sendMessage(Config.CHAT_FAIL_COLOR + "[" + receiver.getName() + "'s inventory was full! " + pickColour + pickType + Config.CHAT_FAIL_COLOR + " was dropped.]");
+            sender.sendMessage(Config.CHAT_FAIL_COLOR + "[" + receiver.getName() + "'s inventory was full! " + pickColour + pickType + Config.CHAT_FAIL_COLOR + " was dropped]");
         }
     }
 

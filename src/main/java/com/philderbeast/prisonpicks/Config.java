@@ -44,6 +44,11 @@ class Config
 
 		WORLDGUARD_DEFAULT = mainConfig.getBoolean("worldguard_flag_enable"); 
 		PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
+        EXPLOSIVE_COLOR = ChatColor.getByChar(mainConfig.getString("explosive_color").charAt(1));
+        PICK_O_PLENTY_COLOR = ChatColor.getByChar(mainConfig.getString("pick_o_plenty_color").charAt(1));
+        FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR = ChatColor.getByChar(mainConfig.getString("fake_xpop_color").charAt(1));
+        CHAT_SUCCESS_COLOR = ChatColor.getByChar(mainConfig.getString("success_color").charAt(1));
+        CHAT_FAIL_COLOR = ChatColor.getByChar(mainConfig.getString("fail_color").charAt(1));
     }
 
 	private static YamlConfiguration load(String FileLocation)
@@ -82,11 +87,23 @@ class Config
 
 	private static YamlConfiguration setDefaults()
     {
+        YamlConfiguration config = new YamlConfiguration();
 		HashMap < String, Object > defaults = new HashMap<>();
 		defaults.put("worldguard_flag_enable", true); 
-        defaults.put("debug", false); 
+        defaults.put("debug", false);
 
-		YamlConfiguration config = new YamlConfiguration(); 
+        for (Map.Entry < String, Object > entry:defaults.entrySet())
+        {
+            config.set(entry.getKey(), entry.getValue());
+        }
+
+        defaults.clear();
+
+        defaults.put("explosive_color", ChatColor.GOLD.toString());
+        defaults.put("pick_o_plenty_color", ChatColor.LIGHT_PURPLE.toString());
+        defaults.put("fake_xpop_color", ChatColor.GREEN.toString());
+        defaults.put("success_color", ChatColor.GREEN.toString());
+        defaults.put("fail_color", ChatColor.RED.toString());
 
 		for (Map.Entry < String, Object > entry:defaults.entrySet())
         {

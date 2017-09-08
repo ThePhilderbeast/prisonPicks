@@ -22,40 +22,39 @@ version = project.property("version")
 sourceCompatibility = project.property("sourceversion")
 
 repositories
-        {
-            jcenter()
-            maven { url('https://oss.sonatype.org/content/groups/public/') }
-            maven { url('http://artifactory.philderbeast.com/artifactory/release') }
-            maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
-            maven { url('http://maven.sk89q.com/repo/') }
-            maven { url('http://maven.drekryan.com:8081/artifactory/libs-release-local') }
-            maven { url('http://maven.drekryan.com:8081/artifactory/libs-snapshot-local') }
-            maven { url('http://repo.stealthyone.com/content/groups/public') }
-        }
+{
+    jcenter()
+    maven { url('https://oss.sonatype.org/content/groups/public/') }
+    maven { url('http://artifactory.philderbeast.com/artifactory/release') }
+    maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
+    maven { url('http://maven.sk89q.com/repo/') }
+    maven { url('http://maven.drekryan.com:8081/artifactory/libs-release-local') }
+    maven { url('http://maven.drekryan.com:8081/artifactory/libs-snapshot-local') }
+    maven { url('http://repo.stealthyone.com/content/groups/public') }
+}
 
-jar
+processResources
 {
     eachFile
+    {
+        copyDetails-> if (copyDetails.path == 'plugin.yml')
         {
-            copyDetails->
-                if (copyDetails.path == 'plugin.yml' || copyDetails.path == 'PrisonPicksTest.java')
-                {
-                    filter
-                            {
-                                line -> line.replace('{{version}}', "$version")
-                            }
-                }
+            filter
+            {
+                line -> line.replace('{{version}}', project.property("version"));
+            }
         }
+    }
 }
 
 jacocoTestReport
 {
     reports
-        {
-            xml.enabled = true
-            xml.destination = new File("${buildDir}/reports/jacoco/", "report.xml")
-            html.enabled = true
-        }
+    {
+        xml.enabled = true
+        xml.destination = new File("${buildDir}/reports/jacoco/", "report.xml")
+        html.enabled = true
+    }
 }
 
 check.dependsOn jacocoTestReport
@@ -99,6 +98,17 @@ shadowJar {
         exclude( dependency('org.spigotmc:spigot-api:.*') )
         exclude( dependency('org.spigotmc:spigot:.*') )
     }
+
+    eachFile
+            {
+                copyDetails-> if (copyDetails.path == 'plugin.yml')
+                {
+                    filter
+                            {
+                                line -> line.replace('{{version}}', project.property("version"));
+                            }
+                }
+            }
 }
 
 task deploy(type: Copy, dependsOn: ['build']) {

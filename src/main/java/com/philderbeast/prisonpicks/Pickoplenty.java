@@ -15,7 +15,7 @@ public class Pickoplenty extends Pick
 
     public static boolean isPick(ItemStack item)
     {
-        return(Pick.isPick(item) && item.getItemMeta().getLore().contains(ChatColor.LIGHT_PURPLE + "Pick o'Plenty"));
+        return(Pick.isPick(item) && item.getItemMeta().getLore().contains(Config.PICK_O_PLENTY_COLOR + "Pick o'Plenty"));
 
     }
 

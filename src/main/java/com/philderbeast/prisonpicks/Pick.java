@@ -72,10 +72,10 @@ abstract class Pick
                 if (material == null)
                 {
                     //TODO: do we need this data call? if so can we find a better way
-                    blockStack = new ItemStack(block.getType(), 1, block.getData());
+                    blockStack = new ItemStack(block.getType(), 1, Byte.valueOf("0"));
                 }else
                 {
-                    blockStack = new ItemStack(material, 1, block.getData());
+                    blockStack = new ItemStack(material, 1, Byte.valueOf("0"));
                 }
 
                 //they have silk touch so give them the block

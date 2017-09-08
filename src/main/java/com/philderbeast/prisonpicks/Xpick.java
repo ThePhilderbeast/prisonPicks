@@ -19,7 +19,7 @@ public class Xpick extends Pick
 
     public static boolean isPick(ItemStack item)
     {
-        return(Pick.isPick(item) && item.getItemMeta().getLore().contains(ChatColor.GOLD + "Explosive I"));
+        return(Pick.isPick(item) && item.getItemMeta().getLore().contains(Config.EXPLOSIVE_COLOR + "Explosive I"));
     }
 
     public void breakBlock(BlockBreakEvent event)
