@@ -17,35 +17,24 @@ import org.bukkit.entity.Player;
 
 import me.MnMaxon.AutoPickup.API.AutoPickupMethods;
 
-public abstract class Pick
+abstract class Pick
 {
 
-    public static final String FORTUNE = "fortune";
-    public static final String UNBREAKING = "unbreaking";
-    public static final String SILK_TOUCH = "silktouch";
-
-    public Pick()
-    {
-
-    }
+    static final String FORTUNE = "fortune";
+    static final String UNBREAKING = "unbreaking";
+    static final String SILK_TOUCH = "silktouch";
 
     public abstract void breakBlock(BlockBreakEvent event);
 
-    public static boolean isPick(ItemStack item)
+    static boolean isPick(ItemStack item)
     {
-        if (item != null && item.getType() == Material.DIAMOND_PICKAXE && item.hasItemMeta() && item.getItemMeta().hasLore())
-        {
-            return true;
-        }else
-        {
-            return false;
-        }
+        return item != null && item.getType() == Material.DIAMOND_PICKAXE && item.hasItemMeta() && item.getItemMeta().hasLore();
     }
 
-    protected Map < String, Boolean > getEnchantments(ItemStack item)
+    Map < String, Boolean > getEnchantments(ItemStack item)
     {
 
-        Map < String, Boolean > enchants = new HashMap < String, Boolean > ();
+        Map < String, Boolean > enchants = new HashMap<>();
 
             if (item.containsEnchantment(Enchantment.DURABILITY))
             {
@@ -73,9 +62,8 @@ public abstract class Pick
         return enchants;
     }
 
-    protected boolean doBreak(Block block, Map < String, Boolean > enchants, Player player, Material material)
+    void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
     {
-        boolean blockBroken = false;
         if (block.getType() != Material.BEDROCK && block.getType() != Material.AIR)
         {
             if (enchants.get(SILK_TOUCH))
@@ -91,7 +79,6 @@ public abstract class Pick
                 }
 
                 //they have silk touch so give them the block
-                //TODO: make this a soft depend
                 if (Util.getAutoPickup() != null)
                 {
                     AutoPickupMethods.autoGive(player, blockStack);
@@ -126,16 +113,14 @@ public abstract class Pick
                 player.giveExp(exp); //Give Player Experience
             }
             block.setType(Material.AIR);
-            blockBroken = true;
         }
-        return blockBroken;
     }
 
-    protected static ItemStack getDrop(int enchantmentLevel, Block block, ItemStack tool)
+    static ItemStack getDrop(int enchantmentLevel, Block block, ItemStack tool)
     {
 
         int min, max, startAmount;
-        int multiple = 1;
+        int multiple;
         int amount;
 
         Collection < ItemStack > stacks = block.getDrops(tool);
@@ -216,7 +201,7 @@ public abstract class Pick
         return drop;
     }
 
-    protected void doDamage(boolean unbreaking, Player player)
+    void doDamage(boolean unbreaking, Player player)
     {
         ItemStack tool = player.getInventory().getItemInMainHand();
 
@@ -253,13 +238,16 @@ public abstract class Pick
 
             Bukkit.broadcastMessage(ChatColor.DARK_RED + player.getName() + " just broke their " + pick + " while mining... Press 'F' to pay respects.");
 
-            System.out.println("-------------------------------------");
-            System.out.println("Player: " + player.getName());
-            System.out.println("UUID: " + player.getUniqueId());
-            System.out.println("Pick type: " + pick);
-            System.out.println("Pick Current Durability: " + tool.getDurability());
-            System.out.println("Pick Max Durability: " + tool.getType().getMaxDurability());
-            System.out.println("-------------------------------------");
+            if(Config.DEBUG)
+            {
+                System.out.println("-------------------------------------");
+                System.out.println("Player: " + player.getName());
+                System.out.println("UUID: " + player.getUniqueId());
+                System.out.println("Pick type: " + pick);
+                System.out.println("Pick Current Durability: " + tool.getDurability());
+                System.out.println("Pick Max Durability: " + tool.getType().getMaxDurability());
+                System.out.println("-------------------------------------");
+            }
             //break the pick
             player.getInventory().remove(tool);
         }

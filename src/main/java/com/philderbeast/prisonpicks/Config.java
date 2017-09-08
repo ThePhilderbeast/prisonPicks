@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.Map; 
 import java.util.logging.Level; 
 
-import org.bukkit.Bukkit; 
-import org.bukkit.configuration.InvalidConfigurationException; 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration; 
 
 import com.sk89q.worldguard.protection.flags.StateFlag; 
@@ -15,44 +16,53 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 /**
  * Creates the YMAL configuration file for the Plugin that contains all settings
  **/
-public class Config 
+@SuppressWarnings("CanBeFinal")
+class Config
 {
 
-	private static String configFolder; 
-	private static YamlConfiguration mainConfig = null; 
-	private static boolean WORLDGUARD_DEFAULT = true; 
+    private static final String MAIN_CONFIG = "config.yaml";
 
-	public static boolean DEBUG = false;
-    public static StateFlag prisonPickFlag = new StateFlag("prison-picks", WORLDGUARD_DEFAULT); 
+    private static String configFolder;
+    private static boolean WORLDGUARD_DEFAULT = true;
 
-    private static final String MAIN_CONFIG = "config.yaml"; 
+	static boolean DEBUG = false;
+    static StateFlag PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
+    static ChatColor EXPLOSIVE_COLOR = ChatColor.GOLD;
+    static ChatColor PICK_O_PLENTY_COLOR = ChatColor.LIGHT_PURPLE;
+    static ChatColor FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR = ChatColor.GREEN;
+    static ChatColor CHAT_SUCCESS_COLOR = ChatColor.GREEN;
+    static ChatColor CHAT_FAIL_COLOR = ChatColor.RED;
 
-    public static void setConfigFolder(String configFolder)
+    static void setConfigFolder(String configFolder)
     {
         Config.configFolder = configFolder; 
     }
 
-	public static void reloadConfigs()
+	static void reloadConfigs()
     {
-        mainConfig = load(configFolder + "/" + MAIN_CONFIG); 
+        YamlConfiguration mainConfig = load(configFolder + "/" + MAIN_CONFIG);
 
 		WORLDGUARD_DEFAULT = mainConfig.getBoolean("worldguard_flag_enable"); 
-		prisonPickFlag = new StateFlag("prison-picks", WORLDGUARD_DEFAULT); 
+		PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
     }
 
 	private static YamlConfiguration load(String FileLocation)
     {
-        File f = new File(FileLocation); 
-		YamlConfiguration cfg = new YamlConfiguration(); 
+        File f = new File(FileLocation);
+		YamlConfiguration cfg;
 		cfg = setDefaults(); 
 		if ( ! f.exists())
         {
 			try 
             {
-                f.getParentFile().mkdir(); 
-				f.createNewFile(); 
-				Bukkit.getServer().getLogger().log(Level.INFO, "[PrisonPicks] New Config Created at: " + FileLocation); 
-				cfg.save(new File(FileLocation)); 
+                if(f.getParentFile().mkdir() && f.createNewFile())
+                {
+                    Bukkit.getServer().getLogger().log(Level.INFO, "[PrisonPicks] New Config Created at: " + FileLocation);
+                    cfg.save(new File(FileLocation));
+                } else
+                {
+                    Bukkit.getServer().getLogger().log(Level.SEVERE, "[PrisonPicks] Failed to create Config file");
+                }
 			}catch (IOException e1)
             {
 				e1.printStackTrace(); 
@@ -72,7 +82,7 @@ public class Config
 
 	private static YamlConfiguration setDefaults()
     {
-		HashMap < String, Object > defaults = new HashMap < String, Object > (); 
+		HashMap < String, Object > defaults = new HashMap<>();
 		defaults.put("worldguard_flag_enable", true); 
         defaults.put("debug", false); 
 

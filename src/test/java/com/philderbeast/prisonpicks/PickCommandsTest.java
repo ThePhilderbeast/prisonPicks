@@ -89,10 +89,7 @@ public class PickCommandsTest {
     @Test
     public void commandExplosivePicks()
     {
-
         String[] args = new String[2];
-
-        //TODO: change this from a magic string
         args[0] = "explosive";
         args[1] = "Philderbeast";
 
@@ -102,10 +99,8 @@ public class PickCommandsTest {
     @Test
     public void commandPickoPlentyPicks()
     {
-
         String[] args = new String[2];
 
-        //TODO: change this from a magic string
         args[0] = "pickoplenty";
         args[1] = "Philderbeast";
 
@@ -115,10 +110,7 @@ public class PickCommandsTest {
     @Test
     public void commandXPickoPlentyPicks()
     {
-
         String[] args = new String[2];
-
-        //TODO: change this from a magic string
         args[0] = "xpickoplenty";
         args[1] = "Philderbeast";
 
@@ -128,10 +120,7 @@ public class PickCommandsTest {
     @Test
     public void commandFakeXPickoPlentyPicks()
     {
-
         String[] args = new String[2];
-
-        //TODO: change this from a magic string
         args[0] = "fakexpickoplenty";
         args[1] = "Philderbeast";
 

@@ -20,9 +20,9 @@ public class Events implements Listener
 
     private boolean aoepick = false;
 
-    public static List< String > hideRepair = new ArrayList<>();
+    static final List< String > hideRepair = new ArrayList<>();
 
-    public Events(){}
+    Events(){}
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event)

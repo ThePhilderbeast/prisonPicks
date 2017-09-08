@@ -20,7 +20,7 @@ public class PrisonPicks extends JavaPlugin
         {
             try 
             {
-                worldGuard.getFlagRegistry().register(Config.prisonPickFlag); 
+                worldGuard.getFlagRegistry().register(Config.PRISON_PICK_FLAG);
                 this.getLogger().info("prison-picks custom WorldGuard flag has been registered"); 
             }catch (Exception e)
             {

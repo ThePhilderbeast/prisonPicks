@@ -43,17 +43,6 @@ public class UtilTest {
     }
 
     @Test
-    public void testRandInt()
-    {
-        int rand;
-        for(int i = 0; i < 100; i++)
-        {
-            rand = Util.randInt(10, 50);
-            assertTrue(rand >= 10 && rand <= 50);
-        }
-    }
-
-    @Test
     public void testisSpaceAvailabletrue()
     {
         PlayerInventory pi = mock(PlayerInventory.class);
@@ -78,7 +67,7 @@ public class UtilTest {
     public void testCreateItemStack()
     {
         //TODO: look at what else we want to check here
-        ItemStack pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "name", "Explosive I");
+        ItemStack pick = Util.createItemStack("Explosive I");
         assertTrue(pick.getType().equals(Material.DIAMOND_PICKAXE));
     }
     

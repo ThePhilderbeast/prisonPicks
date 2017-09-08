@@ -1,7 +1,6 @@
 package com.philderbeast.prisonpicks; 
 
-import java.util.ArrayList; 
-import java.util.Random; 
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit; 
 import org.bukkit.Location; 
@@ -22,25 +21,17 @@ import me.MnMaxon.AutoPickup.AutoPickupPlugin;
 class Util 
 {
 
-    static int randInt(int min, int max)
+    static /* varargs */ ItemStack createItemStack(String... lores)
     {
-        Random rand = new Random(); 
-        int randomNum = rand.nextInt(max - min + 1) + min; 
-        return randomNum; 
-    }
-
-    static /* varargs */ ItemStack createItemStack(Material type, int amt, String name, String ... lores)
-    {
-        ItemStack stack = new ItemStack(type, amt); 
+        ItemStack stack = new ItemStack(Material.DIAMOND_PICKAXE, 1);
         ItemMeta im = stack.getItemMeta(); 
-        im.setDisplayName(name); 
-        ArrayList < String > lore = new ArrayList < String > (); 
-        String[] arrstring = lores; 
-        int n = arrstring.length; 
+        im.setDisplayName("");
+        ArrayList < String > lore = new ArrayList<>();
+        int n = lores.length;
         int n2 = 0; 
         while (n2 < n)
         {
-            String str = arrstring[n2]; 
+            String str = lores[n2];
             lore.add(str);  ++n2; 
         }
         im.setLore(lore); 
@@ -116,7 +107,7 @@ class Util
             World world = location.getWorld(); 
             ApplicableRegionSet regions = wg.getRegionManager(world).getApplicableRegions(BukkitUtil.toVector(location)); 
 
-            return wg.canBuild(player, location) && regions.testState(null, Config.prisonPickFlag); 
+            return wg.canBuild(player, location) && regions.testState(null, Config.PRISON_PICK_FLAG);
         }else 
         {
             return true; 

@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class PickCommands implements CommandExecutor
+class PickCommands implements CommandExecutor
 {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
     {
@@ -46,89 +45,72 @@ public class PickCommands implements CommandExecutor
 
             if (args.length == 2)
             {
-                Player receiver = Bukkit.getPlayer((String) args[1]);
+                Player receiver = Bukkit.getPlayer(args[1]);
                 if (receiver != null)
                 {
                     ItemStack pick;
                     switch (args[0])
                     {
                         case "explosive":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Explosive I");
-                            if (Util.isSpaceAvailable(receiver, pick))
-                            {
-                                receiver.getInventory().addItem(pick);
-                                receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added a Explosive Pickaxe to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "[Explosive Pickaxe sent to " + receiver.getName() + "]");
-                            } else
-                            {
-                                receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
-                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pickaxe has been dropped!]");
-                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pickaxe was dropped.]");
-                            }
+                            pick = Util.createItemStack(Config.EXPLOSIVE_COLOR + "Explosive I");
+                            sendMessage(sender, receiver, "Explosive Pickaxe", Config.EXPLOSIVE_COLOR, givePick(receiver, pick));
                             return true;
                         case "pickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.LIGHT_PURPLE + "Pick o'Plenty");
-                            if (Util.isSpaceAvailable(receiver, pick))
-                            {
-                                receiver.getInventory().addItem(pick);
-                                receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added a Pick o'Plenty to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "[Pick o'Plenty sent to " + receiver.getName() + "]");
-                            } else
-                            {
-                                receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
-                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Pick o'Plenty has been dropped!]");
-                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Pick o'Plenty was dropped.]");
-                            }
+                            pick = Util.createItemStack(Config.PICK_O_PLENTY_COLOR + "Pick o'Plenty");
+                            sendMessage(sender, receiver, "Pick o'Plenty", Config.PICK_O_PLENTY_COLOR, givePick(receiver, pick));
                             return true;
                         case "xpickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GOLD + "Explosive" + ChatColor.LIGHT_PURPLE + " Pick o'Plenty");
-                            if (Util.isSpaceAvailable(receiver, pick))
-                            {
-                                receiver.getInventory().addItem(pick);
-                                receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added a Explosive Pick o'Plenty to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "[Explosive Pick o'Plenty sent to " + receiver.getName() + "]");
-                            } else
-                            {
-                                receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
-                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pick o'Plenty has been dropped!]");
-                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pick o'Plenty was dropped.]");
-                            }
+                            pick = Util.createItemStack(Config.EXPLOSIVE_COLOR + "Explosive" + Config.PICK_O_PLENTY_COLOR + " Pick o'Plenty");
+                            sendMessage(sender, receiver, "Explosive " + Config.PICK_O_PLENTY_COLOR + " Pick o'Plenty", Config.PICK_O_PLENTY_COLOR, givePick(receiver, pick));
                             return true;
                         case "fakexpickoplenty":
-                            pick = Util.createItemStack(Material.DIAMOND_PICKAXE, 1, "", ChatColor.GREEN + "Explosive Pick o'Plenty");
-                            sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive pickaxe was dropped.]");
+                            pick = Util.createItemStack(Config.FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR + "Explosive Pick o'Plenty");
+                            sendMessage(sender, receiver, "Explosive Pick o'Plenty", Config.FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR , givePick(receiver, pick));
 
-                            if (Util.isSpaceAvailable(receiver, pick))
-                            {
-                                receiver.getInventory().addItem(pick);
-                                receiver.updateInventory();
-                                receiver.sendMessage(ChatColor.GOLD + "[Added a Explosive Pick o'Plenty to your Inventory]");
-                                sender.sendMessage(ChatColor.GREEN + "[Explosive Pick o'Plenty sent to " + receiver.getName() + "]");
-                            } else
-                            {
-                                receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
-                                receiver.sendMessage(ChatColor.RED + "[Your inventory is full! Explosive Pick o'Plenty has been dropped!]");
-                                sender.sendMessage(ChatColor.YELLOW + "[" + receiver.getName() + "'s inventory was full! Explosive Pick o'Plenty was dropped.]");
-                            }
                             return true;
                         default:
-                            sender.sendMessage(ChatColor.RED + "Invalid pickaxe type!" + ChatColor.GOLD + " Available options: explosive, pickoplenty, xpickoplenty, fakexpickoplenty");
-                            sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
+                            sender.sendMessage(Config.CHAT_FAIL_COLOR + "Invalid pickaxe type!" + ChatColor.GOLD + " Available options: explosive, pickoplenty, xpickoplenty, fakexpickoplenty");
+                            sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player]");
                             break;
                     }
                 } else
                 {
-                    sender.sendMessage(ChatColor.RED + "Could not find player '" + args[1] + "'");
-                    sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
+                    sender.sendMessage(Config.CHAT_FAIL_COLOR + "Could not find player '" + args[1] + "'");
+                    sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player]");
                 }
             } else
             {
-                sender.sendMessage(ChatColor.RED + "Usage: /pick [type] [player]");
+                sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player]");
             }
         }
         return false;
+    }
+
+    private void sendMessage(CommandSender sender, Player receiver, String pickType, ChatColor pickColour, boolean success)
+    {
+        if (success)
+        {
+            receiver.sendMessage(Config.CHAT_SUCCESS_COLOR + "[Added a " + pickColour + pickType + Config.CHAT_SUCCESS_COLOR + " to your Inventory]");
+            sender.sendMessage(Config.CHAT_SUCCESS_COLOR + "[Explosive Pickaxe sent to " + receiver.getName() + "]");
+        } else
+        {
+            receiver.sendMessage(Config.CHAT_FAIL_COLOR + "[Your inventory is full! " + pickColour + pickType + Config.CHAT_FAIL_COLOR + " has been dropped!]");
+            sender.sendMessage(Config.CHAT_FAIL_COLOR + "[" + receiver.getName() + "'s inventory was full! " + pickColour + pickType + Config.CHAT_FAIL_COLOR + " was dropped.]");
+        }
+    }
+
+    private boolean givePick(Player receiver, ItemStack pick)
+    {
+        if (Util.isSpaceAvailable(receiver, pick))
+        {
+            receiver.getInventory().addItem(pick);
+            receiver.updateInventory();
+            return true;
+
+        } else
+        {
+            receiver.getWorld().dropItemNaturally(receiver.getLocation(), pick);
+            return false;
+        }
     }
 }

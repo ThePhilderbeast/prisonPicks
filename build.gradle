@@ -121,7 +121,8 @@ task prepareDevServer(dependsOn: ['buildSpigot', 'setupDevServer', 'copyPluginTo
 
 task startDevServer(dependsOn: [prepareDevServer], type: JavaExec) {
     classpath configurations.compile, configurations.runtime
-    main = "org.bukkit.craftbukkit.Main"
+    main = "-jar"
+    args "server.jar"
     workingDir = "testserver/"
     standardInput = System.in
 }

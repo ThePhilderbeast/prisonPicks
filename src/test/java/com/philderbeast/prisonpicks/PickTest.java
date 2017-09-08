@@ -112,7 +112,7 @@ public class PickTest {
         doReturn(true).when(tool).containsEnchantment(Enchantment.SILK_TOUCH); 
 
         Map < String, Boolean > enchants = pick.getEnchantments(tool);
-        assertFalse(enchants.get(Pick.UNBREAKING)); 
+        assertFalse(enchants.get(Pick.UNBREAKING));
         assertFalse(enchants.get(Pick.FORTUNE)); 
         assertTrue(enchants.get(Pick.SILK_TOUCH)); 
     }
@@ -132,7 +132,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
 
         //test normal picks
-        assertTrue(pick.doBreak(block, enchants, player, null)); 
+        pick.doBreak(block, enchants, player, null);
 
         ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
@@ -153,7 +153,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, true); 
 
         //test normal picks
-        assertTrue(pick.doBreak(block, enchants, player, null)); 
+        pick.doBreak(block, enchants, player, null);
         ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
         ItemStack capturedArgument = argumentCaptor.getValue();
@@ -175,7 +175,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
 
         //test normal picks
-        assertTrue(pick.doBreak(block, enchants, player, Material.EMERALD_ORE)); 
+        pick.doBreak(block, enchants, player, Material.EMERALD_ORE);
 
         //verify we are settting the block to EMERALD_ORE
         verify(block).setType(Material.EMERALD_ORE);
@@ -193,7 +193,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, true); 
 
         //test normal picks
-        assertTrue(pick.doBreak(block, enchants, player, Material.EMERALD_ORE)); 
+        pick.doBreak(block, enchants, player, Material.EMERALD_ORE);
 
         ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
@@ -212,7 +212,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
         
         //we shouldnt be able to break this
-        assertFalse(pick.doBreak(block, enchants, player, null)); 
+        pick.doBreak(block, enchants, player, null);
         verify(block, times(0)).setType(Material.AIR);
     }
 
@@ -226,7 +226,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
         
         //we shouldnt be able to break this
-        assertFalse(pick.doBreak(block, enchants, player, null)); 
+        pick.doBreak(block, enchants, player, null);
         verify(block, times(0)).setType(Material.AIR);
     }
 
