@@ -8,11 +8,15 @@ image: java:8
 pipelines:
   default:
     - step:
+        caches:
+          - gradle
         script:
           - sh gradlew build
   tags:
     release-*:
      - step:
+        caches:
+          - gradle
         script:
           - sh gradlew build
           - git push git@github.com:ThePhilderbeast/prisonPicks.git
