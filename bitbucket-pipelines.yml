@@ -10,4 +10,5 @@ pipelines:
     - step:
         script:
           - sh gradlew build
-          - git push git@github.com:ThePhilderbeast/prisonPicks.git HEAD:master
+          - git push git@github.com:ThePhilderbeast/prisonPicks.git
+          - git push git@github.com:ThePhilderbeast/prisonPicks.git --tags
