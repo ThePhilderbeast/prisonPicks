@@ -1,0 +1,14 @@
+resources:
+- name: prisonpicks
+  path: ./
+  type: git
+  source:
+    uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/prisonpicks.git
+    branch: master
+
+jobs:
+- name: build
+  plan:
+  - get: flight-school
+  - task: tests
+    file: flight-school/concourse.yml
