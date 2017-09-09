@@ -2,7 +2,9 @@ resource_types:
   # the gradle-cache resource type
   - name: gradle-cache
     type: docker-image
-    source: {repository: projectfalcon/gradle-cache-resource, tag: latest}
+    source:
+      repository: xaethos/gradle-cache-resource
+      tag: latest
 
 
 resources:
