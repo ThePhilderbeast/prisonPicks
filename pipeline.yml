@@ -1,14 +1,30 @@
+resource_types:
+  # the gradle-cache resource type
+  - name: gradle-cache
+    type: docker-image
+    source: {repository: projectfalcon/gradle-cache-resource, tag: latest}
+
+
 resources:
-- name: prisonpicks
+- name: prisonpicks-source
   type: git
-  source:
+  source: &prisonpicks-source # apply a YAML anchor so we can refer to this in the cache resource
     branch: master
     uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/prisonpicks.git
+
+# a resource caching the dependencies listed in the source repository
+- name: prisonpicks-cache
+  type: gradle-cache # as defined above
+  source:
+    <<: *prisonpicks-source # the source is the same as the corresponding git resource ...
+    paths: # ... except that it's only interested in files listing dependencies
+      - build.gradle
 
 jobs:
 - name: build
   plan:
-  - get: prisonpicks
+  - get: prisonpicks-source
+  - get: prisonpicks-cache
     trigger: true
   - task: build
     file: prisonpicks/concourse.yml
