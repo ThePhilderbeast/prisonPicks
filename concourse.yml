@@ -10,6 +10,10 @@ inputs:
 - name: prisonpicks
   path: ./
 
+caches:
+  - path: $HOME/.gradle/wrapper/
+  - path: $HOME/.m2
+
 run:
   path: ./gradlew
   args: [ build ]
