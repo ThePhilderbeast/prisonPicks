@@ -142,7 +142,7 @@ class Config
         }
 
         defaults.clear();
-        defaults.put("pick_break_color", ChatColor.RED.toString();
+        defaults.put("pick_break_color", ChatColor.RED.toString());
         defaults.put("success_color", ChatColor.GREEN.toString());
         defaults.put("fail_color", ChatColor.RED.toString());
         defaults.put("explosive_repair_msg", ChatColor.GOLD.toString());
