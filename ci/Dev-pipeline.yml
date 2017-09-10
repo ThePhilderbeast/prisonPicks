@@ -1,0 +1,14 @@
+resources:
+- name: prisonpicks
+  type: git
+  source:
+    branch: develop
+    uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/prisonpicks.git
+
+jobs:
+- name: build
+  plan:
+  - get: prisonpicks
+    trigger: true
+  - task: build
+    file: prisonpicks/ci/concourse.yml
