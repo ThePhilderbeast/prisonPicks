@@ -8,3 +8,19 @@ softdepend: ['WorldGuard',
 commands:
   pick:
     description: Main Command
+permissions:
+  picks.*:
+    description: Gives access to all Prison Picks commands
+      children:
+        picks.explosive: op
+        picks.reload: op
+        picks.repair: true
+  picks.explosive:
+    description: Allows you to spawn in the various Picks
+    default: op
+  picks.reload:
+    description: Allows you to reload the config
+    default: op
+  picks.repair:
+    description: Allows you to hide the repair messages
+    default: true

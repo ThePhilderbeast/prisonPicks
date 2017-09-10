@@ -23,7 +23,13 @@ class PickCommands implements CommandExecutor
             {
                 Player player = (Player) sender;
 
-                if (args[0].equals("repair"))
+                if (args[0].equals("reload") && (sender).hasPermission("picks.reload"))
+                {
+                    Config.reloadConfigs();
+                    return true;
+                }
+
+                if (args[0].equals("repair") && (sender).hasPermission("picks.repair"))
                 {
                     if (Events.hideRepair.contains(player.getName()))
                     {
