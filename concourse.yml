@@ -7,8 +7,14 @@ image_resource:
     tag: 8
 
 inputs:
-- name: prisonpicks
-  path: ./
+ - name: prisonpicks-source
+ path: ./
+ - name: prisonpicks-cache
+
+
+caches:
+  - path: $HOME/.gradle/wrapper/
+  - path: $HOME/.m2
 
 run:
   path: ./gradlew
