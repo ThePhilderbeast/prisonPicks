@@ -3,18 +3,12 @@ main: com.philderbeast.prisonpicks.PrisonPicks
 version: {{version}}
 description: PrisonPicks Pickaxes Plugin
 author: Philderbeast
-softdepend: ['WorldGuard',
-              'AutoPickup']
+depend: ['WorldGuard']
+softdepend: ['AutoPickup']
 commands:
   pick:
     description: Main Command
 permissions:
-  picks.*:
-    description: Gives access to all Prison Picks commands
-      children:
-        picks.explosive: op
-        picks.reload: op
-        picks.repair: true
   picks.explosive:
     description: Allows you to spawn in the various Picks
     default: op

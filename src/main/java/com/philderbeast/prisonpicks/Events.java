@@ -73,13 +73,13 @@ public class Events implements Listener
             {
                 if (Pickoplenty.isPick(item))
                 {
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "[Pickaxe Repaired]");
+                    player.sendMessage(Config.CHAT_POP_REPAIR + "[Pickaxe Repaired]");
                 } else if (XPickoPlenty.isPick(item))
                 {
-                    player.sendMessage(ChatColor.AQUA + "[Pickaxe Repaired]");
+                    player.sendMessage(Config.CHAT_XPOP_REPAIR + "[Pickaxe Repaired]");
                 } else
                 {
-                    player.sendMessage(ChatColor.GOLD + "[Pickaxe Repaired]");
+                    player.sendMessage(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]");
                 }
             }
             short s = 0;

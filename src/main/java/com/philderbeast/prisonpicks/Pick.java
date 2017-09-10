@@ -227,16 +227,16 @@ abstract class Pick
 
             if (Xpick.isPick(tool))
             {
-                pick = "Explosive Pick";
+                pick = Config.EXPLOSIVE_COLOR + "Explosive Pick";
             }else if (Pickoplenty.isPick(tool))
             {
-                pick = "Pick 'o' Penty";
+                pick = Config.PICK_O_PLENTY_COLOR + "Pick 'o' Plenty";
             }else if (XPickoPlenty.isPick(tool))
             {
-                pick = "Explosive Pick 'o' plenty";
+                pick = Config.EXPLOSIVE_COLOR + "Explosive " + Config.PICK_O_PLENTY_COLOR + " Pick 'o' plenty";
             }
 
-            Bukkit.broadcastMessage(ChatColor.DARK_RED + player.getName() + " just broke their " + pick + " while mining... Press 'F' to pay respects.");
+            Bukkit.broadcastMessage(Config.CHAT_PICK_BREAK + player.getName() + " just broke their " + pick + Config.CHAT_PICK_BREAK + " while mining... Press 'F' to pay respects.");
 
             if(Config.DEBUG)
             {

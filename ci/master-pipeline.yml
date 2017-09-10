@@ -5,6 +5,13 @@ resources:
     branch: master
     uri: https://ThePhilderbeast@bitbucket.org/ThePhilderbeast/prisonpicks.git
 
+- name: github
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:ThePhilderbeast/prisonPicks.git
+    private_key: ((private_repo_key))
+
 jobs:
 - name: build
   plan:
@@ -12,3 +19,5 @@ jobs:
     trigger: true
   - task: build
     file: prisonpicks/ci/concourse.yml
+  - put: github
+    params: {repository: prisonpicks }
