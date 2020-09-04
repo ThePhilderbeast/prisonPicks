@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 
-import me.MnMaxon.AutoPickup.API.AutoPickupMethods;
+import com.philderbeast.autopickup.API.AutoPickupMethods;
 
 abstract class Pick
 {

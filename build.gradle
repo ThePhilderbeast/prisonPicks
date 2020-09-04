@@ -24,13 +24,17 @@ sourceCompatibility = project.property("sourceversion")
 repositories
 {
     jcenter()
+    maven { 
+        name = "GitHubPackages"
+        url('https://maven.pkg.github.com/ThePhilderbeast/AutoPickup') 
+        credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+    }
     maven { url('https://oss.sonatype.org/content/groups/public/') }
-    maven { url('http://artifactory.philderbeast.com/artifactory/release') }
     maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
     maven { url('http://maven.sk89q.com/repo/') }
-    maven { url('http://maven.drekryan.com:8081/artifactory/libs-release-local') }
-    maven { url('http://maven.drekryan.com:8081/artifactory/libs-snapshot-local') }
-    maven { url('http://repo.stealthyone.com/content/groups/public') }
 }
 
 processResources
@@ -70,9 +74,9 @@ dependencies
             name:"worldguard-legacy",
             version:"6.2"
 
-    compile group:"me.MnMaxon",
+    compile group:"com.philderbeast.autopickup",
             name:"AutoPickup",
-            version:"5.0.3"
+            version:"5.3.1"
 
     compile group:"com.sk89q.worldedit",
             name:"worldedit-core",

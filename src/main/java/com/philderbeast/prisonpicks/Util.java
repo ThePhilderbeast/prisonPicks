@@ -16,7 +16,7 @@ import com.sk89q.worldguard.bukkit.BukkitUtil;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin; 
 import com.sk89q.worldguard.protection.ApplicableRegionSet; 
 
-import me.MnMaxon.AutoPickup.AutoPickupPlugin; 
+import com.philderbeast.autopickup.AutoPickupPlugin; 
 
 class Util 
 {
