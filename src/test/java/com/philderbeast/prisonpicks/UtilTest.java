@@ -38,7 +38,6 @@ public class UtilTest {
 
         PowerMockito.mockStatic(Bukkit.class);
         when(Bukkit.getItemFactory()).thenReturn(itemFactory);
-
         when(itemFactory.getItemMeta(Material.DIAMOND_PICKAXE)).thenReturn(itemMeta);
     }
 
