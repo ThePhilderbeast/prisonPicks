@@ -68,7 +68,7 @@ dependencies
 
     compile group:"org.spigotmc",
             name:"spigot-api",
-            version:"1.11.2-R0.1-SNAPSHOT"
+            version:"1.17.1-R0.1-SNAPSHOT"
 
     compile group:"com.sk89q.worldguard",
             name:"worldguard-legacy",
@@ -104,15 +104,15 @@ shadowJar {
     }
 
     eachFile
+    {
+        copyDetails-> if (copyDetails.path == 'plugin.yml')
+        {
+            filter
             {
-                copyDetails-> if (copyDetails.path == 'plugin.yml')
-                {
-                    filter
-                            {
-                                line -> line.replace('{{version}}', project.property("version"));
-                            }
-                }
+                line -> line.replace('{{version}}', project.property("version"));
             }
+        }
+    }
 }
 
 task deploy(type: Copy, dependsOn: ['build']) {
