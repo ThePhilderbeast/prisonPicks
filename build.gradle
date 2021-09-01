@@ -34,7 +34,7 @@ repositories
     }
     maven { url('https://oss.sonatype.org/content/groups/public/') }
     maven { url('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
-    maven { url('http://maven.sk89q.com/repo/') }
+    maven { url('https://maven.sk89q.com/repo/') }
 }
 
 processResources
