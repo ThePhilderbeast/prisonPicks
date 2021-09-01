@@ -1,4 +1,6 @@
 language: java
+dist: focal
+jdk: openjdk16
 
 before_script:
 - chmod +x gradlew
