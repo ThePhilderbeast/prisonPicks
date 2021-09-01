@@ -2,7 +2,6 @@ package com.philderbeast.prisonpicks;
 
 import java.util.ArrayList;
 import java.util.Map;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.Location;
 import org.bukkit.Sound;

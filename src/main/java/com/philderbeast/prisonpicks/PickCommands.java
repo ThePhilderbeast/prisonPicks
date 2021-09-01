@@ -1,14 +1,17 @@
 package com.philderbeast.prisonpicks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 
 import org.bukkit.ChatColor;
-
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,6 +19,8 @@ class PickCommands implements CommandExecutor
 {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
     {
+        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+        
         //hide the repair messages
         if (label.equalsIgnoreCase("pick"))
         {
@@ -41,6 +46,21 @@ class PickCommands implements CommandExecutor
                     return true;
                 }
 
+                if (args[0].equals("debug") && (sender).hasPermission("picks.debug")) 
+                {
+                    if (args[0].contains("true")) {
+                    Config.DEBUG = true;
+                    player.sendMessage("Debug: " + Config.DEBUG);
+                    }
+                    if (args[0].contains("false")) {
+                        Config.DEBUG = false;
+                        
+                        player.sendMessage("Debug: " + Config.DEBUG);
+                        }
+                    return true;
+                    
+                }
+                
                 if (!(sender).hasPermission("picks.explosive")
                         && !(player = (Player) sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))
                 {
@@ -72,7 +92,6 @@ class PickCommands implements CommandExecutor
                         case "fakexpickoplenty":
                             pick = Util.createItemStack(Config.FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR + "Explosive Pick o'Plenty");
                             sendMessage(sender, receiver, "Explosive Pick o'Plenty", Config.FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR , givePick(receiver, pick));
-
                             return true;
                         default:
                             sender.sendMessage(Config.CHAT_FAIL_COLOR + "Invalid pickaxe type!" + ChatColor.GOLD + " Available options: explosive, pickoplenty, xpickoplenty, fakexpickoplenty");
@@ -105,7 +124,7 @@ class PickCommands implements CommandExecutor
             sender.sendMessage(Config.CHAT_FAIL_COLOR + "[" + receiver.getName() + "'s inventory was full! " + pickColour + pickType + Config.CHAT_FAIL_COLOR + " was dropped]");
         }
     }
-
+    List<String> loresList = new ArrayList<String>();
     private boolean givePick(Player receiver, ItemStack pick)
     {
         if (Util.isSpaceAvailable(receiver, pick))
@@ -121,3 +140,32 @@ class PickCommands implements CommandExecutor
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

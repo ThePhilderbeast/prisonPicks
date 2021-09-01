@@ -1,16 +1,25 @@
 package com.philderbeast.prisonpicks;
 
 import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +27,17 @@ import java.util.List;
 public class Events implements Listener
 {
 
-    private boolean aoepick = false;
+    public static boolean aoepick = false;
 
     static final List< String > hideRepair = new ArrayList<>();
+    
 
     Events(){}
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event)
     {
-
+        
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
 
@@ -36,7 +46,6 @@ public class Events implements Listener
             //stop our event recurring
             return;
         }
-
         //Are we using one of our picks
         if (Xpick.isPick(item))
         {
@@ -56,43 +65,33 @@ public class Events implements Listener
         }
 
         aoepick = false;
-    }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event)
-    {
-        Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
+    }
+    
+
 
         //are they using one of our picks
+        ItemMeta itemMeta = item.getItemMeta();
         if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
             && (Xpick.isPick(item) || Pickoplenty.isPick(item) || XPickoPlenty.isPick(item))
-            && item.getDurability() > 0)
+            && ((Damageable) itemMeta).getDamage() > 0)
         {
             if (!hideRepair.contains(player.getName()))
             {
                 if (Pickoplenty.isPick(item))
                 {
-                    player.sendMessage(Config.CHAT_POP_REPAIR + "[Pickaxe Repaired]");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_POP_REPAIR + "[Pickaxe Repaired]"));
                 } else if (XPickoPlenty.isPick(item))
                 {
-                    player.sendMessage(Config.CHAT_XPOP_REPAIR + "[Pickaxe Repaired]");
-                } else
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_XPOP_REPAIR + "[Pickaxe Repaired]"));
+                }else
                 {
-                    player.sendMessage(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]"));
                 }
             }
-            short s = 0;
-            item.setDurability(s);
+            //short s = 0;
+            
+            ((Damageable) itemMeta).setDamage(0);
+            item.setItemMeta(itemMeta);
         }
     }
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event)
-    {
-        Player player = event.getPlayer();
-        Block b = event.getBlock();
-        b.setMetadata("blockBreaker", new FixedMetadataValue(PrisonPicks.getInstance(), player.getUniqueId()));
-    }
-}
-

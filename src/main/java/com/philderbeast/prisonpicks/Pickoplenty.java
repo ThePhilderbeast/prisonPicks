@@ -1,7 +1,6 @@
 package com.philderbeast.prisonpicks;
 
 import java.util.Map;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -25,6 +24,7 @@ public class Pickoplenty extends Pick
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         Block block = event.getBlock();
+        
 
         if ( !block.hasMetadata("blockBreaker")
                 && Util.canBuild(player, block.getLocation()))
@@ -56,6 +56,7 @@ public class Pickoplenty extends Pick
                         {
                             mat = check.getBlock().getType();
                             level = Priority.getPriority(mat).level;
+                            
                         } ++z;
                     } ++y;
                 } ++x;

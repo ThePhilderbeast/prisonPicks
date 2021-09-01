@@ -2,21 +2,24 @@ package com.philderbeast.prisonpicks;
 
 import java.util.Map;
 import java.util.ArrayList;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class Xpick extends Pick
 {
-
+    
     public static boolean isPick(ItemStack item)
     {
         return(Pick.isPick(item) && item.getItemMeta().getLore().contains(Config.EXPLOSIVE_COLOR + "Explosive I"));
@@ -30,6 +33,7 @@ public class Xpick extends Pick
 
         if (Util.canBuild(player, event.getBlock().getLocation()))
         {
+            
             Location center = event.getBlock().getLocation();
 
             center.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center, 1);
@@ -61,6 +65,11 @@ public class Xpick extends Pick
                             && (block.getBlock().getType() != Material.BEDROCK)
                             && (block.getBlock().getType() != Material.AIR))
                         {
+                            if (block.getWorld().getBlockAt(block).getType() == Material.EMERALD_ORE) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "RIP That Emerald"));
+                            }
+                            if (block.getWorld().getBlockAt(block).getType() != Material.EMERALD_ORE) {
+                            }
                             locations.add(block);
                         } ++ z;
                     } ++ y;

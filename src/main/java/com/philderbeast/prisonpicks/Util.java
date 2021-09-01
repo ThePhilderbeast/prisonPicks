@@ -1,22 +1,24 @@
 package com.philderbeast.prisonpicks; 
 
 import java.util.ArrayList;
-
 import org.bukkit.Bukkit; 
 import org.bukkit.Location; 
-import org.bukkit.Material; 
-import org.bukkit.World; 
+import org.bukkit.Material;
 import org.bukkit.block.Block; 
 import org.bukkit.entity.Player; 
 import org.bukkit.inventory.ItemStack; 
 import org.bukkit.inventory.meta.ItemMeta; 
-import org.bukkit.plugin.Plugin; 
+import org.bukkit.plugin.Plugin;
 
-import com.sk89q.worldguard.bukkit.BukkitUtil; 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin; 
-import com.sk89q.worldguard.protection.ApplicableRegionSet; 
+import com.philderbeast.autopickup.AutoPickupPlugin;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 
-import com.philderbeast.autopickup.AutoPickupPlugin; 
 
 class Util 
 {
@@ -70,12 +72,28 @@ class Util
                 min = 3; 
                 max = 7; 
                 break; 
-            case GLOWING_REDSTONE_ORE:
             case REDSTONE_ORE:
                 min = 1; 
                 max = 5; 
                 break; 
             case LAPIS_ORE:
+                min = 2; 
+                max = 5; 
+                break; 
+            case DEEPSLATE_COAL_ORE:
+                min = 0; 
+                max = 2; 
+                break; 
+            case DEEPSLATE_DIAMOND_ORE:
+            case DEEPSLATE_EMERALD_ORE:
+                min = 3; 
+                max = 7; 
+                break; 
+            case DEEPSLATE_REDSTONE_ORE:
+                min = 1; 
+                max = 5; 
+                break; 
+            case DEEPSLATE_LAPIS_ORE:
                 min = 2; 
                 max = 5; 
                 break; 
@@ -104,14 +122,22 @@ class Util
         WorldGuardPlugin wg = getWorldGuard(); 
         if (wg != null)
         {
-            World world = location.getWorld(); 
-            ApplicableRegionSet regions = wg.getRegionManager(world).getApplicableRegions(BukkitUtil.toVector(location)); 
+            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query = container.createQuery();
 
-            return wg.canBuild(player, location) && regions.testState(null, Config.PRISON_PICK_FLAG);
-        }else 
-        {
-            return true; 
+
+            if (!query.testState(BukkitAdapter.adapt(location), localPlayer, Flags.BUILD)) {
+                if (!query.testState(BukkitAdapter.adapt(location), localPlayer, Flags.OTHER_EXPLOSION)) {
+                return false;
+                }
+            }
+            else if (query.testState(BukkitAdapter.adapt(location), localPlayer, Flags.BUILD) && query.testState(BukkitAdapter.adapt(location), localPlayer, Flags.OTHER_EXPLOSION)) {
+                return true;
+            }
         }
+        return false;
+        
     }
 
     static AutoPickupPlugin getAutoPickup()
