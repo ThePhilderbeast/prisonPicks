@@ -9,7 +9,9 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration; 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.sk89q.worldguard.protection.flags.StateFlag; 
 
 /**
  * Creates the YMAL configuration file for the Plugin that contains all settings
@@ -20,7 +22,10 @@ class Config
     private static final String MAIN_CONFIG = "config.yaml";
 
     private static String configFolder;
+    private static boolean WORLDGUARD_DEFAULT = true;
+
     static boolean DEBUG = false;
+    static StateFlag PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
 
     static ChatColor EXPLOSIVE_COLOR = ChatColor.GOLD;
     static ChatColor PICK_O_PLENTY_COLOR = ChatColor.LIGHT_PURPLE;
@@ -42,16 +47,14 @@ class Config
     static int DIAMOND_PRIORITY = 7;
     static int DIAMOND_BLOCK_PRIORITY = 8;
     static int EMERALD_PRIORITY = 9;
-    static int COPPER_PRIORITY = 10;
     
-    static int DEEPCOAL_PRIORITY = 11;
-    static int DEEPIRON_PRIORITY = 12;
-    static int DEEPREDSTONE_PRIORITY = 13;
-    static int DEEPLAPIS_PRIORITY = 14;
-    static int DEEPGOLD_PRIORITY = 15;
-    static int DEEPDIAMOND_PRIORITY = 16;
-    static int DEEPEMERALD_PRIORITY = 17;
-    static int DEEPCOPPER_PRIORITY = 18;
+    static int DEEPCOAL_PRIORITY = 1;
+    static int DEEPIRON_PRIORITY = 2;
+    static int DEEPREDSTONE_PRIORITY = 3;
+    static int DEEPLAPIS_PRIORITY = 4;
+    static int DEEPGOLD_PRIORITY = 5;
+    static int DEEPDIAMOND_PRIORITY = 7;
+    static int DEEPEMERALD_PRIORITY = 9;
 
     static void setConfigFolder(String configFolder)
     {
@@ -61,7 +64,10 @@ class Config
     static void reloadConfigs()
     {
         YamlConfiguration mainConfig = load(configFolder + "/" + MAIN_CONFIG);
-
+        
+        WORLDGUARD_DEFAULT = mainConfig.getBoolean("worldguard_flag_enable"); 
+        PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
+        
         EXPLOSIVE_COLOR = ChatColor.getByChar(mainConfig.getString("explosive_color").charAt(1));
         PICK_O_PLENTY_COLOR = ChatColor.getByChar(mainConfig.getString("pick_o_plenty_color").charAt(1));
         FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR = ChatColor.getByChar(mainConfig.getString("fake_xpop_color").charAt(1));
@@ -82,7 +88,6 @@ class Config
         DIAMOND_PRIORITY = mainConfig.getInt("diamond_priority");
         DIAMOND_BLOCK_PRIORITY = mainConfig.getInt("diamond_block_priority");
         EMERALD_PRIORITY = mainConfig.getInt("emerald_priority");
-        COPPER_PRIORITY = mainConfig.getInt("copper_priority");
         
         DEEPCOAL_PRIORITY = mainConfig.getInt("deepcoal_priority");
         DEEPIRON_PRIORITY = mainConfig.getInt("deepiron_priority");
@@ -91,7 +96,6 @@ class Config
         DEEPGOLD_PRIORITY = mainConfig.getInt("deepgold_priority");
         DEEPDIAMOND_PRIORITY = mainConfig.getInt("deepdiamond_priority");
         DEEPEMERALD_PRIORITY = mainConfig.getInt("deepemerald_priority");
-        DEEPCOPPER_PRIORITY = mainConfig.getInt("deepcopper_priority");
         
     }
 
@@ -175,15 +179,14 @@ class Config
         defaults.put("diamond_priority", 7);
         defaults.put("diamond_block_priority", 8);
         defaults.put("emerald_priority", 9);
-        defaults.put("copper_priority", 10);
-        defaults.put("deepcoal_priority", 11);
-        defaults.put("deepiron_priority", 12);
-        defaults.put("deepredstone_priority", 13);
-        defaults.put("deeplapis_priority", 14);
-        defaults.put("deepgold_priority", 15);
-        defaults.put("deepdiamond_priority", 16);
-        defaults.put("deepemerald_priority", 17);
-        defaults.put("deepcopper_priority", 18);
+        
+        defaults.put("deepcoal_priority", 1);
+        defaults.put("deepiron_priority", 2);
+        defaults.put("deepredstone_priority", 3);
+        defaults.put("deeplapis_priority", 4);
+        defaults.put("deepgold_priority", 5);
+        defaults.put("deepdiamond_priority", 7);
+        defaults.put("deepemerald_priority", 9);
 
         for (Map.Entry < String, Object > entry:defaults.entrySet())
         {

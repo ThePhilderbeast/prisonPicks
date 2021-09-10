@@ -10,12 +10,13 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+
 import org.bukkit.Material;
 import org.bukkit.Particle;
 
 public class XPickoPlenty extends Pick
 {
-
+    
     private Material mat = Priority.NONE.mat;
 
     public static boolean isPick(ItemStack item)
@@ -63,7 +64,7 @@ public class XPickoPlenty extends Pick
                         {
 
                             //set the block to the highest value material
-                            block.getWorld().getBlockAt(block).setType(getMaterial(block));
+                            block.getWorld().getBlockAt(block).setType(getMaterial(block, player));
                             locations.add(block);
 
                         } ++ z;
@@ -88,7 +89,7 @@ public class XPickoPlenty extends Pick
         }
     }
 
-    private Material getMaterial(Location center)
+    private Material getMaterial(Location center, Player player)
     {
         int radius = 2;
         int bX = center.getBlockX();
@@ -108,6 +109,17 @@ public class XPickoPlenty extends Pick
 
                     double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
                     Location block = new Location(center.getWorld(), (double)x, (double)y, (double)z);
+                    if (distance < (double)(radius * radius))
+                    {
+                        if ((level < Priority.getPriority(block.getWorld().getBlockAt(block).getType()).level)
+                                &&  ! block.getBlock().hasMetadata("blockBreaker"))
+                        {
+
+                            mat = block.getWorld().getBlockAt(block).getType();
+                            level = Priority.getPriority(mat).level;
+                            
+                        }
+                    }
                     if (distance < (double)(radius * radius)
                             && (block.getBlock().getType() != Material.BEDROCK)
                             && (block.getBlock().getType() != Material.AIR))
@@ -118,6 +130,7 @@ public class XPickoPlenty extends Pick
 
                             mat = block.getWorld().getBlockAt(block).getType();
                             level = Priority.getPriority(mat).level;
+                            
                         }
                     } ++ z;
                 } ++ y;
@@ -125,4 +138,11 @@ public class XPickoPlenty extends Pick
         }
         return mat;
     }
+
+    @Override
+    protected char[] parseInt(String string) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

@@ -1,15 +1,12 @@
 package com.philderbeast.prisonpicks;
 
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,8 +15,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-
-import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +25,6 @@ public class Events implements Listener
     public static boolean aoepick = false;
 
     static final List< String > hideRepair = new ArrayList<>();
-    
 
     Events(){}
 
@@ -68,7 +62,11 @@ public class Events implements Listener
 
     }
     
-
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event)
+    {
+        Player player = event.getPlayer();
+        ItemStack item = player.getInventory().getItemInMainHand();
 
         //are they using one of our picks
         ItemMeta itemMeta = item.getItemMeta();
@@ -84,7 +82,7 @@ public class Events implements Listener
                 } else if (XPickoPlenty.isPick(item))
                 {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_XPOP_REPAIR + "[Pickaxe Repaired]"));
-                }else
+                } else
                 {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]"));
                 }
@@ -95,3 +93,14 @@ public class Events implements Listener
             item.setItemMeta(itemMeta);
         }
     }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event)
+    {
+        
+        Player player = event.getPlayer();
+        Block b = event.getBlock();
+        b.setMetadata("blockBreaker", new FixedMetadataValue(PrisonPicks.getInstance(), player.getUniqueId()));
+
+    }
+}

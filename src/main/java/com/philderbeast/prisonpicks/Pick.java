@@ -25,13 +25,13 @@ abstract class Pick
     static final String UNBREAKING = "unbreaking";
     static final String SILK_TOUCH = "silktouch";
     
-    int rng = (int) (Math.random() * (4 - 1)) + 1;
+    int chance = (int) (Math.random() * (4 - 1)) + 1;
 
     public abstract void breakBlock(BlockBreakEvent event);
 
     static boolean isPick(ItemStack item)
     {
-        return item != null && item.getType() == Material.DIAMOND_PICKAXE && item.hasItemMeta() && item.getItemMeta().hasLore() || item.getType() == Material.NETHERITE_PICKAXE && item.hasItemMeta() && item.getItemMeta().hasLore();
+        return item != null && item.getType() == Material.DIAMOND_PICKAXE || item.getType() == Material.NETHERITE_PICKAXE && item.hasItemMeta() && item.getItemMeta().hasLore();
     }
 
     Map < String, Boolean > getEnchantments(ItemStack item)
@@ -135,28 +135,22 @@ abstract class Pick
             drop = (ItemStack)stacks.toArray()[0];
         }
 
-        if (block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE || block.getType() == Material.DEEPSLATE_IRON_ORE || block.getType() == Material.DEEPSLATE_GOLD_ORE)
+        if (block.getType() == Material.IRON_ORE || block.getType() == Material.DEEPSLATE_IRON_ORE || block.getType() == Material.GOLD_ORE || block.getType() == Material.DEEPSLATE_GOLD_ORE)
         {
             drop.setAmount(1);
             return drop;
         }
 
-        if (block.getType() == Material.REDSTONE_ORE || block.getType() == Material.GLOWSTONE || block.getType() == Material.DEEPSLATE_REDSTONE_ORE || block.getType() == Material.COAL_ORE || block.getType() == Material.DEEPSLATE_COAL_ORE)
+        if (block.getType() == Material.REDSTONE_ORE  || block.getType() == Material.DEEPSLATE_REDSTONE_ORE || block.getType() == Material.GLOWSTONE || block.getType() == Material.COAL_ORE || block.getType() == Material.DEEPSLATE_COAL_ORE)
         {
             switch (block.getType())
             {
                 case REDSTONE_ORE:
-                    min = 4;
-                    max = 5;
-                    break;
                 case DEEPSLATE_REDSTONE_ORE:
                     min = 4;
                     max = 5;
                     break;
                 case COAL_ORE:
-                    min = 1;
-                    max = 6;
-                    break;
                 case DEEPSLATE_COAL_ORE:
                     min = 1;
                     max = 6;
@@ -213,7 +207,7 @@ abstract class Pick
 
         return drop;
     }
-    String tpick = "";
+    
     void doDamage(boolean unbreaking, Player player)
     {
         ItemStack tool = player.getInventory().getItemInMainHand();
@@ -250,6 +244,7 @@ abstract class Pick
         if (((Damageable) tool.getItemMeta()).getDamage() > tool.getType().getMaxDurability())
         {
             String pick = "";
+            String type = "";
 
             if (Xpick.isPick(tool))
             {
@@ -263,19 +258,19 @@ abstract class Pick
             }
 
             if (tool.getType() == Material.DIAMOND_PICKAXE) {
-                tpick = ChatColor.BLUE + "Diamond";
+                type = ChatColor.BLUE + "Diamond";
             }
             
             if (tool.getType() == Material.NETHERITE_PICKAXE) {
-                tpick = ChatColor.DARK_PURPLE + "Netherite";
+                type = ChatColor.DARK_PURPLE + "Netherite";
             }
-            if (rng == 1 && player.getName() != null) {
-                Bukkit.broadcastMessage(Config.CHAT_PICK_BREAK + "Uh oh, " + player.getName() + " wasn't paying attention. Don't forget to right click because they broke a " + tpick + " " + pick + Config.CHAT_PICK_BREAK + " while mining... Press 'F' to pay respects. ");
+            if (chance == 1 && player.getName() != null) {
+                Bukkit.broadcastMessage(Config.CHAT_PICK_BREAK + "Uh oh, " + player.getName() + " wasn't paying attention. Don't forget to right click because they broke a " + type + " " + pick + Config.CHAT_PICK_BREAK + " while mining... Press 'F' to pay respects. ");
                 
             }
             else
-            if (rng != 1 && player.getName() != null) {
-                Bukkit.broadcastMessage(Config.CHAT_PICK_BREAK + player.getName() + " just broke their " + tpick + " " + pick + Config.CHAT_PICK_BREAK + " while mining... Press 'F' to pay respects. ");
+            if (chance != 1 && player.getName() != null) {
+                Bukkit.broadcastMessage(Config.CHAT_PICK_BREAK + player.getName() + " just broke their " + type + " " + pick + Config.CHAT_PICK_BREAK + " while mining... Press 'F' to pay respects. ");
                     }
                 
             if(Config.DEBUG)
@@ -290,13 +285,13 @@ abstract class Pick
                 {
                     pick = Config.EXPLOSIVE_COLOR + "Explosive " + Config.PICK_O_PLENTY_COLOR + " Pick 'o' plenty";
                 }
-                Bukkit.broadcastMessage("-------------------------------------");
-                Bukkit.broadcastMessage("Player: " + player.getName());
-                Bukkit.broadcastMessage("UUID: " + player.getUniqueId());
-                Bukkit.broadcastMessage("Pick type: " + tpick + " " + pick);
-                Bukkit.broadcastMessage("Pick Current Durability: " + ((Damageable) tool.getItemMeta()).getDamage());
-                Bukkit.broadcastMessage("Pick Max Durability: " + tool.getType().getMaxDurability());
-                Bukkit.broadcastMessage("-------------------------------------");
+                System.out.println("-------------------------------------");
+                System.out.println("Player: " + player.getName());
+                System.out.println("UUID: " + player.getUniqueId());
+                System.out.println("Pick type: " + type + " " + pick);
+                System.out.println("Pick Current Durability: " + ((Damageable) tool.getItemMeta()).getDamage());
+                System.out.println("Pick Max Durability: " + tool.getType().getMaxDurability());
+                System.out.println("-------------------------------------");
             }
             //break the pick
             player.getInventory().remove(tool);

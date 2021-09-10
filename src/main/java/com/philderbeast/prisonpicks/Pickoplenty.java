@@ -80,4 +80,10 @@ public class Pickoplenty extends Pick
             }
         }
     }
+
+    @Override
+    protected char[] parseInt(String string) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
