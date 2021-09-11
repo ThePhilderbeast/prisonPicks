@@ -1,7 +1,7 @@
 # Prison Picks
 
 ## Status
-[![Build Status](https://app.travis-ci.com/ThePhilderbeast/prisonPicks.svg?branch=master)](https://travis-ci.org/ThePhilderbeast/prisonPicks) [![codecov](https://codecov.io/gh/ThePhilderbeast/prisonPicks/branch/master/graph/badge.svg)](https://codecov.io/gh/ThePhilderbeast/prisonPicks)
+[![Build Status](https://app.travis-ci.com/ThePhilderbeast/prisonPicks.svg?branch=master)](https://app.travis-ci.com/ThePhilderbeast/prisonPicks) [![codecov](https://codecov.io/gh/ThePhilderbeast/prisonPicks/branch/master/graph/badge.svg)](https://codecov.io/gh/ThePhilderbeast/prisonPicks)
 
 
 ## What is it
