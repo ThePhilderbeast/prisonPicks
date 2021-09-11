@@ -54,18 +54,6 @@ public class PickCommandsTest {
     {
         MockitoAnnotations.initMocks(this);
 
-        // Initialize the Mock server.
-        JavaPluginLoader mockPluginLoader = new JavaPluginLoader(mockServer);
-        Whitebox.setInternalState(mockPluginLoader, "server", mockServer);
-        when(mockServer.getName()).thenReturn("TestBukkit");
-        Logger.getLogger("Minecraft").setParent(TestUtil.logger);
-        when(mockServer.getLogger()).thenReturn(TestUtil.logger);
-
-         // Return a fake PDF file.
-        PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("PrisonPicks", "1.3.4-Test",
-                "com.philderbeast.prisonpicks.PrisonPicks"));
-        when(pdf.getAuthors()).thenReturn(new ArrayList<String>());
-
         pickCommands = new PickCommands();
 
         // MOCKS BELOW HERE

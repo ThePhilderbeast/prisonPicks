@@ -79,7 +79,7 @@ public class PickoplentyTest {
     }
 
     @Test
-    public void isXPickTest()
+    public void isPopTest()
     {
         doReturn(true).when(itemMeta).hasLore();
         doReturn(true).when(tool).hasItemMeta();

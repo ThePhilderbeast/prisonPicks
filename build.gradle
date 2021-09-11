@@ -66,19 +66,19 @@ check.dependsOn jacocoTestReport
 dependencies
 {
 
-    compileOnly group:"org.spigotmc",
+    implementation group:"org.spigotmc",
             name:"spigot-api",
             version:"1.11.2-R0.1-SNAPSHOT"
 
-    compileOnly group:"com.sk89q.worldguard",
+    implementation group:"com.sk89q.worldguard",
             name:"worldguard-legacy",
             version:"6.2"
 
-    compileOnly group:"com.philderbeast.autopickup",
+    implementation group:"com.philderbeast.autopickup",
             name:"AutoPickup",
             version:"5.3.1"
 
-    compileOnly group:"com.sk89q.worldedit",
+    implementation group:"com.sk89q.worldedit",
             name:"worldedit-core",
             version:"6.1.4-SNAPSHOT"
 
@@ -134,7 +134,7 @@ task copyPluginToTestserver(dependsOn: ['build', 'shadowJar'], type: Copy) {
 task prepareDevServer(dependsOn: ['buildSpigot', 'setupDevServer', 'copyPluginToTestserver']) {}
 
 task startDevServer(dependsOn: [prepareDevServer], type: JavaExec) {
-    classpath configurations.implementation
+    classpath configurations.runtimeClasspath
     main = "-jar"
     args "server.jar"
     workingDir = "testserver/"

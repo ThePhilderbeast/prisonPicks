@@ -64,12 +64,18 @@ public class XPickoPlenty extends Pick
                         {
 
                             //set the block to the highest value material
-                            block.getWorld().getBlockAt(block).setType(getMaterial(block));
+                            // block.getWorld().getBlockAt(block).setType(getMaterial(block));
                             locations.add(block);
 
                         } ++ z;
                     } ++ y;
                 } ++ x;
+            }
+
+            for (Location l : locations)
+            {
+                Material material = getMaterial(l);
+                l.getBlock().setType(material);
             }
 
             Map<String, Boolean> enchants = getEnchantments(item);
