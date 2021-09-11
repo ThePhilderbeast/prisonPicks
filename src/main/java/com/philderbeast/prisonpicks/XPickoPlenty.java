@@ -2,8 +2,8 @@ package com.philderbeast.prisonpicks;
 
 import java.util.ArrayList;
 import java.util.Map;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.Bukkit;
@@ -17,8 +17,6 @@ import org.bukkit.Particle;
 public class XPickoPlenty extends Pick
 {
 
-    private Material mat = Priority.NONE.mat;
-
     public static boolean isPick(ItemStack item)
     {
         return (Pick.isPick(item)
@@ -30,7 +28,7 @@ public class XPickoPlenty extends Pick
     {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        ArrayList<Location> locations = new ArrayList<>();
+        ArrayList<BlockState> blocksToBreak = new ArrayList<>();
 
         if (Util.canBuild(player, event.getBlock().getLocation()))
         {
@@ -56,36 +54,35 @@ public class XPickoPlenty extends Pick
                     {
                         //TODO: this math is painful
                         double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
-                        Location block = new Location(center.getWorld(), (double)x, (double)y, (double)z);
+                        Location location = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                         if (distance < (double)(radius * radius)
-                            && Util.canBuild(player, block)
-                            && (block.getBlock().getType() != Material.BEDROCK)
-                            && (block.getBlock().getType() != Material.AIR))
+                            && Util.canBuild(player, location)
+                            && (location.getBlock().getType() != Material.BEDROCK)
+                            && (location.getBlock().getType() != Material.AIR))
                         {
 
-                            //set the block to the highest value material
-                            // block.getWorld().getBlockAt(block).setType(getMaterial(block));
-                            locations.add(block);
+                            Block block = location.getBlock();
+                            BlockState state = block.getState();
+                            state.setType(getMaterial(location));
+                            blocksToBreak.add(state);
 
                         } ++ z;
                     } ++ y;
                 } ++ x;
             }
 
-            for (Location l : locations)
-            {
-                Material material = getMaterial(l);
-                l.getBlock().setType(material);
-            }
-
             Map<String, Boolean> enchants = getEnchantments(item);
-            for (Location l : locations) {
+            for (BlockState b : blocksToBreak) {
+
+
+                Block block = player.getWorld().getBlockAt(b.getLocation());
+                b.update(true);
+
                 doDamage(enchants.get(Pick.UNBREAKING), player);
                 if(player.getInventory().getItemInMainHand() != null)
                 {
-                    Block block = player.getWorld().getBlockAt(l);
                     doBreak(block, enchants, player, null);
-                    if (!l.equals(event.getBlock().getLocation()))
+                    if (!b.getLocation().equals(event.getBlock().getLocation()))
                     {
                         BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
                         Bukkit.getPluginManager().callEvent(newEvent);
@@ -103,6 +100,8 @@ public class XPickoPlenty extends Pick
         int bZ = center.getBlockZ();
         int level = 0;
         int x = bX - radius;
+
+        Material mat = Priority.NONE.mat;
 
         while (x < bX + radius)
         {

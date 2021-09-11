@@ -70,7 +70,6 @@ class Util
                 min = 3; 
                 max = 7; 
                 break; 
-            case GLOWING_REDSTONE_ORE:
             case REDSTONE_ORE:
                 min = 1; 
                 max = 5; 
@@ -125,4 +124,3 @@ class Util
     }
 
 }
-

@@ -10,7 +10,7 @@ public enum Priority
     REDSTONE(Config.REDSTONE_PRIORITY, Material.REDSTONE_ORE),
     LAPIS(Config.LAPIS_PRIORITY, Material.LAPIS_ORE),
     GOLD(Config.GOLD_PRIORITY, Material.GOLD_ORE),
-    QUARTZ(Config.QUARTZ_PRIORITY, Material.QUARTZ_ORE),
+    QUARTZ(Config.QUARTZ_PRIORITY, Material.NETHER_QUARTZ_ORE),
     DIAMOND(Config.DIAMOND_PRIORITY, Material.DIAMOND_ORE),
     DIAMOND_BLOCK(Config.DIAMOND_BLOCK_PRIORITY, Material.DIAMOND_BLOCK),
     EMERALD(Config.EMERALD_PRIORITY, Material.EMERALD_ORE);
@@ -41,4 +41,3 @@ public enum Priority
         return NONE; 
     }
 }
-

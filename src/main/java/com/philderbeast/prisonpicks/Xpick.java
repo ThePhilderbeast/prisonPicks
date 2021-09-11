@@ -2,7 +2,6 @@ package com.philderbeast.prisonpicks;
 
 import java.util.Map;
 import java.util.ArrayList;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.Particle;

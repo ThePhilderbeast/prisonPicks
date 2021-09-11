@@ -22,13 +22,10 @@ import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import java.io.File;
 
-import java.util.ArrayList;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static org.mockito.Mockito.* ;
 import static org.junit.Assert.* ; 

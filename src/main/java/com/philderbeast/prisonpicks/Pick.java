@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.Collection;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -72,10 +71,10 @@ abstract class Pick
                 if (material == null)
                 {
                     //TODO: do we need this data call? if so can we find a better way
-                    blockStack = new ItemStack(block.getType(), 1, Byte.valueOf("0"));
+                    blockStack = new ItemStack(block.getType(), 1);
                 }else
                 {
-                    blockStack = new ItemStack(material, 1, Byte.valueOf("0"));
+                    blockStack = new ItemStack(material, 1);
                 }
 
                 //they have silk touch so give them the block
@@ -139,11 +138,10 @@ abstract class Pick
             return drop;
         }
 
-        if (block.getType() == Material.REDSTONE_ORE || block.getType() == Material.GLOWING_REDSTONE_ORE || block.getType() == Material.GLOWSTONE)
+        if (block.getType() == Material.REDSTONE_ORE || block.getType() == Material.GLOWSTONE)
         {
             switch (block.getType())
             {
-                case GLOWING_REDSTONE_ORE:
                 case REDSTONE_ORE:
                     min = 4;
                     max = 5;

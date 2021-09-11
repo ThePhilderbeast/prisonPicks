@@ -333,15 +333,15 @@ public class PickTest {
         {
             //TODO: find out why we have to reset this every time
             Collection<ItemStack> drops = new ArrayList<ItemStack>();
-            drops.add(new ItemStack(Material.INK_SACK, 1));
-            drops.add(new ItemStack(Material.INK_SACK, 1));
-            drops.add(new ItemStack(Material.INK_SACK, 1));
-            drops.add(new ItemStack(Material.INK_SACK, 1));
-            drops.add(new ItemStack(Material.INK_SACK, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
             doReturn(drops).when(block).getDrops(any());
 
             ItemStack dropped = Pick.getDrop(0, block, tool);
-            assertTrue(dropped.getType().equals(Material.INK_SACK));
+            assertTrue(dropped.getType().equals(Material.LAPIS_LAZULI));
             assertTrue(dropped.getAmount() >= 4 && dropped.getAmount() <= 8);
         }
     }
@@ -356,14 +356,14 @@ public class PickTest {
         {   
             //TODO: find out why we have to reset this every time
             Collection<ItemStack> drops = new ArrayList<ItemStack>();
-            drops.add(new ItemStack(Material.INK_SACK, 1, (short) 4));
-            drops.add(new ItemStack(Material.INK_SACK, 1, (short) 4));
-            drops.add(new ItemStack(Material.INK_SACK, 1, (short) 4));
-            drops.add(new ItemStack(Material.INK_SACK, 1, (short) 4));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
+            drops.add(new ItemStack(Material.LAPIS_LAZULI, 1));
             doReturn(drops).when(block).getDrops(any());
 
             ItemStack dropped = Pick.getDrop(3, block, tool);
-            assertTrue(dropped.getType().equals(Material.INK_SACK));
+            assertTrue(dropped.getType().equals(Material.LAPIS_LAZULI));
             assertTrue(dropped.getAmount() >= 4 && dropped.getAmount() <= 32);
         }
     }
