@@ -13,6 +13,9 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,13 +80,13 @@ public class Events implements Listener
             {
                 if (Pickoplenty.isPick(item))
                 {
-                    player.sendMessage(Config.CHAT_POP_REPAIR + "[Pickaxe Repaired]");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_POP_REPAIR + "[Pickaxe Repaired]"));
                 } else if (XPickoPlenty.isPick(item))
                 {
-                    player.sendMessage(Config.CHAT_XPOP_REPAIR + "[Pickaxe Repaired]");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_XPOP_REPAIR + "[Pickaxe Repaired]"));
                 } else
                 {
-                    player.sendMessage(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]"));
                 }
             }
 
