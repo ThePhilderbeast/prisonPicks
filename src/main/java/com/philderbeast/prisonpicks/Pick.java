@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 
@@ -27,7 +28,11 @@ abstract class Pick
 
     static boolean isPick(ItemStack item)
     {
-        return item != null && item.getType() == Material.DIAMOND_PICKAXE && item.hasItemMeta() && item.getItemMeta().hasLore();
+        return item != null 
+            && ( item.getType() == Material.DIAMOND_PICKAXE 
+              || item.getType() == Material.NETHERITE_PICKAXE ) 
+            && item.hasItemMeta()
+            && item.getItemMeta().hasLore();
     }
 
     Map < String, Boolean > getEnchantments(ItemStack item)
@@ -70,7 +75,6 @@ abstract class Pick
                 ItemStack blockStack;
                 if (material == null)
                 {
-                    //TODO: do we need this data call? if so can we find a better way
                     blockStack = new ItemStack(block.getType(), 1);
                 }else
                 {
@@ -207,7 +211,9 @@ abstract class Pick
 
         if ( ! unbreaking)
         {
-            tool.setDurability((short)(tool.getDurability() + 1));
+            Damageable toolMeta = (Damageable) tool.getItemMeta();
+            toolMeta.setDamage(toolMeta.getDamage() + 1);
+            tool.setItemMeta(toolMeta);
         }else if (unbreakingLevel > 0)
         {
             Random r = new Random();
@@ -216,10 +222,13 @@ abstract class Pick
 
             if (roll <= chanceToReduce)
             {
-                tool.setDurability((short)(tool.getDurability() + 1));
+                Damageable toolMeta = (Damageable) tool.getItemMeta();
+                toolMeta.setDamage(toolMeta.getDamage() + 1);
+                tool.setItemMeta(toolMeta);
             }
         }
-        if (tool.getDurability() > tool.getType().getMaxDurability())
+        
+        if (((Damageable) tool.getItemMeta()).getDamage() > tool.getType().getMaxDurability())
         {
             String pick = "";
 
@@ -242,7 +251,7 @@ abstract class Pick
                 System.out.println("Player: " + player.getName());
                 System.out.println("UUID: " + player.getUniqueId());
                 System.out.println("Pick type: " + pick);
-                System.out.println("Pick Current Durability: " + tool.getDurability());
+                System.out.println("Pick Current Durability: " + ((Damageable) tool.getItemMeta()).getDamage());
                 System.out.println("Pick Max Durability: " + tool.getType().getMaxDurability());
                 System.out.println("-------------------------------------");
             }

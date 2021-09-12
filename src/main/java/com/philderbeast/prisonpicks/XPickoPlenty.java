@@ -35,7 +35,6 @@ public class XPickoPlenty extends Pick
             Location center = event.getBlock().getLocation();
 
             center.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center, 1);
-            //TODO: is this the right sound cat?
             center.getWorld().playSound(center, Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1.0f, 1.0f);
 
             int radius = 2;
@@ -63,7 +62,10 @@ public class XPickoPlenty extends Pick
 
                             Block block = location.getBlock();
                             BlockState state = block.getState();
-                            state.setType(getMaterial(location));
+                            if ( !state.hasMetadata("blockBreaker") )
+                            {
+                                state.setType(getMaterial(location, player));
+                            }
                             blocksToBreak.add(state);
 
                         } ++ z;
@@ -92,7 +94,7 @@ public class XPickoPlenty extends Pick
         }
     }
 
-    private Material getMaterial(Location center)
+    private Material getMaterial(Location center, Player player)
     {
         int radius = 2;
         int bX = center.getBlockX();
@@ -113,18 +115,16 @@ public class XPickoPlenty extends Pick
                 {
 
                     double distance = (bX - x) * (bX - x) + (bZ - z) * (bZ - z) + (bY - y) * (bY - y);
-                    Location block = new Location(center.getWorld(), (double)x, (double)y, (double)z);
+                    Location check = new Location(center.getWorld(), (double)x, (double)y, (double)z);
                     if (distance < (double)(radius * radius)
-                            && (block.getBlock().getType() != Material.BEDROCK)
-                            && (block.getBlock().getType() != Material.AIR))
+                        && Util.canBuild(player, check)
+                        && (check.getBlock().getType() != Material.BEDROCK)
+                        && (check.getBlock().getType() != Material.AIR)
+                        && ( ! check.getBlock().hasMetadata("blockBreaker"))
+                        && Priority.getPriority(check.getBlock().getType()).level >= level)
                     {
-                        if ((level < Priority.getPriority(block.getWorld().getBlockAt(block).getType()).level)
-                                &&  ! block.getBlock().hasMetadata("blockBreaker"))
-                        {
-
-                            mat = block.getWorld().getBlockAt(block).getType();
-                            level = Priority.getPriority(mat).level;
-                        }
+                        mat = check.getBlock().getType();
+                        level = Priority.getPriority(mat).level;
                     } ++ z;
                 } ++ y;
             } ++ x;

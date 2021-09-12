@@ -8,6 +8,8 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -64,9 +66,12 @@ public class Events implements Listener
         ItemStack item = player.getInventory().getItemInMainHand();
 
         //are they using one of our picks
-        if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+        ItemMeta itemMeta = item.getItemMeta();
+        if (
+            (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
             && (Xpick.isPick(item) || Pickoplenty.isPick(item) || XPickoPlenty.isPick(item))
-            && item.getDurability() > 0)
+            && ((Damageable) itemMeta).getDamage() > 0
+        )
         {
             if (!hideRepair.contains(player.getName()))
             {
@@ -81,8 +86,10 @@ public class Events implements Listener
                     player.sendMessage(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]");
                 }
             }
-            short s = 0;
-            item.setDurability(s);
+
+            ((Damageable) itemMeta).setDamage(0);
+            item.setItemMeta(itemMeta);
+
         }
     }
 

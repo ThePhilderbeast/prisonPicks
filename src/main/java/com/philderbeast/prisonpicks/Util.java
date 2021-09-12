@@ -5,16 +5,20 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit; 
 import org.bukkit.Location; 
 import org.bukkit.Material; 
-import org.bukkit.World; 
 import org.bukkit.block.Block; 
 import org.bukkit.entity.Player; 
 import org.bukkit.inventory.ItemStack; 
 import org.bukkit.inventory.meta.ItemMeta; 
-import org.bukkit.plugin.Plugin; 
+import org.bukkit.plugin.Plugin;
 
-import com.sk89q.worldguard.bukkit.BukkitUtil; 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin; 
-import com.sk89q.worldguard.protection.ApplicableRegionSet; 
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 
 import com.philderbeast.autopickup.AutoPickupPlugin; 
 
@@ -103,10 +107,15 @@ class Util
         WorldGuardPlugin wg = getWorldGuard(); 
         if (wg != null)
         {
-            World world = location.getWorld(); 
-            ApplicableRegionSet regions = wg.getRegionManager(world).getApplicableRegions(BukkitUtil.toVector(location)); 
+            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 
-            return wg.canBuild(player, location) && regions.testState(null, Config.PRISON_PICK_FLAG);
+            RegionManager regions = container.get(BukkitAdapter.adapt(location.getWorld()));
+            ApplicableRegionSet set = regions.getApplicableRegions(BukkitAdapter.adapt(location).toVector().toBlockPoint());
+
+            Boolean flagIsSet = set.queryValue(null, Config.PRISON_PICK_FLAG) != null;
+
+            return set.testState(localPlayer, Flags.BUILD) && flagIsSet;
         }else 
         {
             return true; 

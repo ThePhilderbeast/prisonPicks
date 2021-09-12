@@ -71,8 +71,8 @@ dependencies
             version: project.property("apiversion")
 
     implementation group:"com.sk89q.worldguard",
-            name:"worldguard-legacy",
-            version:"6.2"
+            name:"worldguard-bukkit",
+            version:"7.0.5"
 
     implementation group:"com.philderbeast.autopickup",
             name:"AutoPickup",

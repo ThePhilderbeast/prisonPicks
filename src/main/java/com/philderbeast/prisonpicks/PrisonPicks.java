@@ -1,6 +1,9 @@
 package com.philderbeast.prisonpicks; 
 
+import com.sk89q.worldguard.WorldGuard; 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin; 
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+
 import org.bukkit.plugin.java.JavaPlugin; 
 
 public class PrisonPicks extends JavaPlugin 
@@ -18,9 +21,10 @@ public class PrisonPicks extends JavaPlugin
 
         if (worldGuard != null)
         {
+            FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
             try 
             {
-                worldGuard.getFlagRegistry().register(Config.PRISON_PICK_FLAG);
+                registry.register(Config.PRISON_PICK_FLAG);
                 this.getLogger().info("prison-picks custom WorldGuard flag has been registered"); 
             }catch (Exception e)
             {
