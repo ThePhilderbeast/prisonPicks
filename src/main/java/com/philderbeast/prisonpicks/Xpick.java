@@ -3,6 +3,7 @@ package com.philderbeast.prisonpicks;
 import java.util.Map;
 import java.util.ArrayList;
 import org.bukkit.block.Block;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Location;
@@ -12,6 +13,9 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.ChatMessageType;
 
 public class Xpick extends Pick
 {
@@ -42,6 +46,8 @@ public class Xpick extends Pick
 
             Location centerloc = new Location(center.getWorld(), center.getBlockX(), center.getBlockY(), center.getBlockZ());
 
+            boolean breakEmerald = false;
+
             int x = bX - radius;
             while (x < bX + radius)
             {
@@ -60,10 +66,19 @@ public class Xpick extends Pick
                             && (block.getBlock().getType() != Material.BEDROCK)
                             && (block.getBlock().getType() != Material.AIR))
                         {
+                            if (block.getBlock().getType() == Material.EMERALD_ORE )
+                            {
+                                breakEmerald = true;
+                            }
                             locations.add(block);
                         } ++ z;
                     } ++ y;
                 } ++ x;
+            }
+
+            if (breakEmerald)
+            {
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "RIP That Emerald"));
             }
 
             Map < String, Boolean > enchants = getEnchantments(item);
