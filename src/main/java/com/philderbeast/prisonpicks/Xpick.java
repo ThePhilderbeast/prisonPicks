@@ -46,7 +46,7 @@ public class Xpick extends Pick
 
             Location centerloc = new Location(center.getWorld(), center.getBlockX(), center.getBlockY(), center.getBlockZ());
 
-            boolean breakEmerald = false;
+            short breakEmerald = (short) (event.getBlock().getType() == Material.EMERALD_ORE ? 1 : 0);
 
             int x = bX - radius;
             while (x < bX + radius)
@@ -68,7 +68,7 @@ public class Xpick extends Pick
                         {
                             if (block.getBlock().getType() == Material.EMERALD_ORE )
                             {
-                                breakEmerald = true;
+                                breakEmerald += 1;
                             }
                             locations.add(block);
                         } ++ z;
@@ -76,9 +76,10 @@ public class Xpick extends Pick
                 } ++ x;
             }
 
-            if (breakEmerald)
+            if (breakEmerald > 0)
             {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "RIP That Emerald"));
+                item.setItemMeta(increaseNBTCount(item.getItemMeta(), Config.EMERALDS_EXPLODED, (long)breakEmerald));
             }
 
             Map < String, Boolean > enchants = getEnchantments(item);

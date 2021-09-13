@@ -30,6 +30,10 @@ class Config
     static StateFlag PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
 
     static NamespacedKey BLOCKS_BROKEN;
+	static NamespacedKey EMERALDS_EXPLODED;
+
+	static String BLOCKS_BROKEN_LORE;
+	static String EMERALDS_EXPLODED_LORE;
 
     static ChatColor EXPLOSIVE_COLOR = ChatColor.GOLD;
     static ChatColor PICK_O_PLENTY_COLOR = ChatColor.LIGHT_PURPLE;
@@ -63,6 +67,9 @@ class Config
 
 		WORLDGUARD_DEFAULT = mainConfig.getBoolean("worldguard_flag_enable"); 
 		PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
+
+		BLOCKS_BROKEN_LORE = ChatColor.BLUE + "Blocks Broken: " + ChatColor.LIGHT_PURPLE;
+		EMERALDS_EXPLODED_LORE = ChatColor.GREEN + "Emeralds Exploded: " + ChatColor.DARK_GREEN;
 
         EXPLOSIVE_COLOR = ChatColor.getByChar(mainConfig.getString("explosive_color").charAt(1));
         PICK_O_PLENTY_COLOR = ChatColor.getByChar(mainConfig.getString("pick_o_plenty_color").charAt(1));
