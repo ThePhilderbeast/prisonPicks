@@ -1,13 +1,11 @@
 package com.philderbeast.prisonpicks;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Collection;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -72,18 +70,8 @@ abstract class Pick
     void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material, ItemStack tool)
     {
         ItemMeta meta = tool.getItemMeta();
-        PersistentDataContainer container = meta.getPersistentDataContainer();
-
-        Long blocksBroken = (long)0;
-        if (!container.has(Config.BLOCKS_BROKEN, PersistentDataType.LONG))
-        {
-            container.set(Config.BLOCKS_BROKEN, PersistentDataType.LONG, (long)0);
-        } else
-        {
-            blocksBroken = container.get(Config.BLOCKS_BROKEN, PersistentDataType.LONG);
-        }
-        container.set(Config.BLOCKS_BROKEN, PersistentDataType.LONG, blocksBroken+1);
-        tool.setItemMeta(meta);
+        tool.setItemMeta(increaseNBTCount(meta, Config.BLOCKS_BROKEN, 1L));
+        tool.setItemMeta(updateLore(meta));
 
         if (block.getType() != Material.BEDROCK && block.getType() != Material.AIR)
         {
@@ -275,5 +263,61 @@ abstract class Pick
             //break the pick
             player.getInventory().remove(tool);
         }
+    }
+
+    ItemMeta increaseNBTCount(ItemMeta meta, NamespacedKey key, Long increase)
+    {
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        Long tagCount = (long)0;
+        if (!container.has(key, PersistentDataType.LONG))
+        {
+            container.set(key, PersistentDataType.LONG, (long)0);
+        } else
+        {
+            tagCount = container.get(key, PersistentDataType.LONG);
+        }
+        container.set(key, PersistentDataType.LONG, tagCount + increase);
+        return meta;
+    }
+
+    Long getNBTCount(ItemMeta meta, NamespacedKey key)
+    {
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        if (!container.has(key, PersistentDataType.LONG))
+        {
+            return -1L;
+        } else
+        {
+            return container.get(key, PersistentDataType.LONG);
+        }
+    }
+
+    ItemMeta updateLore(ItemMeta meta)
+    {
+        List<String> lore = meta.getLore();
+        boolean blocksBrokenExists = false;
+        boolean emeraldsExplodedExists = false;
+        Long blocksBroken = getNBTCount(meta, Config.BLOCKS_BROKEN);
+        Long emeraldsExploded = getNBTCount(meta, Config.EMERALDS_EXPLODED);
+        for (int i = 0; i < lore.size(); i++)
+        {
+            String lore_line = lore.get(i);
+            if (blocksBroken > -1 && lore_line.contains(Config.BLOCKS_BROKEN_LORE))
+            {
+                lore.set(i, Config.BLOCKS_BROKEN_LORE + blocksBroken);
+                blocksBrokenExists = true;
+            }
+            else if (emeraldsExploded > -1 && lore_line.contains(Config.EMERALDS_EXPLODED_LORE))
+            {
+                lore.set(i, Config.EMERALDS_EXPLODED_LORE + emeraldsExploded);
+                emeraldsExplodedExists = true;
+            }
+        }
+        if (!blocksBrokenExists && blocksBroken > -1) lore.add(Config.BLOCKS_BROKEN_LORE + blocksBroken);
+        if (!emeraldsExplodedExists && emeraldsExploded > -1) lore.add(Config.EMERALDS_EXPLODED_LORE + emeraldsExploded);
+        meta.setLore(lore);
+        return meta;
     }
 }

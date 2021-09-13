@@ -17,6 +17,7 @@ public class PrisonPicks extends JavaPlugin
     public void onLoad()
     {
         Config.BLOCKS_BROKEN = new NamespacedKey(this, "blocks-broken");
+        Config.EMERALDS_EXPLODED = new NamespacedKey(this, "emeralds-exploded");
         Config.setConfigFolder(this.getDataFolder().getAbsolutePath()); 
         Config.reloadConfigs(); 
 
