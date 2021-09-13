@@ -113,9 +113,9 @@ class Util
             RegionManager regions = container.get(BukkitAdapter.adapt(location.getWorld()));
             ApplicableRegionSet set = regions.getApplicableRegions(BukkitAdapter.adapt(location).toVector().toBlockPoint());
 
-            Boolean flagIsSet = set.queryValue(null, Config.PRISON_PICK_FLAG) != null;
+            // Boolean flagIsSet = set.queryValue(null, Config.PRISON_PICK_FLAG) != null;
 
-            return set.testState(localPlayer, Flags.BUILD) && flagIsSet;
+            return set.testState(localPlayer, Flags.BUILD) && set.testState(localPlayer, Config.PRISON_PICK_FLAG);
         }else 
         {
             return true; 

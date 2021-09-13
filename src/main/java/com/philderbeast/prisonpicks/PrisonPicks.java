@@ -28,7 +28,7 @@ public class PrisonPicks extends JavaPlugin
                 this.getLogger().info("prison-picks custom WorldGuard flag has been registered"); 
             }catch (Exception e)
             {
-                this.getLogger().severe("Unable to register flag! Are you running at least WorldGuard 6.1.3?"); 
+                this.getLogger().severe("Unable to register flag! Are you running at least WorldGuard 7.0 ?"); 
                 e.printStackTrace(); 
                 this.onDisable(); 
             }
