@@ -1,5 +1,6 @@
 package com.philderbeast.prisonpicks;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Map;
 import org.bukkit.block.Block;
@@ -11,6 +12,8 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import org.bukkit.Material;
 import org.bukkit.Particle;
 
@@ -29,6 +32,8 @@ public class XPickoPlenty extends Pick
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         ArrayList<BlockState> blocksToBreak = new ArrayList<>();
+
+        
 
         if (Util.canBuild(player, event.getBlock().getLocation()))
         {
@@ -83,7 +88,7 @@ public class XPickoPlenty extends Pick
                 doDamage(enchants.get(Pick.UNBREAKING), player);
                 if(player.getInventory().getItemInMainHand() != null)
                 {
-                    doBreak(block, enchants, player, null);
+                    doBreak(block, enchants, player, null, item);
                     if (!b.getLocation().equals(event.getBlock().getLocation()))
                     {
                         BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
@@ -92,6 +97,7 @@ public class XPickoPlenty extends Pick
                 }
             }
         }
+
     }
 
     private Material getMaterial(Location center, Player player)

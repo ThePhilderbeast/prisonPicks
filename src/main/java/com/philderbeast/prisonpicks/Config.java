@@ -8,6 +8,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration; 
 
@@ -27,6 +28,8 @@ class Config
 
 	static boolean DEBUG = false;
     static StateFlag PRISON_PICK_FLAG = new StateFlag("prison-picks", WORLDGUARD_DEFAULT);
+
+    static NamespacedKey BLOCKS_BROKEN;
 
     static ChatColor EXPLOSIVE_COLOR = ChatColor.GOLD;
     static ChatColor PICK_O_PLENTY_COLOR = ChatColor.LIGHT_PURPLE;

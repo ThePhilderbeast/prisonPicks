@@ -64,7 +64,7 @@ public class Pickoplenty extends Pick
                 Map < String, Boolean > enchants = getEnchantments(item);
 
                 doDamage(enchants.get("unbreaking"), player);
-                doBreak(event.getBlock(), enchants, player, mat);
+                doBreak(event.getBlock(), enchants, player, mat, item);
 
                 block.setType(Material.AIR);
             }else
@@ -72,7 +72,7 @@ public class Pickoplenty extends Pick
                 Map < String, Boolean > enchants = getEnchantments(item);
 
                 doDamage(enchants.get("unbreaking"), player);
-                doBreak(event.getBlock(), enchants, player, null);
+                doBreak(event.getBlock(), enchants, player, null, item);
                 block.removeMetadata("blockBreaker", PrisonPicks.getInstance());
                 block.setType(Material.AIR);
             }

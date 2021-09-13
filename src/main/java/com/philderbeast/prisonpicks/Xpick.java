@@ -84,7 +84,7 @@ public class Xpick extends Pick
             Map < String, Boolean > enchants = getEnchantments(item);
 
             doDamage(enchants.get(Pick.UNBREAKING), player);
-            doBreak(event.getBlock(), enchants, player, null);
+            doBreak(event.getBlock(), enchants, player, null, item);
 
             for (Location l:locations)
             {
@@ -93,7 +93,7 @@ public class Xpick extends Pick
                 {
                     Block block = player.getWorld().getBlockAt(l);
                     doDamage(enchants.get(Pick.UNBREAKING), player);
-                    doBreak(block, enchants, player, null);
+                    doBreak(block, enchants, player, null, item);
                     BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
                     Bukkit.getPluginManager().callEvent(newEvent);
                 }

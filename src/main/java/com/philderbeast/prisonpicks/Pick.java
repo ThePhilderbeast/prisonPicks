@@ -12,8 +12,11 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import com.philderbeast.autopickup.API.AutoPickupMethods;
 
@@ -66,8 +69,22 @@ abstract class Pick
         return enchants;
     }
 
-    void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material)
+    void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material, ItemStack tool)
     {
+        ItemMeta meta = tool.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        Long blocksBroken = (long)0;
+        if (!container.has(Config.BLOCKS_BROKEN, PersistentDataType.LONG))
+        {
+            container.set(Config.BLOCKS_BROKEN, PersistentDataType.LONG, (long)0);
+        } else
+        {
+            blocksBroken = container.get(Config.BLOCKS_BROKEN, PersistentDataType.LONG);
+        }
+        container.set(Config.BLOCKS_BROKEN, PersistentDataType.LONG, blocksBroken+1);
+        tool.setItemMeta(meta);
+
         if (block.getType() != Material.BEDROCK && block.getType() != Material.AIR)
         {
             if (enchants.get(SILK_TOUCH))

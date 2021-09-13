@@ -125,7 +125,7 @@ task setupDevServer(dependsOn: 'extractServerJar', type: Copy) {
     into 'testserver'
 }
 
-task copyPluginToTestserver(dependsOn: ['build', 'shadowJar'], type: Copy) {
+task copyPluginToTestserver(dependsOn: ['compileJava', 'shadowJar'], type: Copy) {
     from "${buildDir}/libs"
     include "*-all.jar"
     into "testserver/plugins"

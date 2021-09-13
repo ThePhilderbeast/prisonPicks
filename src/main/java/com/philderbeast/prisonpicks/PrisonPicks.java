@@ -1,5 +1,7 @@
 package com.philderbeast.prisonpicks; 
 
+import org.bukkit.NamespacedKey;
+
 import com.sk89q.worldguard.WorldGuard; 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin; 
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
@@ -14,6 +16,7 @@ public class PrisonPicks extends JavaPlugin
     @Override
     public void onLoad()
     {
+        Config.BLOCKS_BROKEN = new NamespacedKey(this, "blocks-broken");
         Config.setConfigFolder(this.getDataFolder().getAbsolutePath()); 
         Config.reloadConfigs(); 
 
