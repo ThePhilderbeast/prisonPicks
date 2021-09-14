@@ -2,16 +2,30 @@ package com.philderbeast.prisonpicks;
 
 import org.bukkit.NamespacedKey;
 
+import java.io.File;
+
 import com.sk89q.worldguard.WorldGuard; 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin; 
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 
-import org.bukkit.plugin.java.JavaPlugin; 
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader; 
 
 public class PrisonPicks extends JavaPlugin 
 {
 
     private static PrisonPicks instance; 
+
+    public PrisonPicks()
+    {
+        super();
+    }
+
+    protected PrisonPicks(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
+    {
+        super(loader, description, dataFolder, file);
+    }
 
     @Override
     public void onLoad()

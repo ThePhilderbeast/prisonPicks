@@ -66,13 +66,16 @@ public class Events implements Listener
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
+        ItemStack item = event.getItem();
 
         //are they using one of our picks
         ItemMeta itemMeta = item.getItemMeta();
         if (
             (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-            && (Xpick.isPick(item) || Pickoplenty.isPick(item) || XPickoPlenty.isPick(item))
+            && (
+                Xpick.isPick(item) || 
+                Pickoplenty.isPick(item) || 
+                XPickoPlenty.isPick(item))
             && ((Damageable) itemMeta).getDamage() > 0
         )
         {
@@ -89,7 +92,6 @@ public class Events implements Listener
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Config.CHAT_EXPLOSIVE_REPAIR + "[Pickaxe Repaired]"));
                 }
             }
-
             ((Damageable) itemMeta).setDamage(0);
             item.setItemMeta(itemMeta);
 

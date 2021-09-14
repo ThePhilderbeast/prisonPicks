@@ -132,7 +132,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
 
         //test normal picks
-        pick.doBreak(block, enchants, player, null);
+        pick.doBreak(block, enchants, player, null, tool);
 
         ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
@@ -153,7 +153,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, true); 
 
         //test normal picks
-        pick.doBreak(block, enchants, player, null);
+        pick.doBreak(block, enchants, player, null, tool);
         ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
         ItemStack capturedArgument = argumentCaptor.getValue();
@@ -175,7 +175,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
 
         //test normal picks
-        pick.doBreak(block, enchants, player, Material.EMERALD_ORE);
+        pick.doBreak(block, enchants, player, Material.EMERALD_ORE, tool);
 
         //verify we are settting the block to EMERALD_ORE
         verify(block).setType(Material.EMERALD_ORE);
@@ -193,7 +193,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, true); 
 
         //test normal picks
-        pick.doBreak(block, enchants, player, Material.EMERALD_ORE);
+        pick.doBreak(block, enchants, player, Material.EMERALD_ORE, tool);
 
         ArgumentCaptor<ItemStack> argumentCaptor = ArgumentCaptor.forClass(ItemStack.class);
         verify(inventory, times(1)).addItem(argumentCaptor.capture());
@@ -212,7 +212,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
         
         //we shouldnt be able to break this
-        pick.doBreak(block, enchants, player, null);
+        pick.doBreak(block, enchants, player, null, tool);
         verify(block, times(0)).setType(Material.AIR);
     }
 
@@ -226,7 +226,7 @@ public class PickTest {
         enchants.put(Pick.SILK_TOUCH, false); 
         
         //we shouldnt be able to break this
-        pick.doBreak(block, enchants, player, null);
+        pick.doBreak(block, enchants, player, null, tool);
         verify(block, times(0)).setType(Material.AIR);
     }
 
