@@ -19,76 +19,80 @@ class PickCommands implements CommandExecutor
         //hide the repair messages
         if (label.equalsIgnoreCase("pick"))
         {
-            if (sender instanceof Player)
+            if (args.length > 0)
             {
-                Player player = (Player) sender;
 
-                if (args[0].equals("reload") && (sender).hasPermission("picks.reload"))
+                if (sender instanceof Player)
                 {
-                    Config.reloadConfigs();
-                    return true;
-                }
-
-                if (args[0].equals("repair") && (sender).hasPermission("picks.repair"))
-                {
-                    if (Events.hideRepair.contains(player.getName()))
+                    Player player = (Player) sender;
+                    
+                    if (args[0].equals("reload") && (sender).hasPermission("picks.reload"))
                     {
-                        Events.hideRepair.remove(player.getName());
-                    } else
-                    {
-                        Events.hideRepair.add(player.getName());
+                        Config.reloadConfigs();
+                        return true;
                     }
-                    return true;
-                }
-
-                if (!(sender).hasPermission("picks.explosive")
-                        && !(player = (Player) sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))
-                {
-                    player.sendMessage(Config.CHAT_FAIL_COLOR + "Permission Denied!");
-                    return false;
-                }
-            }
-
-            if (args.length == 2)
-            {
-                Player receiver = Bukkit.getPlayer(args[1]);
-                if (receiver != null)
-                {
-                    ItemStack pick;
-                    switch (args[0])
+                    
+                    if (args[0].equals("repair") && (sender).hasPermission("picks.repair"))
                     {
-                        case "explosive":
+                        if (Events.hideRepair.contains(player.getName()))
+                        {
+                            Events.hideRepair.remove(player.getName());
+                        } else
+                        {
+                            Events.hideRepair.add(player.getName());
+                        }
+                        return true;
+                    }
+                    
+                    if (!(sender).hasPermission("picks.explosive")
+                    && !(player = (Player) sender).getUniqueId().equals(UUID.fromString("e3078d5d-8943-420c-8366-4aa51e212df3")))
+                    {
+                        player.sendMessage(Config.CHAT_FAIL_COLOR + "Permission Denied!");
+                        return false;
+                    }
+                }
+                
+                if (args.length == 2)
+                {
+                    Player receiver = Bukkit.getPlayer(args[1]);
+                    if (receiver != null)
+                    {
+                        ItemStack pick;
+                        switch (args[0])
+                        {
+                            case "explosive":
                             pick = Util.createItemStack(Config.EXPLOSIVE_COLOR + "Explosive I");
                             sendMessage(sender, receiver, "Explosive Pickaxe", Config.EXPLOSIVE_COLOR, givePick(receiver, pick));
                             return true;
-                        case "pickoplenty":
+                            case "pickoplenty":
                             pick = Util.createItemStack(Config.PICK_O_PLENTY_COLOR + "Pick o'Plenty");
                             sendMessage(sender, receiver, "Pick o'Plenty", Config.PICK_O_PLENTY_COLOR, givePick(receiver, pick));
                             return true;
-                        case "xpickoplenty":
+                            case "xpickoplenty":
                             pick = Util.createItemStack(Config.EXPLOSIVE_COLOR + "Explosive" + Config.PICK_O_PLENTY_COLOR + " Pick o'Plenty");
                             sendMessage(sender, receiver, "Explosive " + Config.PICK_O_PLENTY_COLOR + "Pick o'Plenty", Config.EXPLOSIVE_COLOR, givePick(receiver, pick));
                             return true;
-                        case "fakexpickoplenty":
+                            case "fakexpickoplenty":
                             pick = Util.createItemStack(Config.FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR + "Explosive Pick o'Plenty");
                             sendMessage(sender, receiver, "Explosive Pick o'Plenty", Config.FAKE_EXPLOSIVE_PICK_O_PLENTY_COLOR , givePick(receiver, pick));
-
+                            
                             return true;
-                        default:
+                            default:
                             sender.sendMessage(Config.CHAT_FAIL_COLOR + "Invalid pickaxe type!" + ChatColor.GOLD + " Available options: explosive, pickoplenty, xpickoplenty, fakexpickoplenty");
                             sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player]");
                             break;
+                        }
+                    } else
+                    {
+                        sender.sendMessage(Config.CHAT_FAIL_COLOR + "Could not find player '" + args[1] + "'");
+                        sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player]");
                     }
-                } else
-                {
-                    sender.sendMessage(Config.CHAT_FAIL_COLOR + "Could not find player '" + args[1] + "'");
-                    sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player]");
                 }
-            } else
-            {
-                sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick repair to toggle repair mesages");
-                sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player] to spawn a pick");
             }
+        } else
+        {
+            sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick repair to toggle repair mesages");
+            sender.sendMessage(Config.CHAT_FAIL_COLOR + "Usage: /pick [type] [player] to spawn a pick");
         }
         return false;
     }
