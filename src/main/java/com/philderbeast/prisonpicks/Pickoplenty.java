@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
+import org.bukkit.inventory.meta.ItemMeta;
 
 
 public class Pickoplenty extends Pick
@@ -76,6 +77,9 @@ public class Pickoplenty extends Pick
                 block.removeMetadata("blockBreaker", PrisonPicks.getInstance());
                 block.setType(Material.AIR);
             }
+            ItemMeta meta = item.getItemMeta();
+            meta = increaseNBTCount(meta, Config.BLOCKS_BROKEN, 1L);
+            item.setItemMeta(updateLore(meta));
         }
     }
 }

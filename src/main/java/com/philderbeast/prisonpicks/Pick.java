@@ -70,8 +70,6 @@ abstract class Pick
     void doBreak(Block block, Map<String, Boolean> enchants, Player player, Material material, ItemStack tool)
     {
         ItemMeta meta = tool.getItemMeta();
-        tool.setItemMeta(increaseNBTCount(meta, Config.BLOCKS_BROKEN, 1L));
-        tool.setItemMeta(updateLore(meta));
 
         if (block.getType() != Material.BEDROCK && block.getType() != Material.AIR)
         {
