@@ -96,6 +96,9 @@ public class XPickoPlenty extends Pick
                     }
                 }
             }
+            ItemMeta meta = item.getItemMeta();
+            meta = increaseNBTCount(meta, Config.BLOCKS_BROKEN, (long) blocksToBreak.size());
+            item.setItemMeta(updateLore(meta));
         }
 
     }

@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.ChatMessageType;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class Xpick extends Pick
 {
@@ -99,6 +100,9 @@ public class Xpick extends Pick
                     Bukkit.getPluginManager().callEvent(newEvent);
                 }
             }
+            ItemMeta meta = item.getItemMeta();
+            meta = increaseNBTCount(meta, Config.BLOCKS_BROKEN, (long)locations.size()+1);
+            item.setItemMeta(updateLore(meta));
         }
     }
 }
