@@ -69,6 +69,10 @@ public class Events implements Listener
         ItemStack item = event.getItem();
 
         //are they using one of our picks
+        if (item == null) {
+            return;
+        }
+
         ItemMeta itemMeta = item.getItemMeta();
         if (
             (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
