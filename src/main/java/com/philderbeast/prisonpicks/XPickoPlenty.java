@@ -84,7 +84,6 @@ public class XPickoPlenty extends Pick
                 Block block = player.getWorld().getBlockAt(b.getLocation());
                 b.update(true);
 
-                doDamage(enchants.get(Pick.UNBREAKING), player);
                 if(player.getInventory().getItemInMainHand() != null)
                 {
                     doBreak(block, enchants, player, null, item);
@@ -95,6 +94,7 @@ public class XPickoPlenty extends Pick
                     }
                 }
             }
+            doDamage(enchants.get(Pick.UNBREAKING), player, blocksToBreak.size());
             ItemMeta meta = item.getItemMeta();
             meta = increaseNBTCount(meta, Config.BLOCKS_BROKEN, (long) blocksToBreak.size());
             item.setItemMeta(updateLore(meta));

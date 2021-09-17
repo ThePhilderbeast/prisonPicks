@@ -94,12 +94,12 @@ public class Xpick extends Pick
                 if (player.getInventory().getItemInMainHand() != null)
                 {
                     Block block = player.getWorld().getBlockAt(l);
-                    doDamage(enchants.get(Pick.UNBREAKING), player);
                     doBreak(block, enchants, player, null, item);
                     BlockBreakEvent newEvent = new BlockBreakEvent(block, player);
                     Bukkit.getPluginManager().callEvent(newEvent);
                 }
             }
+            doDamage(enchants.get(Pick.UNBREAKING), player, locations.size());
             ItemMeta meta = item.getItemMeta();
             meta = increaseNBTCount(meta, Config.BLOCKS_BROKEN, (long)locations.size()+1);
             item.setItemMeta(updateLore(meta));

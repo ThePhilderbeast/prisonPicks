@@ -204,31 +204,47 @@ abstract class Pick
         return drop;
     }
 
+    // for compatability
     void doDamage(boolean unbreaking, Player player)
+    {
+        doDamage(unbreaking, player, 1);
+    }
+
+    void doDamage(boolean unbreaking, Player player, int blocksHit)
     {
         ItemStack tool = player.getInventory().getItemInMainHand();
 
         int unbreakingLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY);
 
-        if ( ! unbreaking)
-        {
-            Damageable toolMeta = (Damageable) tool.getItemMeta();
-            toolMeta.setDamage(toolMeta.getDamage() + 1);
-            tool.setItemMeta(toolMeta);
-        }else if (unbreakingLevel > 0)
-        {
-            Random r = new Random();
-            int chanceToReduce = (100/(unbreakingLevel + 1));
-            int roll = r.nextInt(100);
+        int damage = 0;
 
-            if (roll <= chanceToReduce)
+        for (int i = 0; i < blocksHit; i++)
+        {
+        
+            if ( ! unbreaking)
             {
                 Damageable toolMeta = (Damageable) tool.getItemMeta();
                 toolMeta.setDamage(toolMeta.getDamage() + 1);
                 tool.setItemMeta(toolMeta);
+            }else if (unbreakingLevel > 0)
+            {
+                Random r = new Random();
+                int chanceToReduce = (100/(unbreakingLevel + 1));
+                int roll = r.nextInt(100);
+
+                if (roll <= chanceToReduce)
+                {
+                    damage++;
+                }
             }
         }
-        
+
+        if (damage > 0) {
+            Damageable toolMeta = (Damageable) tool.getItemMeta();
+            toolMeta.setDamage(toolMeta.getDamage() + 1);
+            tool.setItemMeta(toolMeta);
+        }
+
         if (((Damageable) tool.getItemMeta()).getDamage() > tool.getType().getMaxDurability())
         {
             String pick = "";
